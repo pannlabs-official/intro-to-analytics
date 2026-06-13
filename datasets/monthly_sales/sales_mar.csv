@@ -1,0 +1,26 @@
+ORDER_ID,ORDER_DATE,SHIP_DATE,SHIP_MODE,CUSTOMER_ID,CUSTOMER_NAME,SEGMENT,REGION,COUNTRY,CITY,CATEGORY,SUB_CATEGORY,PRODUCT_NAME,SALES,QUANTITY,DISCOUNT,PROFIT,COST
+ORD-0007,2024-03-10,2024-03-10,Same Day,CUST-0160,Yuki Adeyemi,Corporate,Latin America,Brazil,Rio de Janeiro,Furniture,Desks,IKEA Bekant,3286.47,5,0.3,892.07,2394.4
+ORD-0027,2024-03-03,2024-03-10,Standard Class,CUST-0179,Obinna Tanaka,Home Office,Middle East & Africa,South Africa,Johannesburg,Furniture,Bookcases,Sauder Heritage Hill,8368.6,5,0,4351.65,4016.95
+ORD-0036,2024-03-05,2024-03-06,First Class,CUST-0179,Obinna Tanaka,Home Office,Middle East & Africa,South Africa,Johannesburg,Furniture,Bookcases,Sauder Heritage Hill,11716.04,7,0,6092.31,5623.73
+ORD-0052,2024-03-20,2024-03-20,Same Day,CUST-0077,Ingrid Watanabe,Home Office,Europe,Germany,Hamburg,Office Supplies,Art Supplies,Crayola Markers (64pk),676.16,8,0,311.04,365.12
+ORD-0116,2024-03-31,2024-04-01,First Class,CUST-0154,Bayo Kobayashi,Home Office,North America,Canada,Vancouver,Office Supplies,Art Supplies,Prismacolor Premier Pencils (24),225.72,6,0,117.36,108.36
+ORD-0130,2024-03-22,2024-03-26,Second Class,CUST-0164,Amara Johansson,Consumer,North America,Mexico,Mexico City,Technology,Phones,Google Pixel 8,1509.15,3,0,588.57,920.58
+ORD-0137,2024-03-17,2024-03-24,Standard Class,CUST-0056,Hassan Johansson,Home Office,Europe,France,Lyon,Furniture,Chairs,IKEA Markus,291.65,1,0.3,66.66,224.99
+ORD-0224,2024-03-11,2024-03-11,Same Day,CUST-0015,Hassan Perez,Home Office,North America,United States,Chicago,Furniture,Desks,Autonomous SmartDesk,397.58,4,0.45,-72.3,469.88
+ORD-0398,2024-03-14,2024-03-14,Same Day,CUST-0005,Elin Eriksson,Home Office,North America,United States,Los Angeles,Office Supplies,Art Supplies,Faber-Castell Pitt Pens (8pk),403.58,5,0.15,61.73,341.85
+ORD-0460,2024-03-06,2024-03-10,Second Class,CUST-0012,Shin Nilsson,Corporate,North America,Mexico,Guadalajara,Office Supplies,Labels,DYMO LabelWriter Labels,168.59,2,0.15,71.41,97.18
+ORD-0532,2024-03-24,2024-03-27,Second Class,CUST-0163,Luis Tanaka,Home Office,North America,Canada,Toronto,Technology,Tablets,iPad Air,3791.45,2,0.1,1811.47,1979.98
+ORD-0593,2024-03-23,2024-03-25,First Class,CUST-0139,Astrid Nwosu,Home Office,North America,Canada,Montreal,Furniture,Tables,IKEA Lisabo Dining Table,5776.67,4,0.15,2446.59,3330.08
+ORD-0616,2024-03-12,2024-03-18,Standard Class,CUST-0128,Isabella Larsson,Home Office,North America,Canada,Montreal,Technology,Accessories,Anker USB-C Hub,299.2,1,0.4,-49.87,349.07
+ORD-0623,2024-03-14,2024-03-20,Standard Class,CUST-0093,Henrik Schmidt,Consumer,North America,Mexico,Mexico City,Furniture,Tables,Article Seno Table,2621,7,0.45,-190.62,2811.62
+ORD-0628,2024-03-14,2024-03-21,Standard Class,CUST-0067,Carmen Takahashi,Home Office,Europe,France,Marseille,Office Supplies,Storage,Fellowes File Organiser,67.57,2,0.1,24.03,43.54
+ORD-0632,2024-03-27,2024-03-27,Same Day,CUST-0093,Henrik Schmidt,Consumer,North America,Mexico,Mexico City,Office Supplies,Labels,Avery Address Labels (750),23.03,3,0.45,-1.69,24.72
+ORD-0640,2024-03-14,2024-03-18,Second Class,CUST-0030,Lars Tanaka,Home Office,North America,United States,Phoenix,Office Supplies,Labels,Brother P-Touch Labels,700.86,8,0.25,233.58,467.28
+ORD-0687,2024-03-11,2024-03-14,First Class,CUST-0170,Hanna Al-Rashid,Consumer,Europe,Netherlands,Amsterdam,Technology,Accessories,Logitech MX Master 3S,3387.97,8,0.2,465.81,2922.16
+ORD-0789,2024-03-28,2024-04-03,Standard Class,CUST-0005,Elin Eriksson,Home Office,North America,United States,Los Angeles,Furniture,Desks,Flexispot E7,1915.76,5,0.3,437.91,1477.85
+ORD-0813,2024-03-24,2024-03-27,Second Class,CUST-0182,Yuna Santos,Corporate,Europe,Germany,Berlin,Office Supplies,Storage,Staples Hanging Folders (25pk),172.81,2,0.15,38.63,134.18
+ORD-0884,2024-03-31,2024-04-03,Second Class,CUST-0059,Fatima Watanabe,Consumer,Europe,United Kingdom,Manchester,Office Supplies,Fasteners,Swingline Stapler,258,3,0,87.72,170.28
+ORD-0935,2024-03-08,2024-03-09,First Class,CUST-0075,Ingrid Sato,Consumer,Europe,France,Marseille,Furniture,Chairs,Steelcase Leap V2,6963.54,8,0.15,1802.34,5161.2
+ORD-0944,2024-03-18,2024-03-21,First Class,CUST-0082,Freya Sato,Corporate,Europe,Netherlands,Rotterdam,Furniture,Chairs,Autonomous ErgoChair,862.31,3,0.4,-57.49,919.8
+ORD-0962,2024-03-12,2024-03-12,Same Day,CUST-0057,Nina Perez,Corporate,Middle East & Africa,UAE,Dubai,Office Supplies,Binders,"Staples Better Binder 2""",674.28,6,0,316.92,357.36
+ORD-0996,2024-03-29,2024-04-05,Standard Class,CUST-0003,Omar Oliveira,Corporate,Europe,Netherlands,Rotterdam,Office Supplies,Paper,HP Premium Paper A4,141.36,3,0.45,12.84,128.52

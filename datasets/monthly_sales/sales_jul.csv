@@ -1,0 +1,33 @@
+Order_ID,Order_Date,Ship_Date,Ship_Mode,Customer_ID,Customer_Name,Segment,Region,Country,City,Category,Sub_Category,Product_Name,Sales,Quantity,Discount,Profit,Cost
+ORD-0028,2024-07-03,2024-07-03,Same Day,CUST-0147,Sophie Anderson,Home Office,North America,United States,Phoenix,Office Supplies,Binders,"Wilson Jones Binder 1""",60.4,5,0,19.95,40.45
+ORD-0109,2024-07-02,2024-07-03,First Class,CUST-0197,Luis Gustafsson,Corporate,Europe,United Kingdom,London,Furniture,Desks,IKEA Bekant,938.99,1,0,460.11,478.88
+ORD-0126,2024-07-06,2024-07-06,Same Day,CUST-0018,Patrick Schmidt,Consumer,North America,Mexico,Mexico City,Technology,Phones,Google Pixel 8,1660.07,6,0.45,-181.09,1841.16
+ORD-0150,2024-07-03,2024-07-03,Same Day,CUST-0064,Marta Ibrahim,Home Office,North America,Canada,Vancouver,Office Supplies,Storage,Bankers Box File Storage,81.58,2,0,26.92,54.66
+ORD-0192,2024-07-19,2024-07-25,Standard Class,CUST-0186,Takeshi Santos,Home Office,Europe,Netherlands,Rotterdam,Technology,Laptops,MacBook Air M3,10177.27,6,0.1,4070.89,6106.38
+ORD-0241,2024-07-24,2024-07-29,Second Class,CUST-0097,Tariq Okonkwo,Corporate,Middle East & Africa,Kenya,Mombasa,Technology,Tablets,Microsoft Surface Go,1089.05,2,0.25,406.59,682.46
+ORD-0316,2024-07-09,2024-07-10,First Class,CUST-0019,Tadashi Ibrahim,Home Office,Europe,France,Marseille,Technology,Tablets,iPad Air,5055.26,4,0.4,1095.3,3959.96
+ORD-0331,2024-07-19,2024-07-23,Second Class,CUST-0143,Margot Andersen,Consumer,Europe,Netherlands,Amsterdam,Furniture,Bookcases,Sauder Heritage Hill,3347.44,2,0,1740.66,1606.78
+ORD-0340,2024-07-11,2024-07-13,First Class,CUST-0047,Chen Holm,Home Office,Middle East & Africa,UAE,Abu Dhabi,Furniture,Bookcases,Bush Furniture Cabot,23821.56,14,0,10005.1,13816.46
+ORD-0370,2024-07-23,2024-07-24,First Class,CUST-0068,Ana Johansson,Consumer,Latin America,Argentina,Cordoba,Furniture,Chairs,Autonomous ErgoChair,1556.95,5,0.35,23.95,1533
+ORD-0375,2024-07-31,2024-08-05,Standard Class,CUST-0173,Viktor Santos,Consumer,North America,Canada,Toronto,Office Supplies,Labels,DYMO LabelWriter Labels,520.64,7,0.25,180.51,340.13
+ORD-0426,2024-07-06,2024-07-12,Standard Class,CUST-0098,Abdul Rodriguez,Consumer,Europe,Netherlands,Rotterdam,Technology,Accessories,Logitech MX Master 3S,1349.89,3,0.15,254.08,1095.81
+ORD-0471,2024-07-09,2024-07-12,Second Class,CUST-0138,Signe Okonkwo,Consumer,Europe,Germany,Munich,Office Supplies,Paper,Hammermill Copy Plus,268.3,7,0.4,-44.74,313.04
+ORD-0480,2024-07-20,2024-07-22,First Class,CUST-0154,Bayo Kobayashi,Home Office,North America,Canada,Vancouver,Office Supplies,Paper,Xerox Multipurpose Paper,34.22,2,0,8.56,25.66
+ORD-0488,2024-07-14,2024-07-20,Standard Class,CUST-0123,Kwame Oliveira,Corporate,North America,Mexico,Mexico City,Technology,Tablets,Microsoft Surface Go,2178.09,4,0.25,813.17,1364.92
+ORD-0594,2024-07-09,2024-07-11,First Class,CUST-0061,Astrid Costa,Corporate,Europe,United Kingdom,Manchester,Office Supplies,Fasteners,Swingline Stapler,619.2,8,0.1,165.12,454.08
+ORD-0611,2024-07-19,2024-07-22,Second Class,CUST-0148,Omar Santos,Home Office,Asia Pacific,Japan,Tokyo,Furniture,Bookcases,Sauder Heritage Hill,10042.32,6,0,5221.98,4820.34
+ORD-0673,2024-07-10,2024-07-15,Second Class,CUST-0128,Isabella Larsson,Home Office,North America,Canada,Montreal,Office Supplies,Fasteners,Swingline Stapler,490.2,6,0.05,149.64,340.56
+ORD-0721,2024-07-20,2024-07-25,Standard Class,CUST-0158,Zara Mueller,Consumer,Latin America,Argentina,Cordoba,Technology,Laptops,MacBook Air M3,1884.68,1,0,866.95,1017.73
+ORD-0730,2024-07-09,2024-07-09,Same Day,CUST-0085,Yuna Kato,Corporate,Latin America,Argentina,Cordoba,Technology,Phones,Xiaomi 14,1195.95,1,0.45,-86.98,1282.93
+ORD-0738,2024-07-29,2024-08-04,Standard Class,CUST-0180,Nina Oliveira,Corporate,North America,Mexico,Guadalajara,Office Supplies,Labels,Brother P-Touch Labels,99.29,1,0.15,40.88,58.41
+ORD-0742,2024-07-02,2024-07-02,Same Day,CUST-0133,Rafael Ali,Home Office,Europe,France,Paris,Office Supplies,Labels,Avery Address Labels (750),87.95,7,0.1,30.27,57.68
+ORD-0827,2024-07-20,2024-07-20,Same Day,CUST-0171,Obinna Ali,Consumer,Europe,United Kingdom,London,Office Supplies,Envelopes,JAM Paper A7 Invitation Envelopes,214.12,4,0,83.52,130.6
+ORD-0866,2024-07-08,2024-07-08,Same Day,CUST-0012,Shin Nilsson,Corporate,North America,Mexico,Guadalajara,Furniture,Chairs,Herman Miller Aeron,317.68,5,0.45,46.23,271.45
+ORD-0867,2024-07-16,2024-07-19,First Class,CUST-0044,Nina Larsson,Corporate,North America,United States,Houston,Office Supplies,Fasteners,Bostitch Paper Clips (1000),74.23,3,0.15,24.46,49.77
+ORD-0869,2024-07-10,2024-07-11,First Class,CUST-0011,Birgit Andersen,Corporate,Europe,United Kingdom,Edinburgh,Office Supplies,Paper,Xerox Multipurpose Paper,164.26,12,0.2,10.3,153.96
+ORD-0899,2024-07-10,2024-07-13,Second Class,CUST-0048,Viktor Sharma,Consumer,North America,United States,Houston,Office Supplies,Labels,Avery Address Labels (750),53.75,7,0.45,-3.93,57.68
+ORD-0927,2024-07-15,2024-07-16,First Class,CUST-0168,Aisha Eriksson,Home Office,Europe,Germany,Hamburg,Office Supplies,Envelopes,Quality Park #10 Envelopes (500pk),268.42,3,0.25,10.72,257.7
+ORD-0961,2024-07-30,2024-08-02,First Class,CUST-0120,Raj Al-Rashid,Corporate,Asia Pacific,Japan,Osaka,Office Supplies,Pens,Pilot G2 Gel Pen (12pk),234.09,4,0.15,35.81,198.28
+ORD-0982,2024-07-30,2024-08-04,Standard Class,CUST-0095,Leah Hayashi,Corporate,Asia Pacific,Japan,Tokyo,Office Supplies,Labels,DYMO LabelWriter Labels,714.02,8,0.1,325.3,388.72
+ORD-0994,2024-07-09,2024-07-09,Same Day,CUST-0144,Nadia Fernandez,Home Office,Middle East & Africa,South Africa,Cape Town,Office Supplies,Storage,Staples Hanging Folders (25pk),813.2,8,0,276.48,536.72
+ORD-0999,2024-07-16,2024-07-19,First Class,CUST-0098,Abdul Rodriguez,Consumer,Europe,Netherlands,Rotterdam,Office Supplies,Storage,Staples Hanging Folders (25pk),274.46,3,0.1,73.19,201.27

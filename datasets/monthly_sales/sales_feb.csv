@@ -1,0 +1,34 @@
+Order_ID,Order_Date,Ship_Date,Ship_Mode,Customer_ID,Customer_Name,Segment,Region,Country,City,Category,Sub_Category,Product_Name,Sales,Quantity,Discount,Profit,Cost
+ORD-0035,2024-02-24,2024-02-26,First Class,CUST-0006,Sophie Patel,Corporate,North America,United States,Chicago,Technology,Accessories,Anker USB-C Hub,2618.02,7,0.25,174.53,2443.49
+ORD-0062,2024-02-23,2024-02-28,Standard Class,CUST-0067,Carmen Takahashi,Home Office,Europe,France,Marseille,Technology,Accessories,Apple AirPods Pro,10907.28,8,0,5889.92,5017.36
+ORD-0118,2024-02-24,2024-02-27,Second Class,CUST-0173,Viktor Santos,Consumer,North America,Canada,Toronto,Furniture,Tables,IKEA Lisabo Dining Table,9174.71,9,0.4,1682.03,7492.68
+ORD-0133,2024-02-23,2024-02-23,Same Day,CUST-0176,Emma Larsson,Corporate,Latin America,Brazil,Sao Paulo,Technology,Laptops,Lenovo ThinkPad X1,1421.24,3,0.15,418.01,1003.23
+ORD-0314,2024-02-17,2024-02-17,Same Day,CUST-0163,Luis Tanaka,Home Office,North America,Canada,Toronto,Furniture,Chairs,Steelcase Leap V2,3072.15,4,0.25,491.55,2580.6
+ORD-0341,2024-02-08,2024-02-11,First Class,CUST-0012,Shin Nilsson,Corporate,North America,Mexico,Guadalajara,Office Supplies,Fasteners,Swingline Stapler,77.4,1,0.1,20.64,56.76
+ORD-0365,2024-02-02,2024-02-08,Standard Class,CUST-0051,Tomoko Khan,Consumer,North America,United States,Houston,Technology,Accessories,Apple AirPods Pro,7498.76,10,0.45,1227.06,6271.7
+ORD-0372,2024-02-13,2024-02-18,Standard Class,CUST-0102,Marta Berg,Corporate,North America,Mexico,Guadalajara,Furniture,Chairs,Steelcase Leap V2,4096.2,4,0,1515.6,2580.6
+ORD-0399,2024-02-11,2024-02-16,Second Class,CUST-0009,Emma Okonkwo,Home Office,North America,United States,Houston,Furniture,Tables,IKEA Lisabo Dining Table,1359.22,1,0.2,526.7,832.52
+ORD-0449,2024-02-01,2024-02-08,Standard Class,CUST-0016,Gloria Sato,Corporate,Middle East & Africa,South Africa,Cape Town,Office Supplies,Storage,Bankers Box File Storage,261.06,8,0.2,42.42,218.64
+ORD-0496,2024-02-07,2024-02-08,First Class,CUST-0048,Viktor Sharma,Consumer,North America,United States,Houston,Furniture,Tables,West Elm Box Frame Table,915.56,5,0.25,366.21,549.35
+ORD-0515,2024-02-10,2024-02-10,Same Day,CUST-0030,Lars Tanaka,Home Office,North America,United States,Phoenix,Office Supplies,Paper,Hammermill Copy Plus,306.62,8,0.4,-51.14,357.76
+ORD-0529,2024-02-15,2024-02-18,Second Class,CUST-0015,Hassan Perez,Home Office,North America,United States,Chicago,Technology,Tablets,iPad Air,10110.53,8,0.4,2190.61,7919.92
+ORD-0531,2024-02-14,2024-02-20,Standard Class,CUST-0029,Eva Okafor,Corporate,Asia Pacific,South Korea,Busan,Technology,Laptops,Lenovo ThinkPad X1,529.48,1,0.05,195.07,334.41
+ORD-0547,2024-02-19,2024-02-19,Same Day,CUST-0171,Obinna Ali,Consumer,Europe,United Kingdom,London,Furniture,Chairs,Herman Miller Aeron,693.12,6,0,367.38,325.74
+ORD-0578,2024-02-29,2024-03-03,Second Class,CUST-0143,Margot Andersen,Consumer,Europe,Netherlands,Amsterdam,Office Supplies,Paper,Hammermill Copy Plus,287.46,5,0.1,63.86,223.6
+ORD-0606,2024-02-10,2024-02-12,First Class,CUST-0052,Fatima Osei,Corporate,Latin America,Colombia,Medellin,Office Supplies,Paper,Xerox Multipurpose Paper,51.33,3,0,12.84,38.49
+ORD-0626,2024-02-13,2024-02-15,First Class,CUST-0188,Chidi Larsson,Corporate,North America,United States,Phoenix,Office Supplies,Fasteners,Bostitch Paper Clips (1000),131,5,0.1,48.05,82.95
+ORD-0629,2024-02-03,2024-02-10,Standard Class,CUST-0092,Leah Jensen,Consumer,Europe,France,Lyon,Furniture,Desks,Uplift V2 Standing Desk,5168.97,7,0.45,-1503.71,6672.68
+ORD-0649,2024-02-18,2024-02-21,First Class,CUST-0027,Olga Khan,Home Office,Latin America,Argentina,Cordoba,Technology,Phones,OnePlus 12,5188.47,7,0,1867.88,3320.59
+ORD-0684,2024-02-22,2024-02-28,Standard Class,CUST-0194,Ayumi Khan,Corporate,North America,Canada,Toronto,Office Supplies,Binders,"Staples Better Binder 2""",786.66,7,0,369.74,416.92
+ORD-0711,2024-02-12,2024-02-12,Same Day,CUST-0182,Yuna Santos,Corporate,Europe,Germany,Berlin,Office Supplies,Labels,Brother P-Touch Labels,531.49,7,0.35,122.62,408.87
+ORD-0734,2024-02-09,2024-02-09,Same Day,CUST-0183,Fatima Yamamoto,Home Office,North America,United States,Houston,Technology,Accessories,Samsung T7 SSD,1008.26,1,0.2,138.63,869.63
+ORD-0760,2024-02-09,2024-02-16,Standard Class,CUST-0196,Fatima Al-Rashid,Consumer,North America,Mexico,Mexico City,Technology,Laptops,MacBook Air M3,3015.49,2,0.2,980.03,2035.46
+ORD-0777,2024-02-16,2024-02-19,Second Class,CUST-0110,Eva Costa,Corporate,North America,Mexico,Mexico City,Technology,Laptops,MacBook Air M3,3769.36,2,0,1733.9,2035.46
+ORD-0781,2024-02-05,2024-02-07,First Class,CUST-0043,Obinna Santos,Corporate,Middle East & Africa,UAE,Dubai,Technology,Phones,Xiaomi 14,10437.36,6,0.2,2739.78,7697.58
+ORD-0794,2024-02-16,2024-02-19,First Class,CUST-0167,Signe Petrov,Consumer,Middle East & Africa,Kenya,Mombasa,Technology,Phones,Samsung Galaxy S24,920.8,1,0.4,30.69,890.11
+ORD-0799,2024-02-12,2024-02-17,Standard Class,CUST-0183,Fatima Yamamoto,Home Office,North America,United States,Houston,Furniture,Chairs,Steelcase Leap V2,3072.15,5,0.4,-153.6,3225.75
+ORD-0814,2024-02-08,2024-02-13,Standard Class,CUST-0183,Fatima Yamamoto,Home Office,North America,United States,Houston,Furniture,Desks,IKEA Bekant,938.99,1,0,460.11,478.88
+ORD-0837,2024-02-27,2024-03-01,Second Class,CUST-0006,Sophie Patel,Corporate,North America,United States,Chicago,Office Supplies,Storage,Fellowes File Organiser,270.29,8,0.1,96.13,174.16
+ORD-0841,2024-02-06,2024-02-11,Standard Class,CUST-0200,Petra Fernandez,Consumer,North America,United States,Chicago,Technology,Accessories,Keychron K2 Keyboard,6142.32,8,0.1,2183.92,3958.4
+ORD-0854,2024-02-10,2024-02-12,First Class,CUST-0136,Kola Ali,Home Office,Europe,Netherlands,Rotterdam,Technology,Laptops,HP Spectre x360,9404.64,6,0.1,2821.38,6583.26
+ORD-0885,2024-02-16,2024-02-21,Second Class,CUST-0095,Leah Hayashi,Corporate,Asia Pacific,Japan,Tokyo,Office Supplies,Labels,DYMO LabelWriter Labels,198.34,2,0,101.16,97.18

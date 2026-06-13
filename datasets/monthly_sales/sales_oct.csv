@@ -1,0 +1,24 @@
+Order_ID,Order_Date,Ship_Date,Ship_Mode,Customer_ID,Customer_Name,Segment,Region,Country,City,Category,Sub_Category,Product_Name,Sales,Quantity,Discount,Profit,Cost
+ORD-0003,2024-10-23,2024-10-25,First Class,CUST-0056,Hassan Johansson,Home Office,Europe,France,Lyon,Office Supplies,Pens,Pilot G2 Gel Pen (12pk),103.27,2,0.25,4.13,99.14
+ORD-0004,2024-10-10,2024-10-15,Second Class,CUST-0036,David Anderson,Home Office,Europe,Netherlands,Rotterdam,Office Supplies,Labels,Avery Address Labels (750),37.69,3,0.1,12.97,24.72
+ORD-0057,2024-10-25,2024-10-25,Same Day,CUST-0040,Roberto Nakamura,Consumer,Asia Pacific,South Korea,Seoul,Furniture,Bookcases,IKEA Billy,2793.04,3,0.25,335.17,2457.87
+ORD-0154,2024-10-13,2024-10-20,Standard Class,CUST-0154,Bayo Kobayashi,Home Office,North America,Canada,Vancouver,Technology,Tablets,Microsoft Surface Go,2504.8,3,0,1481.11,1023.69
+ORD-0217,2024-10-16,2024-10-16,Same Day,CUST-0183,Fatima Yamamoto,Home Office,North America,United States,Houston,Technology,Accessories,Anker USB-C Hub,573.47,1,0,224.4,349.07
+ORD-0254,2024-10-14,2024-10-14,Same Day,CUST-0092,Leah Jensen,Consumer,Europe,France,Lyon,Office Supplies,Pens,Pilot G2 Gel Pen (12pk),165.24,3,0.2,16.53,148.71
+ORD-0256,2024-10-20,2024-10-25,Standard Class,CUST-0179,Obinna Tanaka,Home Office,Middle East & Africa,South Africa,Johannesburg,Office Supplies,Pens,Sharpie Permanent Markers (8pk),161.34,5,0.4,-5.36,166.7
+ORD-0337,2024-10-23,2024-10-23,Same Day,CUST-0185,Abdul Perez,Corporate,Middle East & Africa,Nigeria,Abuja,Technology,Tablets,Samsung Galaxy Tab S9,13923.46,8,0,8354.1,5569.36
+ORD-0386,2024-10-07,2024-10-10,Second Class,CUST-0189,Chioma Jensen,Home Office,North America,Canada,Montreal,Furniture,Tables,West Elm Box Frame Table,1196.34,7,0.3,427.25,769.09
+ORD-0418,2024-10-15,2024-10-20,Second Class,CUST-0176,Emma Larsson,Corporate,Latin America,Brazil,Sao Paulo,Technology,Laptops,MacBook Air M3,4768.24,4,0.45,697.32,4070.92
+ORD-0467,2024-10-21,2024-10-26,Second Class,CUST-0115,Mei Schmidt,Home Office,Latin America,Argentina,Buenos Aires,Technology,Phones,iPhone 15 Pro,17743.79,8,0.1,6600.35,11143.44
+ORD-0493,2024-10-11,2024-10-14,First Class,CUST-0058,Chen Ali,Corporate,Europe,United Kingdom,Manchester,Office Supplies,Pens,Paper Mate Flair (6pk),237.55,8,0.3,23.79,213.76
+ORD-0656,2024-10-28,2024-10-31,First Class,CUST-0034,Femi Patel,Home Office,North America,Canada,Montreal,Office Supplies,Paper,HP Premium Paper A4,205.61,3,0.2,77.09,128.52
+ORD-0664,2024-10-01,2024-10-04,Second Class,CUST-0111,Anya Larsson,Corporate,North America,Canada,Toronto,Furniture,Desks,Autonomous SmartDesk,722.88,4,0,253,469.88
+ORD-0726,2024-10-06,2024-10-12,Standard Class,CUST-0194,Ayumi Khan,Corporate,North America,Canada,Toronto,Furniture,Tables,West Elm Box Frame Table,1269.58,8,0.35,390.62,878.96
+ORD-0757,2024-10-20,2024-10-25,Second Class,CUST-0058,Chen Ali,Corporate,Europe,United Kingdom,Manchester,Office Supplies,Binders,"Avery Heavy Duty Binder 3""",469.92,9,0.3,-13.38,483.3
+ORD-0770,2024-10-17,2024-10-23,Standard Class,CUST-0069,Lina Watanabe,Home Office,Latin America,Brazil,Sao Paulo,Office Supplies,Labels,Avery Address Labels (750),97.72,7,0,40.04,57.68
+ORD-0803,2024-10-15,2024-10-18,Second Class,CUST-0169,Chidi Mueller,Consumer,North America,Mexico,Guadalajara,Technology,Phones,Samsung Galaxy S24,9000.84,6,0.15,3660.18,5340.66
+ORD-0808,2024-10-16,2024-10-16,Same Day,CUST-0027,Olga Khan,Home Office,Latin America,Argentina,Cordoba,Technology,Phones,iPhone 15 Pro,8379.01,4,0.15,2807.29,5571.72
+ORD-0850,2024-10-25,2024-10-30,Standard Class,CUST-0011,Birgit Andersen,Corporate,Europe,United Kingdom,Edinburgh,Furniture,Chairs,IKEA Markus,583.3,2,0.3,133.32,449.98
+ORD-0921,2024-10-03,2024-10-06,First Class,CUST-0014,Shin Ito,Consumer,Latin America,Colombia,Medellin,Office Supplies,Labels,DYMO LabelWriter Labels,674.36,8,0.15,285.64,388.72
+ORD-0934,2024-10-10,2024-10-17,Standard Class,CUST-0025,Sakura Nakamura,Home Office,North America,Mexico,Mexico City,Furniture,Desks,Flexispot E7,2736.8,5,0,1258.95,1477.85
+ORD-0937,2024-10-24,2024-10-24,Same Day,CUST-0154,Bayo Kobayashi,Home Office,North America,Canada,Vancouver,Technology,Phones,iPhone 15 Pro,16758.03,8,0.15,5614.59,11143.44

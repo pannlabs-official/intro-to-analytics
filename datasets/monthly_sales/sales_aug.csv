@@ -1,0 +1,35 @@
+ORDER_ID,ORDER_DATE,SHIP_DATE,SHIP_MODE,CUSTOMER_ID,CUSTOMER_NAME,SEGMENT,REGION,COUNTRY,CITY,CATEGORY,SUB_CATEGORY,PRODUCT_NAME,SALES,QUANTITY,DISCOUNT,PROFIT,COST
+ORD-0037,2024-08-10,2024-08-11,First Class,CUST-0039,Freya Costa,Corporate,Europe,Netherlands,Rotterdam,Office Supplies,Paper,HP Premium Paper A4,582.56,8,0.15,239.84,342.72
+ORD-0043,2024-08-22,2024-08-22,Same Day,CUST-0080,Maria Jensen,Home Office,North America,Mexico,Guadalajara,Office Supplies,Fasteners,Swingline Stapler,309.6,4,0.1,82.56,227.04
+ORD-0084,2024-08-14,2024-08-16,First Class,CUST-0096,Priya Mueller,Corporate,Europe,United Kingdom,Edinburgh,Furniture,Chairs,IKEA Markus,291.65,1,0.3,66.66,224.99
+ORD-0100,2024-08-31,2024-08-31,Same Day,CUST-0015,Hassan Perez,Home Office,North America,United States,Chicago,Furniture,Bookcases,Sauder Heritage Hill,2175.84,2,0.35,569.06,1606.78
+ORD-0115,2024-08-03,2024-08-08,Second Class,CUST-0025,Sakura Nakamura,Home Office,North America,Mexico,Mexico City,Furniture,Desks,Uplift V2 Standing Desk,3423.6,3,0.15,563.88,2859.72
+ORD-0124,2024-08-04,2024-08-07,Second Class,CUST-0142,Olga Hassan,Corporate,Europe,United Kingdom,Edinburgh,Furniture,Bookcases,Bush Furniture Cabot,1020.92,1,0.4,34.03,986.89
+ORD-0169,2024-08-29,2024-09-03,Standard Class,CUST-0166,Jide Nilsson,Home Office,North America,United States,New York,Furniture,Chairs,Steelcase Leap V2,3379.37,6,0.45,-491.53,3870.9
+ORD-0205,2024-08-04,2024-08-09,Second Class,CUST-0042,Gloria Hassan,Home Office,North America,Mexico,Mexico City,Office Supplies,Envelopes,Quality Park #10 Envelopes (500pk),626.32,7,0.25,25.02,601.3
+ORD-0269,2024-08-02,2024-08-02,Same Day,CUST-0114,Omar Schmidt,Home Office,Asia Pacific,South Korea,Busan,Office Supplies,Art Supplies,Crayola Markers (64pk),507.12,6,0,233.28,273.84
+ORD-0321,2024-08-04,2024-08-05,First Class,CUST-0044,Nina Larsson,Corporate,North America,United States,Houston,Office Supplies,Fasteners,ACCO Binder Clips Assorted,99.54,5,0.1,27.64,71.9
+ORD-0364,2024-08-11,2024-08-11,Same Day,CUST-0020,Fatima Anderson,Corporate,North America,United States,New York,Technology,Accessories,Samsung T7 SSD,5545.45,8,0.45,-1411.59,6957.04
+ORD-0369,2024-08-19,2024-08-19,Same Day,CUST-0193,Gloria Adeyemi,Consumer,Europe,Netherlands,Rotterdam,Furniture,Chairs,Herman Miller Aeron,462.08,4,0,244.92,217.16
+ORD-0377,2024-08-04,2024-08-08,Second Class,CUST-0010,Fatima Eriksson,Consumer,North America,United States,Los Angeles,Technology,Phones,Samsung Galaxy S24,6445.61,7,0.4,214.84,6230.77
+ORD-0379,2024-08-28,2024-09-01,Second Class,CUST-0172,Nadia Lopez,Home Office,North America,United States,New York,Technology,Phones,iPhone 15 Pro,9000.47,6,0.3,642.89,8357.58
+ORD-0382,2024-08-19,2024-08-19,Same Day,CUST-0064,Marta Ibrahim,Home Office,North America,Canada,Vancouver,Technology,Phones,Xiaomi 14,10654.8,7,0.3,1674.29,8980.51
+ORD-0425,2024-08-30,2024-08-31,First Class,CUST-0047,Chen Holm,Home Office,Middle East & Africa,UAE,Abu Dhabi,Furniture,Desks,IKEA Bekant,6244.28,7,0.05,2892.12,3352.16
+ORD-0450,2024-08-14,2024-08-14,Same Day,CUST-0015,Hassan Perez,Home Office,North America,United States,Chicago,Technology,Phones,Xiaomi 14,4348.9,2,0,1783.04,2565.86
+ORD-0486,2024-08-02,2024-08-03,First Class,CUST-0181,Juan Santos,Corporate,Asia Pacific,South Korea,Seoul,Technology,Tablets,iPad Air,12638.16,6,0,6698.22,5939.94
+ORD-0535,2024-08-12,2024-08-19,Standard Class,CUST-0108,Anya Fernandez,Home Office,North America,United States,Phoenix,Office Supplies,Storage,Bankers Box File Storage,203.95,5,0,67.3,136.65
+ORD-0566,2024-08-21,2024-08-25,Second Class,CUST-0032,Juan Ito,Corporate,Europe,Netherlands,Amsterdam,Technology,Phones,Google Pixel 8,1383.39,5,0.45,-150.91,1534.3
+ORD-0634,2024-08-10,2024-08-11,First Class,CUST-0042,Gloria Hassan,Home Office,North America,Mexico,Mexico City,Office Supplies,Labels,DYMO LabelWriter Labels,357.01,4,0.1,162.65,194.36
+ORD-0642,2024-08-28,2024-08-31,First Class,CUST-0184,Felix Sharma,Consumer,Asia Pacific,India,Mumbai,Office Supplies,Fasteners,Swingline Stapler,387,6,0.25,46.44,340.56
+ORD-0697,2024-08-26,2024-08-27,First Class,CUST-0120,Raj Al-Rashid,Corporate,Asia Pacific,Japan,Osaka,Office Supplies,Paper,Hammermill Copy Plus,207.61,5,0.35,-15.99,223.6
+ORD-0717,2024-08-04,2024-08-10,Standard Class,CUST-0118,Felix Tanaka,Consumer,North America,Mexico,Guadalajara,Furniture,Bookcases,Bush Furniture Cabot,5104.62,3,0,2143.95,2960.67
+ORD-0758,2024-08-13,2024-08-19,Standard Class,CUST-0126,Celine Lindgren,Corporate,Europe,Netherlands,Amsterdam,Technology,Tablets,iPad Air,7898.85,5,0.25,2948.9,4949.95
+ORD-0792,2024-08-12,2024-08-15,First Class,CUST-0032,Juan Ito,Corporate,Europe,Netherlands,Amsterdam,Furniture,Bookcases,Sauder Heritage Hill,1673.72,1,0,870.33,803.39
+ORD-0817,2024-08-02,2024-08-03,First Class,CUST-0056,Hassan Johansson,Home Office,Europe,France,Lyon,Office Supplies,Envelopes,Quality Park #10 Envelopes (500pk),357.9,4,0.25,14.3,343.6
+ORD-0825,2024-08-24,2024-08-29,Second Class,CUST-0030,Lars Tanaka,Home Office,North America,United States,Phoenix,Office Supplies,Binders,"Avery Heavy Duty Binder 3""",372.95,5,0,104.45,268.5
+ORD-0842,2024-08-30,2024-09-06,Standard Class,CUST-0130,Isabella Rodriguez,Consumer,Asia Pacific,India,Mumbai,Technology,Accessories,Samsung T7 SSD,8570.24,8,0.15,1613.2,6957.04
+ORD-0906,2024-08-30,2024-09-02,Second Class,CUST-0095,Leah Hayashi,Corporate,Asia Pacific,Japan,Tokyo,Furniture,Chairs,Steelcase Leap V2,5837.08,6,0.05,1966.18,3870.9
+ORD-0910,2024-08-01,2024-08-01,Same Day,CUST-0155,Olga Martinez,Consumer,North America,United States,Phoenix,Office Supplies,Envelopes,JAM Paper A7 Invitation Envelopes,471.06,11,0.2,111.91,359.15
+ORD-0925,2024-08-25,2024-08-27,First Class,CUST-0181,Juan Santos,Corporate,Asia Pacific,South Korea,Seoul,Office Supplies,Labels,Brother P-Touch Labels,776.79,7,0.05,367.92,408.87
+ORD-0939,2024-08-27,2024-08-27,Same Day,CUST-0045,Birgit Fernandez,Consumer,North America,Mexico,Guadalajara,Office Supplies,Pens,Pilot G2 Gel Pen (12pk),110.16,2,0.2,11.02,99.14
+ORD-0993,2024-08-21,2024-08-21,Same Day,CUST-0020,Fatima Anderson,Corporate,North America,United States,New York,Technology,Accessories,Keychron K2 Keyboard,3583.02,6,0.3,614.22,2968.8

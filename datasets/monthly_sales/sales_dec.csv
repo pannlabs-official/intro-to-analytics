@@ -1,0 +1,30 @@
+Order_ID,Order_Date,Ship_Date,Ship_Mode,Customer_ID,Customer_Name,Segment,Region,Country,City,Category,Sub_Category,Product_Name,Sales,Quantity,Discount,Profit,Cost
+ORD-0010,2024-12-23,2024-12-23,Same Day,CUST-0061,Astrid Costa,Corporate,Europe,United Kingdom,Manchester,Furniture,Desks,Autonomous SmartDesk,722.88,4,0,253,469.88
+ORD-0065,2024-12-14,2024-12-14,Same Day,CUST-0046,Kwame Takahashi,Corporate,North America,Canada,Toronto,Office Supplies,Fasteners,Bostitch Paper Clips (1000),87.33,3,0,37.56,49.77
+ORD-0104,2024-12-17,2024-12-20,Second Class,CUST-0021,Rafael Mueller,Corporate,Europe,France,Marseille,Office Supplies,Pens,Pilot G2 Gel Pen (12pk),523.26,8,0.05,126.7,396.56
+ORD-0136,2024-12-15,2024-12-18,Second Class,CUST-0002,Patrick Schmidt,Home Office,North America,United States,Phoenix,Office Supplies,Pens,Pilot G2 Gel Pen (12pk),495.72,8,0.1,99.16,396.56
+ORD-0166,2024-12-04,2024-12-07,Second Class,CUST-0136,Kola Ali,Home Office,Europe,Netherlands,Rotterdam,Furniture,Bookcases,Sauder Heritage Hill,4686.42,4,0.3,1472.86,3213.56
+ORD-0170,2024-12-19,2024-12-23,Second Class,CUST-0171,Obinna Ali,Consumer,Europe,United Kingdom,London,Technology,Tablets,Samsung Galaxy Tab S9,4525.13,4,0.35,1740.45,2784.68
+ORD-0206,2024-12-26,2025-01-01,Standard Class,CUST-0157,Daichi Larsson,Home Office,Europe,France,Marseille,Furniture,Tables,IKEA Lisabo Dining Table,10703.83,7,0.1,4876.19,5827.64
+ORD-0276,2024-12-23,2024-12-30,Standard Class,CUST-0091,Gloria Costa,Corporate,Europe,Netherlands,Rotterdam,Technology,Tablets,Samsung Galaxy Tab S9,5221.3,3,0,3132.79,2088.51
+ORD-0329,2024-12-12,2024-12-15,First Class,CUST-0117,Bayo Rodriguez,Consumer,North America,Mexico,Mexico City,Office Supplies,Art Supplies,Prismacolor Premier Pencils (24),300.96,8,0,156.48,144.48
+ORD-0389,2024-12-26,2024-12-30,Second Class,CUST-0041,Greta Nakamura,Consumer,North America,Mexico,Guadalajara,Technology,Tablets,Microsoft Surface Go,1669.87,2,0,987.41,682.46
+ORD-0403,2024-12-08,2024-12-08,Same Day,CUST-0088,Liam Suzuki,Corporate,Latin America,Brazil,Rio de Janeiro,Office Supplies,Envelopes,JAM Paper A7 Invitation Envelopes,58.88,2,0.45,-6.42,65.3
+ORD-0428,2024-12-02,2024-12-08,Standard Class,CUST-0194,Ayumi Khan,Corporate,North America,Canada,Toronto,Furniture,Tables,West Elm Box Frame Table,1196.34,7,0.3,427.25,769.09
+ORD-0435,2024-12-10,2024-12-13,First Class,CUST-0193,Gloria Adeyemi,Consumer,Europe,Netherlands,Rotterdam,Technology,Accessories,Anker USB-C Hub,2150.51,5,0.25,405.16,1745.35
+ORD-0441,2024-12-13,2024-12-13,Same Day,CUST-0045,Birgit Fernandez,Consumer,North America,Mexico,Guadalajara,Technology,Laptops,Dell XPS 15,1260.07,2,0.2,287.63,972.44
+ORD-0485,2024-12-11,2024-12-16,Second Class,CUST-0164,Amara Johansson,Consumer,North America,Mexico,Mexico City,Technology,Laptops,MacBook Air M3,8127.68,5,0.25,3039.03,5088.65
+ORD-0589,2024-12-16,2024-12-19,First Class,CUST-0145,Abdul Rodriguez,Corporate,North America,Canada,Montreal,Office Supplies,Art Supplies,Prismacolor Premier Pencils (24),210.67,8,0.3,66.19,144.48
+ORD-0612,2024-12-20,2024-12-25,Standard Class,CUST-0097,Tariq Okonkwo,Corporate,Middle East & Africa,Kenya,Mombasa,Office Supplies,Storage,Fellowes File Organiser,191.45,6,0.15,60.83,130.62
+ORD-0617,2024-12-22,2024-12-22,Same Day,CUST-0163,Luis Tanaka,Home Office,North America,Canada,Toronto,Technology,Accessories,Apple AirPods Pro,1254.34,1,0.2,627.17,627.17
+ORD-0630,2024-12-22,2024-12-22,Same Day,CUST-0187,Koji Lindgren,Consumer,Latin America,Argentina,Cordoba,Furniture,Bookcases,Bush Furniture Cabot,5530.01,5,0.35,595.56,4934.45
+ORD-0639,2024-12-01,2024-12-01,Same Day,CUST-0032,Juan Ito,Corporate,Europe,Netherlands,Amsterdam,Furniture,Chairs,IKEA Markus,2374.85,6,0.05,1024.91,1349.94
+ORD-0733,2024-12-02,2024-12-08,Standard Class,CUST-0115,Mei Schmidt,Home Office,Latin America,Argentina,Buenos Aires,Office Supplies,Labels,Brother P-Touch Labels,817.67,7,0,408.8,408.87
+ORD-0743,2024-12-01,2024-12-07,Standard Class,CUST-0033,Daichi Takahashi,Home Office,Asia Pacific,South Korea,Busan,Furniture,Tables,West Elm Box Frame Table,585.96,3,0.2,256.35,329.61
+ORD-0750,2024-12-07,2024-12-11,Second Class,CUST-0144,Nadia Fernandez,Home Office,Middle East & Africa,South Africa,Cape Town,Furniture,Desks,IKEA Bekant,704.24,1,0.25,225.36,478.88
+ORD-0753,2024-12-12,2024-12-18,Standard Class,CUST-0033,Daichi Takahashi,Home Office,Asia Pacific,South Korea,Busan,Technology,Phones,iPhone 15 Pro,17743.79,8,0.1,6600.35,11143.44
+ORD-0763,2024-12-18,2024-12-18,Same Day,CUST-0017,Diego Lopez,Corporate,Europe,Netherlands,Rotterdam,Office Supplies,Binders,"Staples Better Binder 2""",157.33,2,0.3,38.21,119.12
+ORD-0780,2024-12-19,2024-12-26,Standard Class,CUST-0034,Femi Patel,Home Office,North America,Canada,Montreal,Furniture,Chairs,Steelcase Leap V2,8192.4,8,0,3031.2,5161.2
+ORD-0919,2024-12-24,2024-12-29,Second Class,CUST-0042,Gloria Hassan,Home Office,North America,Mexico,Mexico City,Furniture,Bookcases,IKEA Billy,3537.85,3,0.05,1079.98,2457.87
+ORD-0976,2024-12-22,2024-12-28,Standard Class,CUST-0036,David Anderson,Home Office,Europe,Netherlands,Rotterdam,Furniture,Desks,IKEA Bekant,6760.73,8,0.1,2929.69,3831.04
+ORD-0977,2024-12-25,2025-01-01,Standard Class,CUST-0066,Nina Larsson,Home Office,North America,Mexico,Mexico City,Furniture,Desks,Autonomous SmartDesk,1445.76,8,0,506,939.76

@@ -1,0 +1,30 @@
+Order_ID,Order_Date,Ship_Date,Ship_Mode,Customer_ID,Customer_Name,Segment,Region,Country,City,Category,Sub_Category,Product_Name,Sales,Quantity,Discount,Profit,Cost
+ORD-0073,2024-11-17,2024-11-17,Same Day,CUST-0112,Kwame Sharma,Consumer,North America,Mexico,Guadalajara,Technology,Tablets,iPad Air,17440.66,8,0.1,9520.74,7919.92
+ORD-0191,2024-11-21,2024-11-26,Second Class,CUST-0141,Juan Petrov,Corporate,Asia Pacific,Australia,Melbourne,Technology,Phones,Google Pixel 8,1041.31,3,0.4,120.73,920.58
+ORD-0202,2024-11-02,2024-11-05,Second Class,CUST-0081,Ryu Wei,Corporate,North America,United States,Houston,Technology,Phones,Xiaomi 14,11377.81,7,0.35,2397.3,8980.51
+ORD-0230,2024-11-04,2024-11-06,First Class,CUST-0057,Nina Perez,Corporate,Middle East & Africa,UAE,Dubai,Office Supplies,Binders,"Staples Better Binder 2""",292.19,4,0.35,53.95,238.24
+ORD-0260,2024-11-11,2024-11-14,First Class,CUST-0137,Gloria Petrov,Consumer,Europe,France,Lyon,Furniture,Bookcases,IKEA Billy,6206.75,5,0,2110.3,4096.45
+ORD-0272,2024-11-01,2024-11-01,Same Day,CUST-0034,Femi Patel,Home Office,North America,Canada,Montreal,Technology,Accessories,Samsung T7 SSD,3768.39,4,0.35,289.87,3478.52
+ORD-0279,2024-11-28,2024-11-28,Same Day,CUST-0081,Ryu Wei,Corporate,North America,United States,Houston,Technology,Laptops,HP Spectre x360,7210.22,4,0.1,2821.38,4388.84
+ORD-0281,2024-11-06,2024-11-06,Same Day,CUST-0163,Luis Tanaka,Home Office,North America,Canada,Toronto,Office Supplies,Paper,Hammermill Copy Plus,229.97,4,0.1,51.09,178.88
+ORD-0287,2024-11-08,2024-11-11,Second Class,CUST-0122,Ana Santos,Corporate,Asia Pacific,South Korea,Seoul,Furniture,Tables,Article Seno Table,4084.68,6,0,1674.72,2409.96
+ORD-0300,2024-11-06,2024-11-06,Same Day,CUST-0121,Katya Al-Rashid,Home Office,Europe,France,Lyon,Technology,Accessories,Anker USB-C Hub,860.21,2,0.25,162.07,698.14
+ORD-0317,2024-11-14,2024-11-16,First Class,CUST-0152,Ahmed Martinez,Home Office,North America,United States,Phoenix,Technology,Accessories,Samsung T7 SSD,7391.84,6,0.15,2174.06,5217.78
+ORD-0330,2024-11-28,2024-12-02,Second Class,CUST-0187,Koji Lindgren,Consumer,Latin America,Argentina,Cordoba,Office Supplies,Pens,Pilot G2 Gel Pen (12pk),523.26,8,0.05,126.7,396.56
+ORD-0346,2024-11-28,2024-11-28,Same Day,CUST-0157,Daichi Larsson,Home Office,Europe,France,Marseille,Office Supplies,Labels,Brother P-Touch Labels,192.74,3,0.45,17.51,175.23
+ORD-0363,2024-11-30,2024-12-07,Standard Class,CUST-0191,Raj Kobayashi,Home Office,North America,United States,Chicago,Technology,Tablets,Microsoft Surface Go,3339.74,4,0,1974.82,1364.92
+ORD-0383,2024-11-28,2024-12-02,Second Class,CUST-0100,Eva Martinez,Home Office,Europe,France,Lyon,Technology,Phones,Xiaomi 14,1500.37,1,0.4,217.44,1282.93
+ORD-0406,2024-11-12,2024-11-13,First Class,CUST-0100,Eva Martinez,Home Office,Europe,France,Lyon,Furniture,Chairs,Steelcase Leap V2,3072.15,3,0,1136.7,1935.45
+ORD-0419,2024-11-15,2024-11-18,Second Class,CUST-0190,Bayo Kato,Consumer,Middle East & Africa,South Africa,Johannesburg,Furniture,Chairs,Steelcase Leap V2,1024.05,1,0,378.9,645.15
+ORD-0433,2024-11-14,2024-11-14,Same Day,CUST-0065,Ade Kobayashi,Corporate,North America,Mexico,Guadalajara,Technology,Accessories,Logitech MX Master 3S,730.53,2,0.4,-0.01,730.54
+ORD-0452,2024-11-19,2024-11-24,Second Class,CUST-0075,Ingrid Sato,Consumer,Europe,France,Marseille,Furniture,Bookcases,IKEA Billy,3475.78,4,0.3,198.62,3277.16
+ORD-0524,2024-11-25,2024-11-26,First Class,CUST-0065,Ade Kobayashi,Corporate,North America,Mexico,Guadalajara,Technology,Phones,Samsung Galaxy S24,12354.09,7,0,6123.32,6230.77
+ORD-0549,2024-11-16,2024-11-16,Same Day,CUST-0064,Marta Ibrahim,Home Office,North America,Canada,Vancouver,Technology,Tablets,Microsoft Surface Go,834.93,1,0,493.7,341.23
+ORD-0625,2024-11-27,2024-11-30,First Class,CUST-0101,Priya Santos,Home Office,Europe,Netherlands,Rotterdam,Office Supplies,Storage,Fellowes File Organiser,270.29,8,0.1,96.13,174.16
+ORD-0659,2024-11-22,2024-11-26,Second Class,CUST-0200,Petra Fernandez,Consumer,North America,United States,Chicago,Furniture,Desks,Autonomous SmartDesk,939.74,8,0.35,-0.02,939.76
+ORD-0782,2024-11-30,2024-12-07,Standard Class,CUST-0020,Fatima Anderson,Corporate,North America,United States,New York,Furniture,Bookcases,Sauder Heritage Hill,6276.45,5,0.25,2259.5,4016.95
+ORD-0819,2024-11-18,2024-11-18,Same Day,CUST-0128,Isabella Larsson,Home Office,North America,Canada,Montreal,Furniture,Tables,IKEA Lisabo Dining Table,10194.12,6,0,5199,4995.12
+ORD-0864,2024-11-29,2024-11-29,Same Day,CUST-0140,Patrick Petrov,Consumer,Middle East & Africa,UAE,Abu Dhabi,Technology,Phones,iPhone 15 Pro,8871.9,6,0.4,514.32,8357.58
+ORD-0946,2024-11-03,2024-11-06,Second Class,CUST-0173,Viktor Santos,Consumer,North America,Canada,Toronto,Technology,Phones,Xiaomi 14,12002.96,8,0.4,1739.52,10263.44
+ORD-0955,2024-11-02,2024-11-02,Same Day,CUST-0012,Shin Nilsson,Corporate,North America,Mexico,Guadalajara,Furniture,Bookcases,Sauder Heritage Hill,9372.83,8,0.3,2945.71,6427.12
+ORD-0990,2024-11-12,2024-11-12,Same Day,CUST-0125,Ryu Ali,Home Office,North America,Canada,Vancouver,Furniture,Chairs,Autonomous ErgoChair,2395.3,5,0,862.3,1533

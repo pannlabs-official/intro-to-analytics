@@ -1,0 +1,240 @@
+Period,Department,Line_Item,Budget_Amount,Actual_Amount,Variance,Variance_Pct,Notes
+2024-01-01,Sales,Equipment,12000,11640,360,3,
+2024-01-01,Sales,Utilities,20000,19200,800,4,
+2024-01-01,Sales,Office Supplies,31000,28830,2170,7,
+2024-01-01,Engineering,Insurance,2000,2440,-440,-22,Unplanned server migration
+2024-01-01,Engineering,Training,26000,30680,-4680,-18,Market expansion initiative
+2024-01-01,Engineering,Salaries,408000,412080,-4080,-1,On track
+2024-01-01,Engineering,Consulting,44000,40480,3520,8,
+2024-01-01,Marketing,Utilities,28000,22960,5040,18,Project delayed to next quarter
+2024-01-01,Marketing,Insurance,45000,36450,8550,19,Project delayed to next quarter
+2024-01-01,Marketing,Salaries,172000,146200,25800,15,On track
+2024-01-01,Marketing,Travel,27000,25110,1890,7,
+2024-01-01,Marketing,Marketing Spend,50000,61000,-11000,-22,Emergency contractor hire
+2024-01-01,Operations,Salaries,304000,364800,-60800,-20,Emergency contractor hire
+2024-01-01,Operations,Insurance,33000,40590,-7590,-23,Regulatory compliance upgrade
+2024-01-01,Operations,Travel,16000,17600,-1600,-10,
+2024-01-01,Operations,Consulting,41000,36490,4510,11,
+2024-01-01,Operations,Software Licenses,76000,91200,-15200,-20,Market expansion initiative
+2024-01-01,G&A,Equipment,20000,24800,-4800,-24,Urgent equipment replacement
+2024-01-01,G&A,Training,40000,49200,-9200,-23,Emergency contractor hire
+2024-01-01,G&A,Salaries,434000,460040,-26040,-6,Seasonal adjustment
+2024-01-01,G&A,Travel,32000,32320,-320,-1,
+2024-02-01,Sales,Office Supplies,50000,56500,-6500,-13,
+2024-02-01,Sales,Marketing Spend,80000,64000,16000,20,Hiring freeze savings
+2024-02-01,Sales,Insurance,50000,43500,6500,13,
+2024-02-01,Sales,Equipment,5000,4350,650,13,On track
+2024-02-01,Engineering,Consulting,41000,37310,3690,9,Seasonal adjustment
+2024-02-01,Engineering,Equipment,10000,10000,0,0,On track
+2024-02-01,Engineering,Salaries,236000,202960,33040,14,
+2024-02-01,Marketing,Consulting,5000,4050,950,19,Conference cancelled
+2024-02-01,Marketing,Insurance,31000,38750,-7750,-25,Unplanned server migration
+2024-02-01,Marketing,Office Supplies,2000,2420,-420,-21,Market expansion initiative
+2024-02-01,Marketing,Utilities,34000,41140,-7140,-21,Urgent equipment replacement
+2024-02-01,Operations,Marketing Spend,83000,91300,-8300,-10,
+2024-02-01,Operations,Travel,15000,13050,1950,13,
+2024-02-01,Operations,Utilities,22000,20460,1540,7,
+2024-02-01,Operations,Salaries,242000,237160,4840,2,
+2024-02-01,G&A,Salaries,206000,220420,-14420,-7,
+2024-02-01,G&A,Equipment,32000,36480,-4480,-14,
+2024-02-01,G&A,Utilities,25000,26750,-1750,-7,
+2024-03-01,Sales,Equipment,9000,7380,1620,18,Project delayed to next quarter
+2024-03-01,Sales,Consulting,34000,30940,3060,9,
+2024-03-01,Sales,Training,46000,54280,-8280,-18,Regulatory compliance upgrade
+2024-03-01,Sales,Software Licenses,48000,55200,-7200,-15,Within tolerance
+2024-03-01,Sales,Marketing Spend,36000,31320,4680,13,
+2024-03-01,Engineering,Travel,43000,49020,-6020,-14,
+2024-03-01,Engineering,Training,36000,33480,2520,7,
+2024-03-01,Engineering,Equipment,35000,42350,-7350,-21,Market expansion initiative
+2024-03-01,Engineering,Utilities,7000,7490,-490,-7,Within tolerance
+2024-03-01,Marketing,Equipment,16000,13600,2400,15,
+2024-03-01,Marketing,Travel,38000,46740,-8740,-23,Urgent equipment replacement
+2024-03-01,Marketing,Salaries,207000,244260,-37260,-18,Unplanned server migration
+2024-03-01,Marketing,Utilities,40000,38400,1600,4,
+2024-03-01,Marketing,Marketing Spend,115000,93150,21850,19,Vendor renegotiation
+2024-03-01,Operations,Utilities,49000,53410,-4410,-9,Seasonal adjustment
+2024-03-01,Operations,Consulting,14000,14560,-560,-4,Within tolerance
+2024-03-01,Operations,Office Supplies,11000,13530,-2530,-23,Emergency contractor hire
+2024-03-01,G&A,Training,47000,39010,7990,17,Hiring freeze savings
+2024-03-01,G&A,Office Supplies,12000,10800,1200,10,
+2024-03-01,G&A,Insurance,33000,40590,-7590,-23,Regulatory compliance upgrade
+2024-03-01,G&A,Marketing Spend,68000,83640,-15640,-23,Market expansion initiative
+2024-04-01,Sales,Marketing Spend,106000,119780,-13780,-13,
+2024-04-01,Sales,Travel,42000,39900,2100,5,
+2024-04-01,Sales,Equipment,33000,31680,1320,4,
+2024-04-01,Sales,Insurance,9000,10350,-1350,-15,
+2024-04-01,Sales,Training,3000,3660,-660,-22,Regulatory compliance upgrade
+2024-04-01,Engineering,Software Licenses,59000,50740,8260,14,
+2024-04-01,Engineering,Equipment,12000,11400,600,5,
+2024-04-01,Engineering,Marketing Spend,46000,38180,7820,17,Vendor renegotiation
+2024-04-01,Marketing,Training,23000,20010,2990,13,Seasonal adjustment
+2024-04-01,Marketing,Utilities,36000,36360,-360,-1,Seasonal adjustment
+2024-04-01,Marketing,Salaries,432000,427680,4320,1,
+2024-04-01,Operations,Consulting,24000,27120,-3120,-13,Within tolerance
+2024-04-01,Operations,Travel,4000,4920,-920,-23,Urgent equipment replacement
+2024-04-01,Operations,Training,27000,32670,-5670,-21,Unplanned server migration
+2024-04-01,Operations,Office Supplies,19000,17670,1330,7,
+2024-04-01,G&A,Insurance,21000,19110,1890,9,
+2024-04-01,G&A,Consulting,31000,34100,-3100,-10,On track
+2024-04-01,G&A,Marketing Spend,96000,98880,-2880,-3,
+2024-05-01,Sales,Training,12000,11040,960,8,
+2024-05-01,Sales,Software Licenses,14000,12880,1120,8,Seasonal adjustment
+2024-05-01,Sales,Salaries,294000,255780,38220,13,
+2024-05-01,Engineering,Marketing Spend,24000,29520,-5520,-23,Unplanned server migration
+2024-05-01,Engineering,Insurance,48000,56160,-8160,-17,Regulatory compliance upgrade
+2024-05-01,Engineering,Equipment,30000,32100,-2100,-7,
+2024-05-01,Engineering,Training,7000,8750,-1750,-25,Emergency contractor hire
+2024-05-01,Engineering,Office Supplies,34000,32980,1020,3,
+2024-05-01,Marketing,Office Supplies,16000,19360,-3360,-21,Unplanned server migration
+2024-05-01,Marketing,Salaries,155000,159650,-4650,-3,
+2024-05-01,Marketing,Consulting,4000,3360,640,16,Project delayed to next quarter
+2024-05-01,Marketing,Marketing Spend,109000,130800,-21800,-20,Unplanned server migration
+2024-05-01,Marketing,Equipment,37000,38850,-1850,-5,
+2024-05-01,Operations,Insurance,11000,10120,880,8,
+2024-05-01,Operations,Equipment,22000,21340,660,3,
+2024-05-01,Operations,Marketing Spend,89000,81880,7120,8,
+2024-05-01,Operations,Salaries,156000,152880,3120,2,
+2024-05-01,G&A,Software Licenses,72000,58320,13680,19,Vendor renegotiation
+2024-05-01,G&A,Utilities,12000,13800,-1800,-15,
+2024-05-01,G&A,Equipment,11000,11990,-990,-9,
+2024-05-01,G&A,Office Supplies,4000,3840,160,4,
+2024-06-01,Sales,Insurance,35000,29750,5250,15,
+2024-06-01,Sales,Software Licenses,76000,67640,8360,11,
+2024-06-01,Sales,Equipment,26000,27560,-1560,-6,
+2024-06-01,Engineering,Travel,7000,8190,-1190,-17,Urgent equipment replacement
+2024-06-01,Engineering,Equipment,22000,24640,-2640,-12,Within tolerance
+2024-06-01,Engineering,Office Supplies,36000,35640,360,1,Seasonal adjustment
+2024-06-01,Engineering,Software Licenses,58000,59160,-1160,-2,
+2024-06-01,Engineering,Training,43000,52890,-9890,-23,Unplanned server migration
+2024-06-01,Marketing,Utilities,27000,21870,5130,19,Conference cancelled
+2024-06-01,Marketing,Office Supplies,21000,18480,2520,12,
+2024-06-01,Marketing,Salaries,231000,288750,-57750,-25,Market expansion initiative
+2024-06-01,Marketing,Consulting,23000,18630,4370,19,Travel restrictions
+2024-06-01,Marketing,Marketing Spend,113000,129950,-16950,-15,On track
+2024-06-01,Operations,Utilities,21000,21840,-840,-4,Seasonal adjustment
+2024-06-01,Operations,Training,11000,9900,1100,10,
+2024-06-01,Operations,Consulting,49000,47530,1470,3,
+2024-06-01,Operations,Salaries,238000,199920,38080,16,Vendor renegotiation
+2024-06-01,G&A,Consulting,28000,34440,-6440,-23,Regulatory compliance upgrade
+2024-06-01,G&A,Marketing Spend,97000,115430,-18430,-19,Market expansion initiative
+2024-06-01,G&A,Equipment,42000,46200,-4200,-10,On track
+2024-06-01,G&A,Software Licenses,79000,88480,-9480,-12,Within tolerance
+2024-07-01,Sales,Insurance,37000,44030,-7030,-19,Unplanned server migration
+2024-07-01,Sales,Salaries,198000,227700,-29700,-15,
+2024-07-01,Sales,Training,8000,6640,1360,17,Project delayed to next quarter
+2024-07-01,Engineering,Travel,3000,3450,-450,-15,
+2024-07-01,Engineering,Software Licenses,69000,61410,7590,11,Within tolerance
+2024-07-01,Engineering,Equipment,25000,20750,4250,17,Hiring freeze savings
+2024-07-01,Marketing,Equipment,5000,5950,-950,-19,Market expansion initiative
+2024-07-01,Marketing,Insurance,24000,28320,-4320,-18,Urgent equipment replacement
+2024-07-01,Marketing,Office Supplies,22000,19140,2860,13,
+2024-07-01,Marketing,Marketing Spend,112000,89600,22400,20,Hiring freeze savings
+2024-07-01,Marketing,Salaries,228000,241680,-13680,-6,
+2024-07-01,Operations,Training,4000,3200,800,20,Conference cancelled
+2024-07-01,Operations,Equipment,39000,46800,-7800,-20,Unplanned server migration
+2024-07-01,Operations,Marketing Spend,92000,89240,2760,3,
+2024-07-01,G&A,Consulting,5000,4400,600,12,
+2024-07-01,G&A,Travel,14000,14560,-560,-4,Seasonal adjustment
+2024-07-01,G&A,Office Supplies,22000,20460,1540,7,
+2024-08-01,Sales,Salaries,166000,170980,-4980,-3,Seasonal adjustment
+2024-08-01,Sales,Travel,2000,1900,100,5,
+2024-08-01,Sales,Software Licenses,68000,58480,9520,14,
+2024-08-01,Engineering,Software Licenses,79000,91640,-12640,-16,Regulatory compliance upgrade
+2024-08-01,Engineering,Equipment,16000,17920,-1920,-12,
+2024-08-01,Engineering,Training,28000,31080,-3080,-11,
+2024-08-01,Marketing,Utilities,17000,17170,-170,-1,
+2024-08-01,Marketing,Software Licenses,28000,25480,2520,9,On track
+2024-08-01,Marketing,Marketing Spend,22000,25960,-3960,-18,Emergency contractor hire
+2024-08-01,Marketing,Insurance,31000,37820,-6820,-22,Unplanned server migration
+2024-08-01,Marketing,Salaries,170000,210800,-40800,-24,Urgent equipment replacement
+2024-08-01,Operations,Office Supplies,7000,6020,980,14,Within tolerance
+2024-08-01,Operations,Insurance,4000,3280,720,18,Hiring freeze savings
+2024-08-01,Operations,Equipment,29000,28130,870,3,Seasonal adjustment
+2024-08-01,Operations,Training,50000,40500,9500,19,Travel restrictions
+2024-08-01,Operations,Travel,43000,41280,1720,4,
+2024-08-01,G&A,Insurance,22000,22660,-660,-3,
+2024-08-01,G&A,Consulting,6000,6180,-180,-3,
+2024-08-01,G&A,Software Licenses,77000,92400,-15400,-20,Regulatory compliance upgrade
+2024-08-01,G&A,Equipment,42000,49980,-7980,-19,Urgent equipment replacement
+2024-08-01,G&A,Utilities,6000,6840,-840,-14,
+2024-09-01,Sales,Insurance,38000,30400,7600,20,Vendor renegotiation
+2024-09-01,Sales,Training,2000,1780,220,11,
+2024-09-01,Sales,Marketing Spend,44000,42680,1320,3,On track
+2024-09-01,Sales,Software Licenses,19000,17860,1140,6,
+2024-09-01,Engineering,Marketing Spend,88000,90640,-2640,-3,
+2024-09-01,Engineering,Salaries,443000,482870,-39870,-9,
+2024-09-01,Engineering,Office Supplies,10000,8600,1400,14,
+2024-09-01,Engineering,Travel,17000,19720,-2720,-16,Emergency contractor hire
+2024-09-01,Marketing,Training,9000,10080,-1080,-12,
+2024-09-01,Marketing,Office Supplies,9000,9000,0,0,
+2024-09-01,Marketing,Salaries,259000,251230,7770,3,
+2024-09-01,Operations,Travel,15000,14250,750,5,Within tolerance
+2024-09-01,Operations,Consulting,31000,37510,-6510,-21,Urgent equipment replacement
+2024-09-01,Operations,Training,16000,19360,-3360,-21,Market expansion initiative
+2024-09-01,Operations,Utilities,7000,5880,1120,16,Hiring freeze savings
+2024-09-01,G&A,Consulting,11000,10780,220,2,
+2024-09-01,G&A,Equipment,5000,4300,700,14,
+2024-09-01,G&A,Training,2000,2320,-320,-16,Market expansion initiative
+2024-09-01,G&A,Marketing Spend,118000,101480,16520,14,
+2024-09-01,G&A,Office Supplies,13000,12480,520,4,
+2024-10-01,Sales,Salaries,382950,409757,-26807,-7,
+2024-10-01,Sales,Equipment,50600,56672,-6072,-12,On track
+2024-10-01,Sales,Travel,17250,16560,690,4,Within tolerance
+2024-10-01,Sales,Marketing Spend,104650,100464,4186,4,
+2024-10-01,Engineering,Software Licenses,66700,81374,-14674,-22,Unplanned server migration
+2024-10-01,Engineering,Consulting,4600,5704,-1104,-24,Market expansion initiative
+2024-10-01,Engineering,Utilities,33350,36685,-3335,-10,Within tolerance
+2024-10-01,Marketing,Equipment,44850,55614,-10764,-24,Unplanned server migration
+2024-10-01,Marketing,Consulting,55200,61272,-6072,-11,
+2024-10-01,Marketing,Insurance,57500,58650,-1150,-2,
+2024-10-01,Marketing,Travel,49450,60329,-10879,-22,Market expansion initiative
+2024-10-01,Marketing,Office Supplies,4600,5428,-828,-18,Emergency contractor hire
+2024-10-01,Operations,Travel,16100,15939,161,1,
+2024-10-01,Operations,Training,26450,31476,-5026,-19,Regulatory compliance upgrade
+2024-10-01,Operations,Equipment,52900,57661,-4761,-9,
+2024-10-01,Operations,Utilities,51750,62100,-10350,-20,Emergency contractor hire
+2024-10-01,G&A,Salaries,226550,194833,31717,14,
+2024-10-01,G&A,Consulting,32200,32200,0,0,
+2024-10-01,G&A,Training,23000,20010,2990,13,
+2024-10-01,G&A,Marketing Spend,123050,136586,-13536,-11,
+2024-10-01,G&A,Software Licenses,24150,20045,4105,17,Hiring freeze savings
+2024-11-01,Sales,Travel,29900,23920,5980,20,Travel restrictions
+2024-11-01,Sales,Training,17250,16905,345,2,
+2024-11-01,Sales,Insurance,10350,10143,207,2,
+2024-11-01,Sales,Office Supplies,12650,13536,-886,-7,
+2024-11-01,Engineering,Equipment,52900,59248,-6348,-12,
+2024-11-01,Engineering,Travel,42550,52337,-9787,-23,Market expansion initiative
+2024-11-01,Engineering,Office Supplies,51750,49680,2070,4,
+2024-11-01,Marketing,Insurance,6900,6348,552,8,Within tolerance
+2024-11-01,Marketing,Travel,40250,43068,-2818,-7,
+2024-11-01,Marketing,Utilities,49450,48956,494,1,
+2024-11-01,Marketing,Equipment,46000,41860,4140,9,
+2024-11-01,Operations,Travel,36800,46000,-9200,-25,Regulatory compliance upgrade
+2024-11-01,Operations,Consulting,49450,61813,-12363,-25,Market expansion initiative
+2024-11-01,Operations,Office Supplies,8050,7406,644,8,
+2024-11-01,Operations,Marketing Spend,36800,29440,7360,20,Travel restrictions
+2024-11-01,Operations,Software Licenses,12650,13156,-506,-4,Seasonal adjustment
+2024-11-01,G&A,Consulting,31050,28566,2484,8,Seasonal adjustment
+2024-11-01,G&A,Utilities,18400,18768,-368,-2,
+2024-11-01,G&A,Marketing Spend,88550,106260,-17710,-20,Unplanned server migration
+2024-11-01,G&A,Insurance,20700,20907,-207,-1,
+2024-12-01,Sales,Marketing Spend,96600,82110,14490,15,
+2024-12-01,Sales,Utilities,25300,28589,-3289,-13,Seasonal adjustment
+2024-12-01,Sales,Salaries,494500,494500,0,0,
+2024-12-01,Sales,Equipment,51750,49163,2587,5,
+2024-12-01,Sales,Insurance,29900,26013,3887,13,
+2024-12-01,Engineering,Marketing Spend,44850,45299,-449,-1,Seasonal adjustment
+2024-12-01,Engineering,Consulting,2300,2001,299,13,
+2024-12-01,Engineering,Equipment,40250,36225,4025,10,
+2024-12-01,Marketing,Travel,54050,51888,2162,4,
+2024-12-01,Marketing,Salaries,198950,189003,9947,5,
+2024-12-01,Marketing,Software Licenses,33350,28348,5002,15,
+2024-12-01,Operations,Office Supplies,16100,15617,483,3,
+2024-12-01,Operations,Equipment,3450,3209,241,7,
+2024-12-01,Operations,Insurance,34500,36915,-2415,-7,On track
+2024-12-01,Operations,Software Licenses,82800,89424,-6624,-8,
+2024-12-01,Operations,Consulting,28750,27025,1725,6,
+2024-12-01,G&A,Office Supplies,17250,18458,-1208,-7,
+2024-12-01,G&A,Utilities,29900,36777,-6877,-23,Urgent equipment replacement
+2024-12-01,G&A,Consulting,49450,58846,-9396,-19,Market expansion initiative
+2024-12-01,G&A,Training,9200,11040,-1840,-20,Market expansion initiative

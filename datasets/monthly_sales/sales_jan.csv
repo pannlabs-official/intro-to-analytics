@@ -1,0 +1,36 @@
+Order_ID,Order_Date,Ship_Date,Ship_Mode,Customer_ID,Customer_Name,Segment,Region,Country,City,Category,Sub_Category,Product_Name,Sales,Quantity,Discount,Profit,Cost
+ORD-0022,2024-01-28,2024-02-04,Standard Class,CUST-0121,Katya Al-Rashid,Home Office,Europe,France,Lyon,Office Supplies,Storage,Fellowes File Organiser,103.24,5,0.45,-5.61,108.85
+ORD-0032,2024-01-22,2024-01-26,Second Class,CUST-0094,Celine Garcia,Consumer,Europe,United Kingdom,London,Technology,Phones,Xiaomi 14,13046.7,6,0,5349.12,7697.58
+ORD-0064,2024-01-16,2024-01-18,First Class,CUST-0181,Juan Santos,Corporate,Asia Pacific,South Korea,Seoul,Technology,Phones,iPhone 15 Pro,9643.36,6,0.25,1285.78,8357.58
+ORD-0074,2024-01-16,2024-01-17,First Class,CUST-0054,Elise Suzuki,Consumer,Middle East & Africa,UAE,Dubai,Furniture,Bookcases,IKEA Billy,8937.72,8,0.1,2383.4,6554.32
+ORD-0078,2024-01-29,2024-01-29,Same Day,CUST-0166,Jide Nilsson,Home Office,North America,United States,New York,Technology,Phones,Samsung Galaxy S24,5524.81,6,0.4,184.15,5340.66
+ORD-0081,2024-01-14,2024-01-14,Same Day,CUST-0046,Kwame Takahashi,Corporate,North America,Canada,Toronto,Office Supplies,Storage,Fellowes File Organiser,48.8,2,0.35,5.26,43.54
+ORD-0094,2024-01-27,2024-01-27,Same Day,CUST-0189,Chioma Jensen,Home Office,North America,Canada,Montreal,Furniture,Tables,West Elm Box Frame Table,390.64,2,0.2,170.9,219.74
+ORD-0113,2024-01-11,2024-01-11,Same Day,CUST-0200,Petra Fernandez,Consumer,North America,United States,Chicago,Technology,Laptops,Dell XPS 15,376.65,1,0.45,-109.57,486.22
+ORD-0141,2024-01-06,2024-01-07,First Class,CUST-0128,Isabella Larsson,Home Office,North America,Canada,Montreal,Office Supplies,Binders,"Wilson Jones Binder 1""",59.19,7,0.3,2.56,56.63
+ORD-0161,2024-01-05,2024-01-08,First Class,CUST-0105,Aisha Wei,Consumer,North America,Canada,Toronto,Office Supplies,Storage,Staples Hanging Folders (25pk),813.2,8,0,276.48,536.72
+ORD-0164,2024-01-09,2024-01-09,Same Day,CUST-0153,Yuki Choudhury,Corporate,North America,United States,Chicago,Furniture,Tables,West Elm Box Frame Table,585.96,3,0.2,256.35,329.61
+ORD-0179,2024-01-06,2024-01-07,First Class,CUST-0161,Petra Andersen,Home Office,Europe,Netherlands,Rotterdam,Office Supplies,Pens,Paper Mate Flair (6pk),118.78,4,0.3,11.9,106.88
+ORD-0186,2024-01-18,2024-01-23,Second Class,CUST-0051,Tomoko Khan,Consumer,North America,United States,Houston,Office Supplies,Fasteners,Bostitch Paper Clips (1000),52.4,2,0.1,19.22,33.18
+ORD-0258,2024-01-25,2024-01-26,First Class,CUST-0109,Yuki Oliveira,Home Office,North America,Mexico,Guadalajara,Office Supplies,Pens,Paper Mate Flair (6pk),322.39,8,0.05,108.63,213.76
+ORD-0268,2024-01-11,2024-01-14,First Class,CUST-0178,Kwame Yamamoto,Home Office,North America,United States,Los Angeles,Technology,Phones,iPhone 15 Pro,4821.68,3,0.25,642.89,4178.79
+ORD-0274,2024-01-16,2024-01-23,Standard Class,CUST-0160,Yuki Adeyemi,Corporate,Latin America,Brazil,Rio de Janeiro,Technology,Accessories,Anker USB-C Hub,797.87,2,0.2,99.73,698.14
+ORD-0285,2024-01-02,2024-01-02,Same Day,CUST-0147,Sophie Anderson,Home Office,North America,United States,Phoenix,Office Supplies,Fasteners,ACCO Binder Clips Assorted,99.54,6,0.25,13.26,86.28
+ORD-0371,2024-01-12,2024-01-19,Standard Class,CUST-0042,Gloria Hassan,Home Office,North America,Mexico,Mexico City,Furniture,Desks,Flexispot E7,3284.16,6,0,1510.74,1773.42
+ORD-0482,2024-01-15,2024-01-17,First Class,CUST-0065,Ade Kobayashi,Corporate,North America,Mexico,Guadalajara,Office Supplies,Storage,Bankers Box File Storage,416.06,12,0.15,88.1,327.96
+ORD-0533,2024-01-16,2024-01-21,Second Class,CUST-0010,Fatima Eriksson,Consumer,North America,United States,Los Angeles,Furniture,Tables,West Elm Box Frame Table,183.11,1,0.25,73.24,109.87
+ORD-0543,2024-01-12,2024-01-18,Standard Class,CUST-0063,Leah Kato,Corporate,Asia Pacific,Australia,Sydney,Office Supplies,Art Supplies,Crayola Markers (64pk),532.48,7,0.1,213,319.48
+ORD-0545,2024-01-15,2024-01-17,First Class,CUST-0028,Ahmed Wei,Consumer,Europe,Germany,Munich,Office Supplies,Fasteners,Bostitch Paper Clips (1000),87.33,3,0,37.56,49.77
+ORD-0703,2024-01-05,2024-01-08,First Class,CUST-0046,Kwame Takahashi,Corporate,North America,Canada,Toronto,Technology,Tablets,Samsung Galaxy Tab S9,908.05,1,0.4,211.88,696.17
+ORD-0714,2024-01-10,2024-01-15,Standard Class,CUST-0067,Carmen Takahashi,Home Office,Europe,France,Marseille,Furniture,Tables,Article Seno Table,1633.87,3,0.2,428.89,1204.98
+ORD-0719,2024-01-19,2024-01-21,First Class,CUST-0072,Eva Jensen,Home Office,Europe,United Kingdom,Manchester,Office Supplies,Paper,Hammermill Copy Plus,380.09,7,0.15,67.05,313.04
+ORD-0727,2024-01-12,2024-01-12,Same Day,CUST-0110,Eva Costa,Corporate,North America,Mexico,Mexico City,Furniture,Desks,Flexispot E7,3831.52,7,0,1762.53,2068.99
+ORD-0745,2024-01-02,2024-01-09,Standard Class,CUST-0121,Katya Al-Rashid,Home Office,Europe,France,Lyon,Furniture,Desks,Flexispot E7,2736.8,5,0,1258.95,1477.85
+ORD-0766,2024-01-04,2024-01-09,Standard Class,CUST-0054,Elise Suzuki,Consumer,Middle East & Africa,UAE,Dubai,Technology,Accessories,Samsung T7 SSD,5986.57,5,0.05,1638.42,4348.15
+ORD-0849,2024-01-22,2024-01-25,Second Class,CUST-0090,Rosa Nilsson,Corporate,North America,Canada,Toronto,Technology,Phones,Samsung Galaxy S24,8287.22,6,0.1,2946.56,5340.66
+ORD-0879,2024-01-03,2024-01-03,Same Day,CUST-0123,Kwame Oliveira,Corporate,North America,Mexico,Mexico City,Technology,Laptops,ASUS ZenBook 14,241.11,3,0.1,83.04,158.07
+ORD-0891,2024-01-16,2024-01-16,Same Day,CUST-0110,Eva Costa,Corporate,North America,Mexico,Mexico City,Furniture,Bookcases,IKEA Billy,15330.67,13,0.05,4679.9,10650.77
+ORD-0916,2024-01-24,2024-01-30,Standard Class,CUST-0040,Roberto Nakamura,Consumer,Asia Pacific,South Korea,Seoul,Furniture,Bookcases,IKEA Billy,6703.29,6,0.1,1787.55,4915.74
+ORD-0974,2024-01-25,2024-01-28,First Class,CUST-0036,David Anderson,Home Office,Europe,Netherlands,Rotterdam,Office Supplies,Pens,Paper Mate Flair (6pk),139.99,6,0.45,-20.33,160.32
+ORD-0975,2024-01-06,2024-01-10,Second Class,CUST-0066,Nina Larsson,Home Office,North America,Mexico,Mexico City,Furniture,Tables,Article Seno Table,3063.51,5,0.1,1055.21,2008.3
+ORD-0984,2024-01-23,2024-01-28,Second Class,CUST-0037,Ayumi Holm,Home Office,Europe,United Kingdom,Manchester,Furniture,Desks,Uplift V2 Standing Desk,1342.59,1,0,389.35,953.24

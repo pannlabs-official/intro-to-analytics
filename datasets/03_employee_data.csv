@@ -1,0 +1,201 @@
+Employee_ID,First_Name,Last_Name,Gender,Age,Department,Job_Title,Hire_Date,Salary,Bonus_Pct,Performance_Rating,Satisfaction_Score,Attrition,Years_at_Company,Manager_ID,Office_Location
+EMP-001,Akiko,Jensen,Male,42,Legal,Manager,2022-11-20,80000,0.09,2,1,Yes,3,,Lagos
+EMP-002,Kwame,Watanabe,Male,34,Legal,Manager,2023-11-22,88000,0.19,3,3.2,Yes,2,,Singapore
+EMP-003,Marta,Nwosu,Female,40,Legal,Manager,2016-03-13,111000,0.18,5,5,No,9,,London
+EMP-004,Nina,Watanabe,Female,31,HR,Senior Manager,2020-08-14,114000,0.12,5,5,No,5,,Lagos
+EMP-005,Katya,Hassan,Non-Binary,34,Finance,Director,2020-08-19,156000,0.12,4,4.4,No,5,,London
+EMP-006,Luis,Osei,Male,40,Marketing,Senior Manager,2018-05-28,101000,0.01,2,2.8,No,7,,Lagos
+EMP-007,Gloria,Larsson,Male,37,Legal,Analyst,2019-04-02,51000,0.03,5,4.7,No,6,,Lagos
+EMP-008,Aisha,Sharma,Male,31,HR,Director,2024-04-07,115000,0.2,4,5,No,1,,Singapore
+EMP-009,Ayumi,Tanaka,Female,40,Operations,Analyst,2021-08-06,52000,0.23,5,4.2,No,4,EMP-006,Dubai
+EMP-010,Felix,Perez,Male,37,Finance,Senior Analyst,2023-05-10,90000,0.05,2,1.4,No,2,EMP-007,New York
+EMP-011,Hassan,Suzuki,Female,41,Engineering,Senior Analyst,2021-11-04,78000,0.2,4,4.2,No,4,EMP-003,Singapore
+EMP-012,Lars,Patel,Male,35,IT,Analyst,2017-12-24,58000,0.25,5,4.5,No,8,EMP-017,Lagos
+EMP-013,Shin,Kim,Female,48,Operations,Senior Manager,2019-01-08,102000,0.17,3,3.7,No,6,EMP-006,Lagos
+EMP-014,Elise,Ibrahim,Female,42,Marketing,Senior Analyst,2017-12-22,62000,0.09,4,4.7,No,8,EMP-012,New York
+EMP-015,Nina,Kobayashi,Female,38,Sales,Manager,2018-06-28,94000,0.16,2,3.2,No,7,EMP-011,Dubai
+EMP-016,David,Nilsson,Male,39,Marketing,Senior Analyst,2016-07-15,57000,0.23,4,5,No,9,EMP-012,Lagos
+EMP-017,Lars,Choudhury,Female,35,Finance,Senior Analyst,2015-06-08,66000,0.2,2,1.8,Yes,10,EMP-007,Singapore
+EMP-018,Lucia,Hayashi,Male,33,Marketing,Senior Analyst,2019-08-02,66000,0.08,3,1.6,Yes,6,EMP-012,London
+EMP-019,Koji,Khan,Male,35,Sales,Senior Analyst,2023-01-12,87000,0.18,4,3.7,No,2,EMP-011,London
+EMP-020,Henrik,Hayashi,Female,41,Marketing,Analyst,2024-02-14,47000,0.22,5,5,No,1,EMP-012,Singapore
+EMP-021,Kofi,Eriksson,Male,23,Legal,Analyst,2024-01-10,53000,0.2,1,1.9,Yes,1,EMP-005,Lagos
+EMP-022,Daichi,Suzuki,Male,49,HR,Director,2015-06-23,151000,0.07,2,1,Yes,10,EMP-001,New York
+EMP-023,Hanna,Schmidt,Female,40,Marketing,Analyst,2020-08-17,56000,0.03,3,3.6,No,5,EMP-012,London
+EMP-024,Raj,Lopez,Female,30,IT,Director,2018-07-24,115000,0.13,3,4,No,7,EMP-017,London
+EMP-025,Yuna,Okonkwo,Female,45,Engineering,Director,2015-01-22,126000,0.16,3,2.5,No,10,EMP-003,Lagos
+EMP-026,Paolo,Lindgren,Female,37,Engineering,Senior Analyst,2016-01-05,61000,0.21,5,4.8,Yes,9,EMP-003,Lagos
+EMP-027,Gloria,Lopez,Male,44,Operations,Analyst,2018-07-19,59000,0.19,5,4.5,No,7,EMP-006,Lagos
+EMP-028,Viktor,Johansson,Male,41,IT,Senior Analyst,2015-05-19,72000,0.06,3,2.2,Yes,10,EMP-017,New York
+EMP-029,Aisha,Berg,Non-Binary,50,IT,Manager,2015-11-25,104000,0.05,3,3.3,No,10,EMP-017,Dubai
+EMP-030,Yuna,Petrov,Male,47,Marketing,VP,2015-07-23,161000,0.16,3,4.3,No,10,EMP-012,Dubai
+EMP-031,Margot,Berg,Male,31,Legal,Senior Analyst,2023-08-06,81000,0.19,4,5,No,2,EMP-005,New York
+EMP-032,Emeka,Martinez,Female,47,IT,Director,2021-03-10,124000,0,3,2.6,No,4,EMP-017,Dubai
+EMP-033,Liam,Lindgren,Male,45,Marketing,Senior Manager,2021-12-07,138000,0.23,5,5,No,4,EMP-012,Singapore
+EMP-034,Bayo,Nwosu,Male,44,Sales,VP,2022-05-18,170000,0.11,4,2.8,No,3,EMP-011,Singapore
+EMP-035,Vera,Lindgren,Female,30,Sales,Senior Analyst,2023-04-24,72000,0.16,4,4.6,No,2,EMP-011,New York
+EMP-036,Henrik,Wei,Male,38,HR,Analyst,2022-05-24,52000,0.12,3,3.9,No,3,EMP-001,Singapore
+EMP-037,Elin,Lopez,Female,38,Operations,Manager,2024-07-13,108000,0.14,4,5,No,1,EMP-006,New York
+EMP-038,Kenji,Mueller,Male,50,Engineering,Analyst,2015-02-19,64000,0.16,3,1.8,Yes,10,EMP-003,New York
+EMP-039,Raj,Tanaka,Non-Binary,31,Engineering,Senior Analyst,2023-01-28,61000,0.23,4,4.5,No,2,EMP-003,London
+EMP-040,Celine,Gustafsson,Non-Binary,40,IT,Analyst,2022-01-17,42000,0.12,4,2.9,Yes,3,EMP-017,Dubai
+EMP-041,Carmen,Khan,Male,50,HR,Manager,2016-01-09,109000,0.21,4,3.8,Yes,9,EMP-001,Lagos
+EMP-042,Femi,Larsson,Male,40,Engineering,Director,2022-11-03,156000,0.14,3,2.5,No,3,EMP-003,Lagos
+EMP-043,Isabella,Hayashi,Female,39,Finance,Analyst,2016-09-28,58000,0.24,3,4.5,No,9,EMP-007,Lagos
+EMP-044,Andre,Holm,Female,37,Marketing,Senior Analyst,2021-05-28,68000,0.24,5,5,No,4,EMP-012,Singapore
+EMP-045,Daichi,Al-Rashid,Female,43,Sales,Senior Analyst,2017-07-17,70000,0.25,3,4.4,No,8,EMP-011,Singapore
+EMP-046,Femi,Kato,Female,43,Sales,Director,2016-10-04,143000,0.13,3,2.5,Yes,9,EMP-011,New York
+EMP-047,Segun,Perez,Male,39,HR,Analyst,2016-09-15,54000,0.13,3,4.2,No,9,EMP-001,London
+EMP-048,Ana,Nwosu,Female,36,Finance,Manager,2021-08-05,95000,0.1,2,2.4,Yes,4,EMP-007,Dubai
+EMP-049,Hassan,Larsson,Male,46,Operations,Senior Analyst,2020-06-28,89000,0.18,4,3,Yes,5,EMP-006,Singapore
+EMP-050,Ayumi,Nwosu,Male,28,Operations,Analyst,2021-04-02,63000,0.12,3,3,No,4,EMP-006,Lagos
+EMP-051,Greta,Suzuki,Non-Binary,39,Marketing,Analyst,2020-07-08,56000,0.21,4,4.7,Yes,5,EMP-012,New York
+EMP-052,Emeka,Tanaka,Female,30,HR,Manager,2023-12-26,101000,0.2,4,4.1,No,2,EMP-001,Dubai
+EMP-053,Ryu,Al-Rashid,Male,29,HR,Senior Manager,2021-02-22,96000,0.23,3,1.8,Yes,4,EMP-001,Singapore
+EMP-054,Petra,Kato,Female,38,IT,Senior Manager,2024-01-24,106000,0.01,2,1,Yes,1,EMP-017,New York
+EMP-055,Chen,Costa,Female,25,Sales,Analyst,2023-08-23,60000,0.11,2,1.6,Yes,2,EMP-011,Dubai
+EMP-056,Haruto,Okonkwo,Male,33,Finance,Senior Analyst,2024-01-15,72000,0.07,2,1.3,Yes,1,EMP-007,Lagos
+EMP-057,Oluwaseun,Wei,Male,43,Sales,Analyst,2024-09-24,39000,0.01,3,4.1,No,1,EMP-011,Singapore
+EMP-058,Takeshi,Eriksson,Male,29,HR,Senior Manager,2021-02-07,121000,0.11,4,4.9,No,4,EMP-001,Singapore
+EMP-059,Daichi,Larsson,Female,30,HR,Manager,2020-10-16,77000,0.05,5,5,No,5,EMP-001,London
+EMP-060,Viktor,Okonkwo,Male,37,Engineering,Senior Analyst,2024-10-03,61000,0.06,4,2.7,Yes,1,EMP-003,New York
+EMP-061,Maria,Choudhury,Male,31,Legal,Manager,2020-06-28,105000,0.19,4,4.1,No,5,EMP-005,London
+EMP-062,Gloria,Schmidt,Female,45,Legal,Analyst,2016-12-08,46000,0.01,2,1.1,No,9,EMP-005,London
+EMP-063,Ingrid,Lindgren,Male,41,Engineering,Manager,2020-04-07,115000,0.01,2,2.8,Yes,5,EMP-003,New York
+EMP-064,Hiroshi,Nwosu,Male,44,Finance,Senior Analyst,2015-05-03,84000,0.17,2,3.1,No,10,EMP-007,Lagos
+EMP-065,David,Costa,Male,47,Sales,Manager,2019-02-19,73000,0.18,1,2.3,No,6,EMP-011,Dubai
+EMP-066,Omar,Costa,Non-Binary,39,Finance,Senior Manager,2016-03-11,130000,0.19,1,2.2,No,9,EMP-007,Dubai
+EMP-067,Sarah,Johansson,Female,30,Sales,Senior Analyst,2021-01-13,78000,0.05,3,3.9,No,4,EMP-011,Lagos
+EMP-068,Henrik,Hayashi,Male,37,Operations,Senior Manager,2020-07-25,114000,0.24,5,3.9,No,5,EMP-006,New York
+EMP-069,Henrik,Tanaka,Female,36,Marketing,Senior Analyst,2018-01-23,59000,0.19,3,3.5,No,7,EMP-012,Singapore
+EMP-070,Segun,Hassan,Male,39,Marketing,Analyst,2023-05-06,58000,0.22,4,5,No,2,EMP-012,Singapore
+EMP-071,Signe,Ibrahim,Female,48,Finance,Manager,2015-08-05,84000,0.02,4,4.7,No,10,EMP-007,Singapore
+EMP-072,Nadia,Nilsson,Female,44,Sales,Analyst,2015-02-27,65000,0.1,2,2.1,Yes,10,EMP-011,London
+EMP-073,Felix,Larsson,Female,40,Legal,Analyst,2016-09-15,49000,0.23,5,3.9,No,9,EMP-005,New York
+EMP-074,Greta,Yamamoto,Male,35,Marketing,Director,2024-11-26,157000,0.07,5,5,Yes,1,EMP-012,New York
+EMP-075,Elena,Watanabe,Non-Binary,30,Legal,Senior Analyst,2024-06-20,82000,0.24,3,3.1,No,1,EMP-005,Singapore
+EMP-076,Elise,Khan,Female,39,Marketing,Senior Analyst,2020-11-21,86000,0.06,2,1.5,Yes,5,EMP-012,London
+EMP-077,David,Ali,Non-Binary,36,Marketing,Analyst,2019-07-15,47000,0.14,3,2,Yes,6,EMP-012,New York
+EMP-078,Tomoko,Kobayashi,Female,42,Sales,Analyst,2020-04-11,38000,0.05,4,5,Yes,5,EMP-011,Lagos
+EMP-079,Zara,Lindgren,Male,40,Legal,Analyst,2015-01-28,48000,0.19,4,5,No,10,EMP-005,Dubai
+EMP-080,Koji,Okonkwo,Female,36,Operations,Senior Analyst,2019-12-04,71000,0.17,3,3.3,Yes,6,EMP-006,Dubai
+EMP-081,Carmen,Santos,Male,48,Operations,Analyst,2017-06-21,62000,0.15,3,3.4,No,8,EMP-006,Lagos
+EMP-082,Akiko,Nwosu,Non-Binary,44,Sales,Senior Manager,2020-06-02,144000,0.03,5,5,No,5,EMP-011,Lagos
+EMP-083,Kofi,Adeyemi,Female,41,Marketing,Manager,2018-05-07,85000,0.23,4,5,No,7,EMP-012,Lagos
+EMP-084,Chen,Lindgren,Female,38,IT,Senior Analyst,2020-05-22,78000,0.03,3,2.9,No,5,EMP-017,Singapore
+EMP-085,Emeka,Choudhury,Female,43,Finance,Manager,2021-05-09,104000,0.09,2,2.8,No,4,EMP-007,London
+EMP-086,Yuki,Santos,Female,46,Finance,Analyst,2018-09-25,61000,0.12,3,4.4,Yes,7,EMP-007,Lagos
+EMP-087,Bayo,Johansson,Female,31,Finance,Senior Analyst,2022-04-19,55000,0.16,1,2.5,No,3,EMP-007,London
+EMP-088,Kofi,Kato,Female,35,Sales,Director,2015-12-21,111000,0.11,4,4.2,Yes,10,EMP-011,London
+EMP-089,Olga,Martinez,Male,32,Operations,Senior Analyst,2020-10-07,80000,0.11,3,1.6,No,5,EMP-006,Dubai
+EMP-090,Tomoko,Costa,Female,51,Marketing,Analyst,2016-04-13,61000,0.04,4,3.1,No,9,EMP-012,London
+EMP-091,Leah,Okonkwo,Male,28,Sales,Senior Manager,2023-08-27,142000,0.13,5,4.1,No,2,EMP-011,Lagos
+EMP-092,Freya,Lopez,Male,42,IT,Analyst,2017-09-05,55000,0.19,3,4.1,No,8,EMP-017,Lagos
+EMP-093,Koji,Tanaka,Male,33,Engineering,Senior Manager,2018-03-13,109000,0.04,2,2.9,No,7,EMP-003,New York
+EMP-094,Petra,Berg,Male,36,Sales,VP,2018-02-24,156000,0.19,3,1.5,Yes,7,EMP-011,Lagos
+EMP-095,Lucia,Silva,Female,28,Marketing,Analyst,2023-02-11,51000,0.23,3,2.4,Yes,2,EMP-012,Singapore
+EMP-096,Marta,Lopez,Male,31,Operations,Director,2024-01-09,135000,0.07,4,3.5,No,1,EMP-006,Lagos
+EMP-097,Patrick,Santos,Male,39,Engineering,Senior Analyst,2017-12-12,82000,0.14,4,4.7,Yes,8,EMP-003,London
+EMP-098,Hans,Lopez,Male,41,Engineering,Analyst,2017-02-06,46000,0.19,2,1,No,8,EMP-003,London
+EMP-099,Andre,Oliveira,Male,35,Finance,Senior Manager,2019-09-13,96000,0.08,5,5,Yes,6,EMP-007,New York
+EMP-100,Diya,Yamamoto,Male,48,Finance,Analyst,2015-12-12,61000,0.05,4,5,No,10,EMP-007,New York
+EMP-101,Bayo,Schmidt,Male,36,HR,Senior Manager,2015-07-20,132000,0.2,4,5,Yes,10,EMP-001,Lagos
+EMP-102,Sarah,Hayashi,Female,32,IT,Senior Analyst,2021-07-22,79000,0.17,5,5,No,4,EMP-017,Lagos
+EMP-103,Carmen,Garcia,Male,24,HR,Analyst,2023-09-16,55000,0.03,3,3.8,No,2,EMP-001,London
+EMP-104,Lucia,Lopez,Female,43,HR,Senior Analyst,2020-09-05,87000,0.11,3,3.5,No,5,EMP-001,New York
+EMP-105,Petra,Kobayashi,Male,30,Marketing,Senior Analyst,2022-06-15,78000,0.1,4,2.9,No,3,EMP-012,Singapore
+EMP-106,Femi,Nilsson,Male,42,IT,Analyst,2017-11-01,49000,0.04,3,2.8,No,8,EMP-017,London
+EMP-107,John,Yamamoto,Male,37,Marketing,Director,2020-12-20,144000,0.06,3,4.1,No,5,EMP-012,London
+EMP-108,Elin,Watanabe,Male,40,Engineering,Manager,2023-10-26,79000,0.06,5,3.9,No,2,EMP-003,Singapore
+EMP-109,Ana,Khan,Female,36,Operations,Analyst,2022-04-17,59000,0.08,5,5,Yes,3,EMP-006,Singapore
+EMP-110,Tariq,Kobayashi,Female,43,Engineering,Manager,2016-12-17,101000,0.19,4,3.3,No,9,EMP-003,Lagos
+EMP-111,Obinna,Kato,Female,29,HR,Analyst,2020-04-15,44000,0.02,3,4.3,No,5,EMP-001,Lagos
+EMP-112,Hans,Osei,Male,53,Sales,Manager,2015-08-21,90000,0.22,5,4.4,No,10,EMP-011,New York
+EMP-113,Zara,Nakamura,Non-Binary,28,Legal,Analyst,2024-10-16,56000,0.16,5,4.7,No,1,EMP-005,Singapore
+EMP-114,Tunde,Sharma,Female,32,HR,Senior Analyst,2024-08-24,66000,0.14,3,3.6,No,1,EMP-001,Lagos
+EMP-115,Kola,Osei,Male,35,IT,Senior Analyst,2024-07-15,83000,0.18,4,5,No,1,EMP-017,Lagos
+EMP-116,Hans,Lopez,Female,34,Legal,Senior Analyst,2018-02-14,62000,0.2,3,3,No,7,EMP-005,Dubai
+EMP-117,Julia,Suzuki,Male,37,IT,Senior Manager,2023-12-01,138000,0.12,3,1.6,Yes,2,EMP-017,Singapore
+EMP-118,David,Nakamura,Male,43,Marketing,Senior Analyst,2023-01-13,57000,0.14,1,1,No,2,EMP-012,Lagos
+EMP-119,Maria,Lindgren,Non-Binary,28,HR,Senior Analyst,2021-06-07,75000,0.06,4,5,No,4,EMP-001,New York
+EMP-120,Freya,Lopez,Female,35,Legal,Director,2016-10-19,137000,0.24,4,5,No,9,EMP-005,Singapore
+EMP-121,Olga,Sato,Non-Binary,36,Operations,Senior Manager,2020-09-15,110000,0.15,3,2.7,No,5,EMP-006,New York
+EMP-122,Sakura,Santos,Female,32,Marketing,Senior Analyst,2024-10-16,71000,0.19,5,5,No,1,EMP-012,London
+EMP-123,Raj,Ali,Male,35,Finance,Senior Manager,2019-01-12,128000,0.08,3,2.2,No,6,EMP-007,Singapore
+EMP-124,Astrid,Eriksson,Female,46,Finance,Senior Analyst,2021-11-24,82000,0.21,4,4.7,Yes,4,EMP-007,Dubai
+EMP-125,Isabella,Sato,Male,35,HR,Analyst,2019-12-17,50000,0.08,3,2.4,No,6,EMP-001,London
+EMP-126,Elise,Sato,Female,41,Marketing,Director,2019-10-06,112000,0.12,4,4,No,6,EMP-012,Lagos
+EMP-127,Kenji,Silva,Non-Binary,40,Engineering,VP,2024-09-01,173000,0.08,4,4.5,No,1,EMP-003,London
+EMP-128,Katya,Watanabe,Male,36,Sales,Analyst,2017-04-17,41000,0.23,4,3.2,No,8,EMP-011,London
+EMP-129,Zara,Ito,Female,39,Marketing,Analyst,2021-07-24,57000,0.05,2,1,Yes,4,EMP-012,Singapore
+EMP-130,Daichi,Oliveira,Male,32,Operations,Senior Analyst,2024-02-28,89000,0.12,4,3.1,No,1,EMP-006,New York
+EMP-131,Kenji,Martinez,Non-Binary,36,Operations,Director,2022-04-04,125000,0.2,4,4.5,No,3,EMP-006,Dubai
+EMP-132,Yuna,Nilsson,Non-Binary,36,IT,Senior Analyst,2016-10-23,63000,0.21,3,4.2,No,9,EMP-017,Dubai
+EMP-133,Idris,Nilsson,Female,42,Engineering,Senior Analyst,2018-11-24,77000,0.15,4,3.4,No,7,EMP-003,London
+EMP-134,Oluwaseun,Oliveira,Male,41,Sales,Senior Analyst,2015-11-13,88000,0.04,2,2.7,Yes,10,EMP-011,Singapore
+EMP-135,Ahmed,Berg,Male,32,Sales,Senior Manager,2023-07-18,103000,0.17,3,2.6,Yes,2,EMP-011,London
+EMP-136,Mina,Kim,Male,34,Legal,Senior Manager,2024-05-10,139000,0.07,3,4,No,1,EMP-005,Dubai
+EMP-137,Nina,Ito,Female,34,Sales,Senior Analyst,2020-03-02,63000,0.18,4,5,No,5,EMP-011,Dubai
+EMP-138,Tariq,Osei,Non-Binary,46,Finance,Manager,2016-10-10,103000,0.04,2,1,No,9,EMP-007,Lagos
+EMP-139,Kofi,Ito,Female,30,HR,Senior Manager,2021-08-13,135000,0.12,3,3.5,No,4,EMP-001,London
+EMP-140,Luis,Jensen,Male,47,IT,Analyst,2019-05-22,41000,0.14,4,4,Yes,6,EMP-017,London
+EMP-141,Luis,Fernandez,Female,47,IT,Senior Manager,2016-03-02,123000,0.06,2,1.3,No,9,EMP-017,New York
+EMP-142,Akiko,Nilsson,Female,36,Operations,Manager,2023-09-15,86000,0.07,3,3.5,No,2,EMP-006,Singapore
+EMP-143,Kwame,Oliveira,Female,33,Legal,VP,2020-02-06,133000,0.1,4,4.5,No,5,EMP-005,Singapore
+EMP-144,Patrick,Hassan,Non-Binary,32,Operations,Analyst,2018-04-14,60000,0,4,4.7,No,7,EMP-006,New York
+EMP-145,Lars,Sharma,Female,40,Finance,Manager,2020-10-03,100000,0.02,3,2.3,No,5,EMP-007,London
+EMP-146,Chen,Suzuki,Male,28,IT,Senior Analyst,2022-01-05,71000,0.05,4,3.2,No,3,EMP-017,Lagos
+EMP-147,Diego,Hassan,Male,34,Sales,Senior Manager,2019-08-06,129000,0.14,3,4.1,No,6,EMP-011,Dubai
+EMP-148,Olga,Gustafsson,Non-Binary,44,Sales,Analyst,2015-06-11,61000,0.17,5,5,No,10,EMP-011,Dubai
+EMP-149,Daichi,Ali,Female,46,Engineering,Analyst,2015-08-17,61000,0.23,3,2,No,10,EMP-003,New York
+EMP-150,Kenji,Hassan,Female,29,Legal,Manager,2024-04-12,74000,0.16,4,2.6,No,1,EMP-005,Dubai
+EMP-151,Freya,Kobayashi,Male,47,Operations,Analyst,2016-03-21,47000,0.11,3,1.6,Yes,9,EMP-006,Singapore
+EMP-152,Maria,Watanabe,Female,44,Sales,Senior Manager,2018-12-10,106000,0.2,5,5,No,7,EMP-011,Singapore
+EMP-153,Bayo,Khan,Male,39,Sales,VP,2024-08-18,161000,0.23,3,1.7,No,1,EMP-011,New York
+EMP-154,Mina,Nwosu,Non-Binary,37,Sales,Senior Analyst,2016-12-12,56000,0.24,5,3.7,No,9,EMP-011,Lagos
+EMP-155,Yuna,Larsson,Female,36,Legal,Senior Analyst,2021-03-17,71000,0.17,4,4.5,No,4,EMP-005,New York
+EMP-156,Yuki,Yamamoto,Female,38,Engineering,Manager,2015-06-10,89000,0.06,5,5,No,10,EMP-003,New York
+EMP-157,Henrik,Andersen,Non-Binary,45,Marketing,Senior Analyst,2015-04-05,58000,0.04,3,1.6,Yes,10,EMP-012,Singapore
+EMP-158,Juan,Berg,Male,33,Engineering,Senior Analyst,2024-04-05,71000,0.23,4,3.6,No,1,EMP-003,Singapore
+EMP-159,Jide,Petrov,Female,46,Marketing,Manager,2016-05-06,112000,0.04,2,1,Yes,9,EMP-012,New York
+EMP-160,Gloria,Kim,Male,27,Sales,Director,2024-10-20,153000,0.12,4,4.1,No,1,EMP-011,New York
+EMP-161,Jide,Andersen,Male,33,Operations,Senior Manager,2021-02-16,127000,0.09,4,4.1,No,4,EMP-006,Dubai
+EMP-162,Rafael,Rodriguez,Male,33,Operations,Analyst,2021-06-01,59000,0.11,2,1,Yes,4,EMP-006,New York
+EMP-163,Carmen,Costa,Male,37,Engineering,Analyst,2016-04-25,60000,0.06,3,4.3,No,9,EMP-003,Lagos
+EMP-164,Elin,Gustafsson,Female,43,Marketing,Analyst,2016-12-11,37000,0.04,5,5,No,9,EMP-012,Singapore
+EMP-165,Leah,Hassan,Male,42,Marketing,Senior Analyst,2021-12-27,76000,0.24,4,5,No,4,EMP-012,Dubai
+EMP-166,Haruto,Larsson,Female,36,Sales,Senior Analyst,2017-02-15,79000,0.2,2,1,Yes,8,EMP-011,New York
+EMP-167,James,Khan,Female,41,Legal,Senior Analyst,2023-08-22,70000,0.14,2,1,Yes,2,EMP-005,New York
+EMP-168,Ingrid,Kim,Female,43,HR,Manager,2024-04-03,79000,0.14,3,3.9,Yes,1,EMP-001,London
+EMP-169,Abdul,Nilsson,Female,45,Engineering,VP,2017-04-18,157000,0,3,2.7,Yes,8,EMP-003,Dubai
+EMP-170,Hiroshi,Watanabe,Male,35,Operations,Senior Manager,2022-04-25,106000,0.12,3,3.9,No,3,EMP-006,London
+EMP-171,Astrid,Yamamoto,Non-Binary,31,Legal,Senior Analyst,2017-08-23,67000,0.17,4,2.7,No,8,EMP-005,Lagos
+EMP-172,Yuki,Ibrahim,Male,42,Engineering,Senior Analyst,2018-09-27,68000,0.07,2,1.2,No,7,EMP-003,Dubai
+EMP-173,David,Suzuki,Female,28,HR,Senior Manager,2023-04-28,124000,0.02,4,3.1,No,2,EMP-001,New York
+EMP-174,Liam,Nilsson,Male,39,HR,Senior Analyst,2022-02-09,66000,0.06,4,4.5,No,3,EMP-001,Dubai
+EMP-175,Nadia,Andersen,Female,36,Engineering,Manager,2024-11-04,78000,0.23,3,2.3,Yes,1,EMP-003,Dubai
+EMP-176,Tadashi,Suzuki,Female,39,Sales,VP,2016-12-26,154000,0.15,5,5,Yes,9,EMP-011,Lagos
+EMP-177,Jide,Watanabe,Female,45,HR,Manager,2022-09-06,91000,0.07,3,3.1,No,3,EMP-001,London
+EMP-178,Raj,Yamamoto,Female,36,Marketing,Senior Analyst,2018-11-17,76000,0.02,3,2.6,No,7,EMP-012,Singapore
+EMP-179,Ayumi,Jensen,Male,43,Legal,Manager,2018-11-13,73000,0.14,4,5,No,7,EMP-005,London
+EMP-180,Carmen,Santos,Male,34,Legal,Senior Analyst,2016-06-02,65000,0.24,3,3.1,No,9,EMP-005,Lagos
+EMP-181,Carlos,Lopez,Male,39,Legal,Analyst,2021-04-07,62000,0.2,1,1,Yes,4,EMP-005,Singapore
+EMP-182,Celine,Andersen,Male,34,Operations,Senior Analyst,2023-06-22,75000,0.07,4,3.8,No,2,EMP-006,London
+EMP-183,Sakura,Watanabe,Female,41,Legal,Senior Analyst,2020-04-27,66000,0.03,2,1,No,5,EMP-005,New York
+EMP-184,Omar,Patel,Female,43,IT,Senior Analyst,2015-03-17,69000,0.23,2,3.5,No,10,EMP-017,Singapore
+EMP-185,Greta,Nilsson,Male,29,Engineering,VP,2023-02-02,184000,0.23,4,3.5,Yes,2,EMP-003,Singapore
+EMP-186,Greta,Ibrahim,Non-Binary,35,IT,Senior Analyst,2018-06-05,60000,0.15,2,1.2,Yes,7,EMP-017,Dubai
+EMP-187,Signe,Fernandez,Male,42,Marketing,Senior Analyst,2018-11-12,58000,0.22,4,5,No,7,EMP-012,New York
+EMP-188,Carmen,Hayashi,Female,37,HR,Analyst,2022-10-14,42000,0.18,3,2.8,No,3,EMP-001,London
+EMP-189,Sakura,Al-Rashid,Non-Binary,44,HR,Senior Manager,2019-05-22,138000,0.07,3,4.3,No,6,EMP-001,Singapore
+EMP-190,Emeka,Nwosu,Male,41,Marketing,Analyst,2021-10-28,57000,0.01,4,4.9,No,4,EMP-012,Dubai
+EMP-191,Celine,Berg,Female,35,Finance,Analyst,2021-10-20,55000,0.15,5,4.2,No,4,EMP-007,Dubai
+EMP-192,Ahmed,Fernandez,Female,40,Sales,Analyst,2023-10-01,43000,0.1,3,3.9,Yes,2,EMP-011,Dubai
+EMP-193,Nina,Kobayashi,Male,30,Marketing,Analyst,2019-05-25,41000,0.17,3,3.3,No,6,EMP-012,Lagos
+EMP-194,Tariq,Sato,Male,43,Sales,Manager,2015-10-06,95000,0.05,3,3.1,No,10,EMP-011,Singapore
+EMP-195,Mei,Ito,Male,30,Operations,Analyst,2019-01-12,49000,0.05,1,1,No,6,EMP-006,Lagos
+EMP-196,Diya,Nilsson,Male,40,Marketing,Analyst,2019-09-28,42000,0.24,4,4.1,No,6,EMP-012,London
+EMP-197,Kola,Ibrahim,Female,31,Marketing,Manager,2021-06-15,72000,0.24,5,5,Yes,4,EMP-012,Lagos
+EMP-198,Marcus,Santos,Female,42,Finance,Analyst,2018-12-20,39000,0.04,3,1.8,Yes,7,EMP-007,Lagos
+EMP-199,Hanna,Lindgren,Female,45,Finance,Manager,2015-02-23,112000,0.13,1,1,Yes,10,EMP-007,Dubai
+EMP-200,Elise,Khan,Male,41,Finance,Manager,2019-04-18,77000,0.18,4,3.5,No,6,EMP-007,Singapore

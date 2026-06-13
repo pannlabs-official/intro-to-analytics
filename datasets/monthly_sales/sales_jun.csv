@@ -1,0 +1,26 @@
+Order_ID,Order_Date,Ship_Date,Ship_Mode,Customer_ID,Cust_Name,Segment,Region,Country,City,Category,Sub_Category,Product_Name,Sales,Quantity,Discount,Profit,Cost
+ORD-0039,2024-06-28,2024-07-03,Standard Class,CUST-0150,Juan Ibrahim,Corporate,Europe,France,Lyon,Furniture,Desks,Flexispot E7,1313.66,3,0.2,426.95,886.71
+ORD-0050,2024-06-12,2024-06-19,Standard Class,CUST-0146,Daichi Eriksson,Corporate,North America,United States,Phoenix,Office Supplies,Paper,HP Premium Paper A4,85.67,1,0,42.83,42.84
+ORD-0099,2024-06-13,2024-06-17,Second Class,CUST-0109,Yuki Oliveira,Home Office,North America,Mexico,Guadalajara,Technology,Tablets,iPad Air,9267.98,8,0.45,1348.06,7919.92
+ORD-0145,2024-06-29,2024-07-06,Standard Class,CUST-0161,Petra Andersen,Home Office,Europe,Netherlands,Rotterdam,Technology,Phones,Xiaomi 14,8697.8,4,0,3566.08,5131.72
+ORD-0210,2024-06-05,2024-06-07,First Class,CUST-0168,Aisha Eriksson,Home Office,Europe,Germany,Hamburg,Office Supplies,Storage,Bankers Box File Storage,81.58,2,0,26.92,54.66
+ORD-0220,2024-06-22,2024-06-24,First Class,CUST-0080,Maria Jensen,Home Office,North America,Mexico,Guadalajara,Technology,Phones,iPhone 15 Pro,10500.55,7,0.3,750.04,9750.51
+ORD-0244,2024-06-15,2024-06-20,Standard Class,CUST-0157,Daichi Larsson,Home Office,Europe,France,Marseille,Furniture,Bookcases,IKEA Billy,4655.06,5,0.25,558.61,4096.45
+ORD-0277,2024-06-07,2024-06-12,Second Class,CUST-0101,Priya Santos,Home Office,Europe,Netherlands,Rotterdam,Technology,Phones,OnePlus 12,4224.9,6,0.05,1378.68,2846.22
+ORD-0284,2024-06-18,2024-06-20,First Class,CUST-0147,Sophie Anderson,Home Office,North America,United States,Phoenix,Office Supplies,Envelopes,JAM Paper A7 Invitation Envelopes,214.12,4,0,83.52,130.6
+ORD-0333,2024-06-24,2024-06-27,Second Class,CUST-0109,Yuki Oliveira,Home Office,North America,Mexico,Guadalajara,Office Supplies,Paper,HP Premium Paper A4,321.26,5,0.25,107.06,214.2
+ORD-0354,2024-06-16,2024-06-20,Second Class,CUST-0080,Maria Jensen,Home Office,North America,Mexico,Guadalajara,Technology,Accessories,Logitech MX Master 3S,1058.74,2,0,328.2,730.54
+ORD-0357,2024-06-26,2024-07-02,Standard Class,CUST-0142,Olga Hassan,Corporate,Europe,United Kingdom,Edinburgh,Office Supplies,Art Supplies,Crayola Markers (64pk),338.08,4,0,155.52,182.56
+ORD-0361,2024-06-09,2024-06-16,Standard Class,CUST-0100,Eva Martinez,Home Office,Europe,France,Lyon,Furniture,Desks,Flexispot E7,2490.49,7,0.35,421.5,2068.99
+ORD-0393,2024-06-26,2024-07-02,Standard Class,CUST-0057,Nina Perez,Corporate,Middle East & Africa,UAE,Dubai,Furniture,Desks,Autonomous SmartDesk,433.73,4,0.4,-36.15,469.88
+ORD-0474,2024-06-27,2024-06-29,First Class,CUST-0115,Mei Schmidt,Home Office,Latin America,Argentina,Buenos Aires,Technology,Phones,Samsung Galaxy S24,8594.15,7,0.2,2363.38,6230.77
+ORD-0477,2024-06-26,2024-07-02,Standard Class,CUST-0087,Tomoko Takahashi,Consumer,Latin America,Brazil,Rio de Janeiro,Office Supplies,Paper,HP Premium Paper A4,509.74,7,0.15,209.86,299.88
+ORD-0581,2024-06-25,2024-06-29,Second Class,CUST-0115,Mei Schmidt,Home Office,Latin America,Argentina,Buenos Aires,Office Supplies,Pens,Pilot G2 Gel Pen (12pk),103.27,2,0.25,4.13,99.14
+ORD-0598,2024-06-21,2024-06-26,Standard Class,CUST-0058,Chen Ali,Corporate,Europe,United Kingdom,Manchester,Furniture,Tables,IKEA Lisabo Dining Table,1699.02,1,0,866.5,832.52
+ORD-0660,2024-06-05,2024-06-05,Same Day,CUST-0018,Patrick Schmidt,Consumer,North America,Mexico,Mexico City,Office Supplies,Labels,Brother P-Touch Labels,262.82,3,0.25,87.59,175.23
+ORD-0663,2024-06-20,2024-06-26,Standard Class,CUST-0172,Nadia Lopez,Home Office,North America,United States,New York,Technology,Laptops,Dell XPS 15,650.58,1,0.05,164.36,486.22
+ORD-0767,2024-06-07,2024-06-07,Same Day,CUST-0127,Kofi Lopez,Home Office,North America,Mexico,Guadalajara,Office Supplies,Storage,Bankers Box File Storage,214.15,7,0.25,22.84,191.31
+ORD-0800,2024-06-15,2024-06-15,Same Day,CUST-0115,Mei Schmidt,Home Office,Latin America,Argentina,Buenos Aires,Technology,Accessories,Apple AirPods Pro,10361.92,8,0.05,5344.56,5017.36
+ORD-0829,2024-06-11,2024-06-16,Second Class,CUST-0187,Koji Lindgren,Consumer,Latin America,Argentina,Cordoba,Technology,Accessories,Anker USB-C Hub,274.27,1,0.45,-74.8,349.07
+ORD-0863,2024-06-19,2024-06-26,Standard Class,CUST-0050,Hassan Tanaka,Home Office,North America,United States,Chicago,Technology,Accessories,Logitech MX Master 3S,1429.3,3,0.1,333.49,1095.81
+ORD-0981,2024-06-07,2024-06-10,First Class,CUST-0023,Isabella Martinez,Corporate,North America,United States,Chicago,Office Supplies,Labels,Brother P-Touch Labels,747.58,8,0.2,280.3,467.28

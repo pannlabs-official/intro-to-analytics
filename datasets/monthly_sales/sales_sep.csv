@@ -1,0 +1,27 @@
+Order_ID,Order_Date,Ship_Date,Ship_Mode,Customer_ID,Customer_Name,Segment,Region,Country,City,Category,Sub_Category,Product_Name,Sales,Quantity,Discount,Profit,Cost
+ORD-0024,2024-09-07,2024-09-07,Same Day,CUST-0015,Hassan Perez,Home Office,North America,United States,Chicago,Office Supplies,Labels,Brother P-Touch Labels,350.43,4,0.25,116.79,233.64
+ORD-0056,2024-09-10,2024-09-14,Second Class,CUST-0139,Astrid Nwosu,Home Office,North America,Canada,Montreal,Furniture,Desks,Autonomous SmartDesk,1265.04,7,0,442.75,822.29
+ORD-0076,2024-09-05,2024-09-08,Second Class,CUST-0155,Olga Martinez,Consumer,North America,United States,Phoenix,Technology,Phones,Samsung Galaxy S24,3990.14,4,0.35,429.7,3560.44
+ORD-0131,2024-09-17,2024-09-19,First Class,CUST-0046,Kwame Takahashi,Corporate,North America,Canada,Toronto,Office Supplies,Fasteners,Bostitch Paper Clips (1000),55.31,2,0.05,22.13,33.18
+ORD-0234,2024-09-12,2024-09-17,Second Class,CUST-0188,Chidi Larsson,Corporate,North America,United States,Phoenix,Furniture,Chairs,Autonomous ErgoChair,2682.74,7,0.2,536.54,2146.2
+ORD-0238,2024-09-06,2024-09-09,Second Class,CUST-0113,Gloria Nilsson,Consumer,Asia Pacific,Australia,Melbourne,Technology,Accessories,Samsung T7 SSD,1197.31,1,0.05,327.68,869.63
+ORD-0245,2024-09-14,2024-09-17,First Class,CUST-0121,Katya Al-Rashid,Home Office,Europe,France,Lyon,Furniture,Tables,West Elm Box Frame Table,1757.88,12,0.4,439.44,1318.44
+ORD-0264,2024-09-14,2024-09-14,Same Day,CUST-0063,Leah Kato,Corporate,Asia Pacific,Australia,Sydney,Technology,Laptops,ASUS ZenBook 14,290.23,5,0.35,26.78,263.45
+ORD-0275,2024-09-05,2024-09-05,Same Day,CUST-0195,Sophie Johansson,Consumer,Latin America,Colombia,Medellin,Technology,Accessories,Anker USB-C Hub,2493.35,5,0,748,1745.35
+ORD-0283,2024-09-20,2024-09-21,First Class,CUST-0039,Freya Costa,Corporate,Europe,Netherlands,Rotterdam,Technology,Tablets,iPad Air,7582.9,4,0.1,3622.94,3959.96
+ORD-0293,2024-09-27,2024-09-27,Same Day,CUST-0017,Diego Lopez,Corporate,Europe,Netherlands,Rotterdam,Office Supplies,Pens,Sharpie Permanent Markers (8pk),258.14,8,0.4,-8.58,266.72
+ORD-0298,2024-09-17,2024-09-20,First Class,CUST-0079,Maria Okafor,Corporate,North America,United States,Phoenix,Technology,Laptops,ASUS ZenBook 14,535.8,6,0,219.66,316.14
+ORD-0349,2024-09-08,2024-09-09,First Class,CUST-0063,Leah Kato,Corporate,Asia Pacific,Australia,Sydney,Office Supplies,Fasteners,Bostitch Paper Clips (1000),61.13,3,0.3,11.36,49.77
+ORD-0396,2024-09-26,2024-09-26,Same Day,CUST-0096,Priya Mueller,Corporate,Europe,United Kingdom,Edinburgh,Technology,Tablets,Microsoft Surface Go,3448.64,5,0.05,1742.49,1706.15
+ORD-0413,2024-09-10,2024-09-13,First Class,CUST-0175,Oluwaseun Johansson,Corporate,Middle East & Africa,South Africa,Cape Town,Furniture,Chairs,IKEA Markus,1874.88,6,0.25,524.94,1349.94
+ORD-0457,2024-09-13,2024-09-15,First Class,CUST-0035,Yuna Martinez,Home Office,North America,Mexico,Mexico City,Office Supplies,Fasteners,Bostitch Paper Clips (1000),26.2,1,0.1,9.61,16.59
+ORD-0468,2024-09-20,2024-09-21,First Class,CUST-0108,Anya Fernandez,Home Office,North America,United States,Phoenix,Technology,Accessories,Samsung T7 SSD,4852.27,7,0.45,-1235.14,6087.41
+ORD-0494,2024-09-29,2024-10-01,First Class,CUST-0079,Maria Okafor,Corporate,North America,United States,Phoenix,Technology,Laptops,MacBook Air M3,1790.45,1,0.05,772.72,1017.73
+ORD-0572,2024-09-14,2024-09-17,Second Class,CUST-0103,Tadashi Santos,Corporate,North America,Canada,Montreal,Furniture,Chairs,Autonomous ErgoChair,3185.75,7,0.05,1039.55,2146.2
+ORD-0677,2024-09-21,2024-09-28,Standard Class,CUST-0010,Fatima Eriksson,Consumer,North America,United States,Los Angeles,Office Supplies,Paper,HP Premium Paper A4,616.82,8,0.1,274.1,342.72
+ORD-0678,2024-09-30,2024-10-02,First Class,CUST-0099,Chen Silva,Consumer,Latin America,Colombia,Bogota,Technology,Accessories,Apple AirPods Pro,17178.97,14,0.1,8398.59,8780.38
+ORD-0698,2024-09-04,2024-09-07,Second Class,CUST-0112,Kwame Sharma,Consumer,North America,Mexico,Guadalajara,Office Supplies,Storage,Fellowes File Organiser,159.54,5,0.15,50.69,108.85
+ORD-0835,2024-09-12,2024-09-15,Second Class,CUST-0182,Yuna Santos,Corporate,Europe,Germany,Berlin,Furniture,Desks,IKEA Bekant,2816.97,3,0,1380.33,1436.64
+ORD-0898,2024-09-06,2024-09-13,Standard Class,CUST-0131,Aisha Petrov,Consumer,North America,United States,Houston,Office Supplies,Storage,Bankers Box File Storage,81.58,2,0,26.92,54.66
+ORD-0964,2024-09-22,2024-09-25,Second Class,CUST-0141,Juan Petrov,Corporate,Asia Pacific,Australia,Melbourne,Technology,Accessories,Keychron K2 Keyboard,5971.7,7,0,2508.1,3463.6
+ORD-0987,2024-09-14,2024-09-14,Same Day,CUST-0182,Yuna Santos,Corporate,Europe,Germany,Berlin,Technology,Phones,Xiaomi 14,5871.01,3,0.1,2022.22,3848.79

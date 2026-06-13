@@ -1,0 +1,56 @@
+Product_ID,Product_Name,Category,Sub_Category,Unit_Cost,List_Price,Supplier,Weight_KG,Reorder_Level
+PROD-001,Samsung Galaxy S24,Technology,Phones,890.11,1534.67,TechCo Distributors,3.9,65
+PROD-002,iPhone 15 Pro,Technology,Phones,1392.93,2142.97,Pacific Trade Co,8.3,23
+PROD-003,Google Pixel 8,Technology,Phones,306.86,503.05,Continental Electronics,6.9,15
+PROD-004,OnePlus 12,Technology,Phones,474.37,741.21,Continental Electronics,7.1,12
+PROD-005,Xiaomi 14,Technology,Phones,1282.93,2174.45,Nordic Furniture Group,9.1,60
+PROD-006,Dell XPS 15,Technology,Laptops,486.22,684.82,TechCo Distributors,7.2,52
+PROD-007,MacBook Air M3,Technology,Laptops,1017.73,1884.68,Sahara Import-Export,19.3,30
+PROD-008,Lenovo ThinkPad X1,Technology,Laptops,334.41,557.35,Nordic Furniture Group,43.6,98
+PROD-009,HP Spectre x360,Technology,Laptops,1097.21,1741.6,Sahara Import-Export,33.8,33
+PROD-010,ASUS ZenBook 14,Technology,Laptops,52.69,89.3,Nordic Furniture Group,44,20
+PROD-011,iPad Air,Technology,Tablets,989.99,2106.36,Nordic Furniture Group,37.3,42
+PROD-012,Samsung Galaxy Tab S9,Technology,Tablets,696.17,1513.42,Global Office Supply,6.4,90
+PROD-013,Microsoft Surface Go,Technology,Tablets,341.23,726.03,Global Office Supply,12.9,94
+PROD-014,Logitech MX Master 3S,Technology,Accessories,365.27,529.37,Nordic Furniture Group,28.4,50
+PROD-015,Apple AirPods Pro,Technology,Accessories,627.17,1363.41,Continental Electronics,14.8,11
+PROD-016,Anker USB-C Hub,Technology,Accessories,349.07,498.67,Continental Electronics,20.2,17
+PROD-017,Samsung T7 SSD,Technology,Accessories,869.63,1260.33,Continental Electronics,19.3,25
+PROD-018,Keychron K2 Keyboard,Technology,Accessories,494.8,853.1,TechCo Distributors,25,44
+PROD-019,Herman Miller Aeron,Furniture,Chairs,54.29,115.52,TechCo Distributors,37.3,5
+PROD-020,Steelcase Leap V2,Furniture,Chairs,645.15,1024.05,Global Office Supply,14,69
+PROD-021,Autonomous ErgoChair,Furniture,Chairs,306.6,479.06,Global Office Supply,7.9,35
+PROD-022,IKEA Markus,Furniture,Chairs,224.99,416.64,Global Office Supply,30.2,10
+PROD-023,Uplift V2 Standing Desk,Furniture,Desks,953.24,1342.59,Global Office Supply,17,64
+PROD-024,IKEA Bekant,Furniture,Desks,478.88,938.99,Global Office Supply,25.2,85
+PROD-025,Flexispot E7,Furniture,Desks,295.57,547.36,TechCo Distributors,44.9,67
+PROD-026,Autonomous SmartDesk,Furniture,Desks,117.47,180.72,Continental Electronics,10.6,42
+PROD-027,IKEA Billy,Furniture,Bookcases,819.29,1241.35,Sahara Import-Export,25.5,41
+PROD-028,Sauder Heritage Hill,Furniture,Bookcases,803.39,1673.72,TechCo Distributors,36,52
+PROD-029,Bush Furniture Cabot,Furniture,Bookcases,986.89,1701.54,Global Office Supply,36.7,9
+PROD-030,IKEA Lisabo Dining Table,Furniture,Tables,832.52,1699.02,TechCo Distributors,25.7,19
+PROD-031,West Elm Box Frame Table,Furniture,Tables,109.87,244.15,Nordic Furniture Group,1.7,90
+PROD-032,Article Seno Table,Furniture,Tables,401.66,680.78,Sahara Import-Export,24.2,46
+PROD-033,"Avery Heavy Duty Binder 3""",Office Supplies,Binders,53.7,74.59,Continental Electronics,19.8,88
+PROD-034,"Wilson Jones Binder 1""",Office Supplies,Binders,8.09,12.08,Pacific Trade Co,18.9,25
+PROD-035,"Staples Better Binder 2""",Office Supplies,Binders,59.56,112.38,Global Office Supply,37.3,93
+PROD-036,HP Premium Paper A4,Office Supplies,Paper,42.84,85.67,Continental Electronics,19.8,10
+PROD-037,Hammermill Copy Plus,Office Supplies,Paper,44.72,63.88,Global Office Supply,37,99
+PROD-038,Xerox Multipurpose Paper,Office Supplies,Paper,12.83,17.11,Pacific Trade Co,37.3,49
+PROD-039,Pilot G2 Gel Pen (12pk),Office Supplies,Pens,49.57,68.85,Sahara Import-Export,26.4,71
+PROD-040,Sharpie Permanent Markers (8pk),Office Supplies,Pens,33.34,53.78,Global Office Supply,3.7,52
+PROD-041,Paper Mate Flair (6pk),Office Supplies,Pens,26.72,42.42,Global Office Supply,34.4,31
+PROD-042,Bankers Box File Storage,Office Supplies,Storage,27.33,40.79,Global Office Supply,29.9,72
+PROD-043,Fellowes File Organiser,Office Supplies,Storage,21.77,37.54,Global Office Supply,13.2,89
+PROD-044,Staples Hanging Folders (25pk),Office Supplies,Storage,67.09,101.65,Nordic Furniture Group,38,97
+PROD-045,Quality Park #10 Envelopes (500pk),Office Supplies,Envelopes,85.9,119.3,Continental Electronics,28.2,61
+PROD-046,JAM Paper A7 Invitation Envelopes,Office Supplies,Envelopes,32.65,53.53,Pacific Trade Co,13.1,45
+PROD-047,Prismacolor Premier Pencils (24),Office Supplies,Art Supplies,18.06,37.62,TechCo Distributors,34.7,59
+PROD-048,Crayola Markers (64pk),Office Supplies,Art Supplies,45.64,84.52,Nordic Furniture Group,37.4,84
+PROD-049,Faber-Castell Pitt Pens (8pk),Office Supplies,Art Supplies,68.37,94.96,TechCo Distributors,29.4,7
+PROD-050,Avery Address Labels (750),Office Supplies,Labels,8.24,13.96,Nordic Furniture Group,17.5,68
+PROD-051,DYMO LabelWriter Labels,Office Supplies,Labels,48.59,99.17,TechCo Distributors,26.3,52
+PROD-052,Brother P-Touch Labels,Office Supplies,Labels,58.41,116.81,Sahara Import-Export,27.6,87
+PROD-053,Swingline Stapler,Office Supplies,Fasteners,56.76,86,TechCo Distributors,9.6,91
+PROD-054,Bostitch Paper Clips (1000),Office Supplies,Fasteners,16.59,29.11,Global Office Supply,39.9,53
+PROD-055,ACCO Binder Clips Assorted,Office Supplies,Fasteners,14.38,22.12,Nordic Furniture Group,1.8,23

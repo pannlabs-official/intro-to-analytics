@@ -1,0 +1,21 @@
+Order_ID,Order_Date,Ship_Date,Ship_Mode,Customer_ID,Customer_Name,Segment,Region,Country,City,Category,Sub_Category,Product_Name,Sales,Quantity,Discount,Profit,Cost
+ORD-0183,2024-04-24,2024-04-29,Second Class,CUST-0138,Signe Okonkwo,Consumer,Europe,Germany,Munich,Office Supplies,Fasteners,Swingline Stapler,387,6,0.25,46.44,340.56
+ORD-0266,2024-04-25,2024-04-30,Standard Class,CUST-0010,Fatima Eriksson,Consumer,North America,United States,Los Angeles,Technology,Laptops,Lenovo ThinkPad X1,2926.09,7,0.25,585.22,2340.87
+ORD-0299,2024-04-18,2024-04-19,First Class,CUST-0072,Eva Jensen,Home Office,Europe,United Kingdom,Manchester,Office Supplies,Paper,Xerox Multipurpose Paper,85.55,5,0,21.4,64.15
+ORD-0332,2024-04-02,2024-04-07,Standard Class,CUST-0046,Kwame Takahashi,Corporate,North America,Canada,Toronto,Technology,Tablets,iPad Air,8214.8,6,0.35,2274.86,5939.94
+ORD-0422,2024-04-14,2024-04-21,Standard Class,CUST-0040,Roberto Nakamura,Consumer,Asia Pacific,South Korea,Seoul,Furniture,Chairs,Autonomous ErgoChair,1532.99,4,0.2,306.59,1226.4
+ORD-0423,2024-04-15,2024-04-17,First Class,CUST-0084,Tomoko Berg,Corporate,Latin America,Argentina,Buenos Aires,Office Supplies,Paper,Xerox Multipurpose Paper,85.55,5,0,21.4,64.15
+ORD-0476,2024-04-25,2024-04-28,Second Class,CUST-0072,Eva Jensen,Home Office,Europe,United Kingdom,Manchester,Technology,Accessories,Samsung T7 SSD,7183.88,6,0.05,1966.1,5217.78
+ORD-0502,2024-04-10,2024-04-14,Second Class,CUST-0024,Maria Johansson,Home Office,Europe,United Kingdom,London,Furniture,Tables,IKEA Lisabo Dining Table,1359.22,1,0.2,526.7,832.52
+ORD-0523,2024-04-21,2024-04-24,Second Class,CUST-0053,Chidi Perez,Consumer,North America,United States,Los Angeles,Technology,Accessories,Anker USB-C Hub,1870.01,5,0.25,124.66,1745.35
+ORD-0591,2024-04-06,2024-04-09,Second Class,CUST-0124,Diego Yamamoto,Home Office,Europe,United Kingdom,Manchester,Office Supplies,Storage,Bankers Box File Storage,326.32,8,0,107.68,218.64
+ORD-0613,2024-04-03,2024-04-08,Second Class,CUST-0077,Ingrid Watanabe,Home Office,Europe,Germany,Hamburg,Technology,Accessories,Logitech MX Master 3S,1058.74,2,0,328.2,730.54
+ORD-0744,2024-04-06,2024-04-09,Second Class,CUST-0150,Juan Ibrahim,Corporate,Europe,France,Lyon,Office Supplies,Labels,DYMO LabelWriter Labels,793.36,8,0,404.64,388.72
+ORD-0751,2024-04-20,2024-04-21,First Class,CUST-0051,Tomoko Khan,Consumer,North America,United States,Houston,Office Supplies,Fasteners,Bostitch Paper Clips (1000),232.88,8,0,100.16,132.72
+ORD-0764,2024-04-26,2024-05-01,Second Class,CUST-0101,Priya Santos,Home Office,Europe,Netherlands,Rotterdam,Technology,Phones,iPhone 15 Pro,6428.91,3,0,2250.12,4178.79
+ORD-0769,2024-04-21,2024-04-21,Same Day,CUST-0140,Patrick Petrov,Consumer,Middle East & Africa,UAE,Abu Dhabi,Office Supplies,Envelopes,JAM Paper A7 Invitation Envelopes,88.32,3,0.45,-9.63,97.95
+ORD-0787,2024-04-02,2024-04-07,Standard Class,CUST-0109,Yuki Oliveira,Home Office,North America,Mexico,Guadalajara,Office Supplies,Binders,"Staples Better Binder 2""",202.28,2,0.1,83.16,119.12
+ORD-0823,2024-04-22,2024-04-28,Standard Class,CUST-0132,Diya Costa,Corporate,Asia Pacific,Japan,Yokohama,Office Supplies,Fasteners,Swingline Stapler,283.8,6,0.45,-56.76,340.56
+ORD-0914,2024-04-14,2024-04-20,Standard Class,CUST-0033,Daichi Takahashi,Home Office,Asia Pacific,South Korea,Busan,Office Supplies,Pens,Sharpie Permanent Markers (8pk),242.01,5,0.1,75.31,166.7
+ORD-0941,2024-04-18,2024-04-21,First Class,CUST-0096,Priya Mueller,Corporate,Europe,United Kingdom,Edinburgh,Technology,Tablets,Microsoft Surface Go,3484.94,6,0.2,1437.56,2047.38
+ORD-0972,2024-04-28,2024-05-01,Second Class,CUST-0096,Priya Mueller,Corporate,Europe,United Kingdom,Edinburgh,Technology,Accessories,Anker USB-C Hub,2992.02,6,0,897.6,2094.42

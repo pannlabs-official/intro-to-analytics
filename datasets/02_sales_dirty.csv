@@ -1,0 +1,79 @@
+Order_ID,Order_Date,Customer_Name,Region,City,Category,Sub_Category,Product_Name,Sales,Quantity,Discount,Profit
+ORD-0021,2022-05-26,Margot Andersen,Europe, Amsterdam,Office Supplies,Pens,Sharpie Permanent Markers (8pk),48.4,1,0.1,-
+ORD-0064,2024-01-16,Juan Santos,ASIA PACIFIC,Seoul,Technology,Phones,iPhone 15 Pro,9643.36,6,0.25,-
+ORD-0059,2023-04-28,  Nina Larsson ,North America,Mexico City,Technology,Accessories,Logitech MX Master 3S,6881.81,13,0,2133.3
+ORD-0020,2022-12-11,Ade Kobayashi,North America,Guadalajara,Technolgy,Accessories,Samsung T7 SSD,8261.46,6,0.05,3043.68
+ORD-0015,2023-08-15,Luis Tanaka,North America,Toronto,Office Supplies,Fasteners,Swingline – Stapler,$571.90,7,0.05,174.58
+ORD-0036,2024-03-05,Obinna Tanaka,Middle East & Africa,Johannesburg,Furniture,Bookcases,Sauder Heritage Hill,11716.04,7,0,6092.31
+ORD0008,"September 9, 2023",Juan Ito,Europe, Amsterdam,Office Supplies,Art Supplies,Faber-Castell Pitt Pens (8pk),417.82,8,0.45,-129.14
+ORD-0005,"February 2, 2023",Yuki Choudhury,North America,Chicago,Furniture,Desks,Flexispot E7,547.36,1,0,251.79
+ORD-0006,"May 25, 2024",Yuki Choudhury,NORTH AMERICA, Chicago,Office Supplies,Storage,Bankers Box File Storage,183.56,6,0.25,19.58
+1,2023-05-01,Shin Ito,Latin America,Medellin,Technology,Laptops,Dell XPS 15,"$3,013.21",8,0.45,-876.55
+ORD-0024,2024-09-07,Hassan Perez,North America,Chicago,Office Supplies,Labels,Brother P-Touch Labels,$350.43,4,0.25,116.79
+ORD-0060,2022-05-25,  Aisha Petrov ,North America,Houston,office supplies,Fasteners,Bostitch Paper Clips (1000),$78.60,3,0.1,28.83
+ORD-0038,2022-12-18,Hassan Johansson,Europe,Lyon,Furniture,Tables,IKEA Lisabo Dining Table,1699.02,1,0,866.5
+ORD-0058,2023-07-13,Vera Perez,Europe,Lyon,Furniture,Desks,Flexispot E7,1094.72,2,0,503.58
+ORD-0043,22/8/2024,Maria Jensen,North America,Guadalajara,Office Supplies,Fasteners,Swingline Stapler,309.6,4,0.1,82.56
+ORD-0002,2023-05-22,Rafael Mueller,Europe,Marseille,Office Supplies,Storage,Staples Hanging Folders (25pk),365.94,6,0.4,-36.6
+ORD0003,2024-10-23,Hassan Johansson,Europe,Lyon,Office Supplies,Pens,Pilot G2 Gel Pen (12pk),103.27,2,0.25,4.13
+ORD-0062,23/2/2024,Carmen Takahashi,Europe,Marseille,Technology,Accessories,Apple AirPods Pro,10907.28,8,0,n/a
+ORD-0067,2023-10-26,Emma Larsson,Latin America,Sao Paulo,Furniture,Bookcases,IKEA Billy,6206.75,5,0,2110.3
+ORD-0050,12/6/2024,Daichi Eriksson,North America,Phoenix,Offce Supplies,Paper,HP Premium Paper A4,85.67,1,0,42.83
+63,2022-07-19,Astrid Costa,Europe,Manchester,Offce Supplies,Fasteners,ACCO Binder Clips Assorted,28.76,2,0.35,0
+ORD-0032,2024-01-22,  Celine Garcia ,Europe,London,Technology,Phones,Xiaomi 14,13046.7,6,0,5349.12
+ORD-0046,5/2/2023,  Yuki Adeyemi ,Latin America,Rio de Janeiro,Furniture,Bookcases,Sauder Heritage Hill,"$13,389.76",8,0,6962.64
+ORD-0007,10/3/2024,Yuki Adeyemi,Latin America,Rio de Janeiro,Furniture,Desks,IKEA Bekant,"$3,286.47",5,0.3,892.07
+ORD-0018,2023-07-31,  Obinna Tanaka ,Middle East & Africa,Johannesburg,FURNITURE,Bookcases,Sauder Heritage Hill,"$2,510.58",2,0.25,903.8
+ORD-0031,2024-05-08,Tomoko Khan,north america,Houston,Furniture,Tables,West Elm Box Frame Table,915.56,5,0.25,366.21
+ORD-0009,2022-10-26,,Asia Pacific,Melbourne,technology,Laptops,Dell XPS 15,1575.09,2,0,602.65
+ORD-0057,"October 25, 2024",Roberto Nakamura,ASIA PACIFIC,Seoul,Furniture,Bookcases,IKEA Billy,2793.04,3,0.25,335.17
+ORD-0028,2024-07-03,  Sophie Anderson ,North America,Phoenix,Office Supplies,Binders,"Wilson Jones Binder 1""",60.4,5,0,19.95
+,,,,,,,,,,,
+ORD-0055,2023-08-31,"Sakura Nakamura, 723 1st St, Mexico City",North America,Mexico City,TECHNOLOGY,Accessories,Keychron K2 Keyboard,"$1,706.20",2,0,716.6
+ORD-0024,2024-09-07,Hassan Perez,North America,Chicago,Office Supplies,Labels,Brother P-Touch Labels,$350.43,4,0.25,116.79
+ORD-0013,2022-02-25,Abdul Perez,Middle East & Africa,Abuja,Office Supplies,Storage,Fellowes File Organiser,262.78,7,0,110.39
+ORD-0004,2024-10-10,David Anderson,Europe,Rotterdam,Office Supplies,Labels,Avery Address Labels (750),37.69,3,0.1,12.97
+ORD-0045,2022-07-26,,EUROPE,London,Office Supplies,Binders,"Wilson Jones Binder 1""",96.64,8,0,31.92
+ORD-0016,"December 19, 2022",Kenji Holm,North America,New York,Technology,Laptops,Dell XPS 15,2362.63,3,0,-
+ORD-0047,20/9/2023,Rafael Ali,Europe,Paris,Office Supplies,Envelopes,JAM Paper A7 Invitation Envelopes,289.06,6,0.1,93.16
+ORD-0041,2023-04-04,  Marta Ibrahim ,N/A,Vancouver,Technology,Phones,OnePlus 12,2075.39,4,0.3,177.91
+ORD-0044,"October 31, 2022",Nina Oliveira,North America,Guadalajara,Technology,Accessories,Anker USB-C Hub,1462.35,3,0.15,n/a
+ORD-0070,2023-12-10,  Omar Schmidt ,Asia Pacific,Busan,Technology,Tablets,Samsung Galaxy Tab S9,7396.84,5,0.15,3915.99
+ORD-0010,2024-12-23,  Astrid Costa ,Europe,Manchester,Furniture,Desks,Autonomous SmartDesk,722.88,4,0,253
+,,,,,,,,,,,
+ORD0025,2023-03-05,Felix Sharma,Asia Pacific,Mumbai,Office Supplies,Labels,Avery Address Labels (750),$13.26,1,0.05,5.02
+ORD-0016,"December 19, 2022",Kenji Holm,North America,New York,Technology,Laptops,Dell XPS 15,2362.63,3,0,-
+ORD-0037,2024-08-10,Freya Costa,Europe,Rotterdam,Offce Supplies,Paper,HP Premium Paper A4,582.56,8,0.15,-
+ORD-0014,2022-12-02,Ayumi Holm,Europe,Manchester,Offce Supplies,Labels,Brother P-Touch Labels,770.95,11,0.4,128.44
+ORD-0049,2023-03-21,Maria Jensen,North America,Guadalajara,Technology,Accessories,Keychron K2 Keyboard,6824.8,8,0,2866.4
+ORD-0034,2024-05-10,Liam Suzuki,Latin America,Rio de Janeiro,Technology,Laptops,Lenovo ThinkPad X1,3344.1,8,0.25,668.82
+ORD-0061,2022-05-30,Rafael Mueller,Europe,Marseille,technology,Laptops,MacBook Air M3,4805.93,3,0.15,1752.74
+ORD-0026,2022-11-26,,Europe,Rotterdam,Office Supplies,Labels,DYMO – LabelWriter Labels,$109.09,2,0.45,11.91
+ORD-0048,2023-03-02,Isabella Martinez,North America,Chicago,Furniture,Chairs,IKEA Markus,4062.24,13,0.25,1137.37
+ORD-0022,2024-01-28,Katya Al-Rashid,europe,Lyon,Offce Supplies,Storage,Fellowes – File Organiser,103.24,5,0.45,-5.61
+ORD-0023,2022-07-27,Isabella Martinez,North America,Chicago,Office Supplies,Fasteners,ACCO Binder Clips Assorted,$154.84,7,0,-
+ORD-0017,"August 6, 2022",Fatima Osei,N/A,Medellin,Technology,Accessories,Keychron K2 Keyboard,3071.16,6,0.4,102.36
+ORD-0004,2024-10-10,David Anderson,Europe,Rotterdam,Office Supplies,Labels,Avery Address Labels (750),37.69,3,0.1,12.97
+ord-0051,9/3/2022,Ayumi Khan,North America,Toronto,Office Supplies,Art Supplies,Prismacolor Premier Pencils (24),186.22,9,0.45,23.68
+ORD-0065,"December 14, 2024",Kwame Takahashi,North America,Toronto,Office Supplies,Fasteners,Bostitch Paper Clips (1000),87.33,3,0,37.56
+ORD-0042,2023-06-02,  Daichi Gustafsson ,Europe,Paris,Furniture,Tables,IKEA Lisabo Dining Table,13592.16,8,0,n/a
+ORD-0052,2024-03-20,,europe,Hamburg,Office Supplies,Art Supplies,Crayola Markers (64pk),676.16,8,0,311.04
+ORD-0056,"September 10, 2024",Astrid Nwosu,north america, Montreal,Furntiure,Desks,Autonomous SmartDesk,1265.04,7,0,442.75
+ORD-0035,2024-02-24,  Sophie Patel ,North America,Chicago,Technology,Accessories,Anker USB-C Hub,2618.02,7,0.25,n/a
+ORD-0040,2023-12-27,Kwame Oliveira,North America,Mexico City,Office Supplies,Envelopes,Quality Park #10 Envelopes (500pk),$238.60,2,0,66.8
+ORD-0027,2024-03-03,Obinna Tanaka,Middle East & Africa,Johannesburg,furniture,Bookcases,Sauder Heritage Hill,"$8,368.60",5,0,4351.65
+ORD-0054,"July 7, 2022",Tomoko Takahashi,Asia Pacific,Delhi,Office Supplies,Paper,Xerox Multipurpose Paper,72.72,5,0.15,8.57
+ORD-0011,2022-11-21,Ahmed Wei,Europe,Munich,Furniture,Desks,Autonomous SmartDesk,108.43,1,0.4,-9.04
+ORD-0068,2022-06-23,Raj Al-Rashid,Asia Pacific,Osaka,furniture,Tables,West Elm Box Frame Table,$231.94,1,0.05,122.07
+ORD-0066,2022-04-02,Olga Khan,Latin America,Cordoba,Office Supplies,Paper,Xerox Multipurpose Paper,44.49,-4,0.35,-6.83
+ORD-0029,2023-12-24,Femi Patel,North America,Montreal,Technology,Laptops,Dell XPS 15,$787.54,1,0,301.32
+ORD-0012,2023-04-15,Chidi Larsson,N/A,Phoenix,Furniture,Desks,Uplift V2 Standing Desk,"$7,249.99",6,0.1,1530.55
+ORD-0039,28/6/2024,Juan Ibrahim,Europe,Lyon,Furniture,Desks,Flexispot E7,"$1,313.66",3,0.2,426.95
+ORD-0015,2023-08-15,Luis Tanaka,North America,Toronto,Office Supplies,Fasteners,Swingline – Stapler,$571.90,7,0.05,174.58
+ORD-0069,19/5/2022,  Viktor Sharma ,North America,Houston,Technology,Laptops,Lenovo ThinkPad X1,1672.05,3,0,668.82
+ORD-0033,2022-02-25,  Chen Holm ,Middle East & Africa, Abu Dhabi,Technology,Phones,OnePlus 12,3335.45,5,0.1,963.6
+ORD-0019,2022-03-24,  Kenji Holm ,North America,New York,Office Supplies,Pens,Pilot G2 Gel Pen (12pk),206.55,3,0,57.84
+ORD-0053,7/5/2024,Anya Larsson,North America,Toronto,Technology,Accessories,Samsung T7 SSD,5671.49,5,0.1,-
+ORD-0030,"January 19, 2023",Isabella Larsson,North America,Montreal,Technology,Phones,iPhone 15 Pro,2142.97,1,0,750.04
+ORD0008,"September 9, 2023",Juan Ito,Europe, Amsterdam,Office Supplies,Art Supplies,Faber-Castell Pitt Pens (8pk),417.82,8,0.45,-129.14
+,,,,,,,,,,,
