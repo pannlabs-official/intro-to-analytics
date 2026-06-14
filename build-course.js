@@ -1,5 +1,5 @@
 // build-course.js — Run with: node build-course.js
-// Generates an Ultra-Modern Retro SPA with Dark Mode, Doodles, and Gamification
+// Generates an Ultra-Modern Retro SPA with Dark Mode, Doodles, Full-Stack Auth, RLS, and Flashcards
 
 const fs = require('fs');
 const path = require('path');
@@ -84,10 +84,12 @@ const html = `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data Analytics Course | Neo-Brutalist Edition</title>
+<title>Data Analytics Course | Full-Stack Edition</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"><\\/script>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"><\\/script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"><\\/script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\\/script>
 <style>
 :root {
   /* Light Theme Palette */
@@ -251,7 +253,7 @@ body { font-family: var(--font-body); background-color: var(--bg); background-im
 .activity-body { font-size: 1.1rem; }
 
 /* Chapter Footer */
-.chapter-footer { margin-top: 5rem; padding-top: 3rem; border-top: var(--border-width) solid var(--border-color); display: flex; justify-content: flex-end; }
+.chapter-footer { margin-top: 5rem; padding-top: 3rem; border-top: var(--border-width) solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
 
 /* Global Footer */
 .global-footer { margin-top: auto; text-align: center; padding: 4rem 5%; color: var(--text); border-top: var(--border-width) solid var(--border-color); background: var(--bg-card); font-family: var(--font-mono); font-weight: 700; text-transform: uppercase; font-size: 0.9rem; }
@@ -271,18 +273,28 @@ body { font-family: var(--font-body); background-color: var(--bg); background-im
   .mobile-menu-btn { display: block; }
   .scroll-fabs { bottom: 1rem; right: 1rem; gap: 0.5rem; }
   .fab { width: 40px; height: 40px; font-size: 1.2rem; }
+  .chapter-footer { flex-direction: column; gap: 1rem; }
 }
+
+/* Auth Modal */
+.auth-input { width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: var(--border-width) solid var(--border-color); font-family: var(--font-mono); font-size: 1rem; background: var(--bg); color: var(--text); }
 </style>
 </head>
 <body>
+
+<!-- Top Navigation -->
+<div style="position:absolute; top:1rem; right:2rem; z-index: 300; display:flex; align-items:center; gap: 1rem;">
+  <span style="font-family:var(--font-mono); font-size:0.8rem; font-weight:700; color:var(--text); text-transform:uppercase; display:none;" id="optional-login-text">Login to save progress ➔</span>
+  <button class="btn btn-secondary" id="auth-ui-btn" onclick="document.getElementById('auth-modal').style.display='flex'" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Login / Sync</button>
+</div>
 
 <!-- Landing Page (Home View) -->
 <div id="home-view" class="view active">
   <div class="home-wrapper">
     <div class="hero-card">
-      <div class="hero-badge">Ultra Modern</div>
-      <h1 class="hero-title">DATA ANALYTICS<br/>FOR EVERYONE</h1>
-      <p class="hero-desc">Master the core tools of data analysis-from Excel foundations and statistical thinking to advanced Power BI dashboards-in one highly aesthetic, fully gamified program.</p>
+      <div class="hero-badge">Full Stack</div>
+      <h1 class="hero-title">WELCOME TO<br/>DATA ANALYTICS</h1>
+      <p class="hero-desc">Master the core tools of data analysis—from Excel foundations to advanced Power BI dashboards. <strong>No account required to learn!</strong> You can read the entire course for free. (Optional: Log in to save your progress to the cloud and generate completion flashcards).</p>
       
       <div class="progress-container" id="home-progress-container" style="display:none;">
         <span class="progress-label">Progress</span>
@@ -292,7 +304,10 @@ body { font-family: var(--font-body); background-color: var(--bg); background-im
         <span class="progress-text" id="home-progress-text">0%</span>
       </div>
 
-      <button class="btn btn-primary" onclick="openChapter(1)" id="hero-btn" style="font-size: 1.3rem; padding: 1.2rem 3rem;">Start Learning</button>
+      <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="openChapter(1)" id="hero-btn" style="font-size: 1.3rem; padding: 1.2rem 3rem;">Start Learning</button>
+        <button class="btn btn-secondary" onclick="generateFlashcard()" style="font-size: 1.3rem; padding: 1.2rem 3rem;">Share Progress 📸</button>
+      </div>
     </div>
 
     <div class="syllabus-section">
@@ -364,15 +379,180 @@ body { font-family: var(--font-body); background-color: var(--bg); background-im
   </div>
 </div>
 
+<!-- Auth Modal -->
+<div id="auth-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center;">
+  <div class="article-card" style="width:400px; max-width:90%; margin:0; padding:2rem;">
+    <h2 style="font-family:var(--font-heading); margin-bottom:1.5rem; text-transform:uppercase; color:var(--text);">Account</h2>
+    <input type="email" id="auth-email" class="auth-input" placeholder="Email Address"/>
+    <input type="password" id="auth-pass" class="auth-input" placeholder="Password"/>
+    <button class="btn btn-primary" onclick="handleAuth('login')" style="width:100%; margin-bottom:1rem;">Login</button>
+    <button class="btn btn-secondary" onclick="handleAuth('signup')" style="width:100%;">Sign Up</button>
+    <div style="text-align:center; margin-top:1.5rem;">
+      <button onclick="document.getElementById('auth-modal').style.display='none'" style="background:none; border:none; text-decoration:underline; cursor:pointer; font-family:var(--font-mono); color:var(--text); font-weight:700;">Cancel</button>
+    </div>
+    <p id="auth-error" style="color:#FF4D00; margin-top:1rem; font-family:var(--font-mono); font-size:0.9rem; font-weight:700; text-align:center;"></p>
+  </div>
+</div>
+
+<!-- Hidden Flashcard element for html2canvas -->
+<div id="flashcard" style="position:fixed; top:-9999px; left:-9999px; width:600px; height:315px; background:var(--bg); border:8px solid var(--border-color); box-shadow:12px 12px 0px var(--shadow-color); display:flex; flex-direction:column; justify-content:center; align-items:center; padding:2rem; font-family:'Space Grotesk', sans-serif;">
+  <div style="position:absolute; top:1rem; left:1rem; font-family:'Space Mono', monospace; font-weight:700; font-size:0.8rem; border:2px solid #111; padding:0.2rem 0.5rem; background:#FFD500; color:#111;">VERIFIED PROGRESS</div>
+  <h1 style="font-size:3rem; text-transform:uppercase; margin-bottom:1.5rem; color:var(--text); text-shadow:3px 3px 0px var(--shadow-color);">DATA ANALYTICS</h1>
+  <div style="background:var(--primary); color:#fff; padding:0.5rem 1.5rem; border:4px solid var(--border-color); box-shadow:4px 4px 0px var(--shadow-color); font-size:1.4rem; font-weight:800; margin-bottom:1.5rem;" id="flashcard-chapter">Course In Progress</div>
+  <p style="font-family:'Space Mono', monospace; font-size:1.3rem; font-weight:700; color:var(--text);">Current Completion: <span style="color:var(--secondary); background:#111; padding:0.2rem 0.5rem; margin-left:0.5rem;" id="flashcard-pct">0%</span></p>
+</div>
+
 <script>
+window.onerror = function(msg, url, line) { alert("Global Error: " + msg + "\\nAt line: " + line); };
+
 ${dataBlock}
 const chapters = ${JSON.stringify(chapters)};
 
-// Gamification State
-let completedChapters = JSON.parse(localStorage.getItem('da_completed_chapters') || '[]');
+// ----------------------------------------------------
+// SUPABASE INTEGRATION (Graceful Fallback)
+// ----------------------------------------------------
+const supabaseUrl = 'https://dpvibjgwstolrkjbznxm.supabase.co';
+const supabaseKey = 'sb_publishable_3QhJaZ5USUIqwoD0acyQIw_mmqMc1ON';
+let supabase = null;
+let currentUser = null;
+
+try {
+  if (window.supabase) {
+    supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        currentUser = session.user;
+        document.getElementById('auth-modal').style.display = 'none';
+        document.getElementById('auth-error').innerText = '';
+        syncProgressFromDb();
+      } else {
+        currentUser = null;
+      }
+      updateAuthUI();
+    });
+  } else {
+    console.warn("Supabase library not loaded. Falling back to local storage only.");
+  }
+} catch (e) {
+  console.error("Failed to initialize Supabase:", e);
+}
+
+async function handleAuth(action) {
+  if (!supabase) {
+    alert("Authentication is currently unavailable. Please check your adblocker or internet connection.");
+    return;
+  }
+  const email = document.getElementById('auth-email').value;
+  const pass = document.getElementById('auth-pass').value;
+  const errEl = document.getElementById('auth-error');
+  errEl.innerText = 'Loading...';
+  
+  let res;
+  if (action === 'signup') {
+    res = await supabase.auth.signUp({ email, password: pass });
+    if(!res.error) errEl.innerText = "Check your email for the confirmation link! (If email confirmations are off, you can just login now).";
+  } else {
+    res = await supabase.auth.signInWithPassword({ email, password: pass });
+  }
+  
+  if (res.error) {
+    errEl.innerText = res.error.message;
+  }
+}
+
+function updateAuthUI() {
+  const authBtn = document.getElementById('auth-ui-btn');
+  const optText = document.getElementById('optional-login-text');
+  if(authBtn) {
+    if (currentUser) {
+      authBtn.innerText = 'Logout';
+      authBtn.onclick = () => { if(supabase) supabase.auth.signOut(); };
+      if(optText) optText.style.display = 'none';
+    } else {
+      authBtn.innerText = 'Login / Sync';
+      authBtn.onclick = () => document.getElementById('auth-modal').style.display = 'flex';
+      if(optText) optText.style.display = 'inline-block';
+    }
+  }
+}
+
+async function syncProgressFromDb() {
+  if (!currentUser || !supabase) return;
+  const { data, error } = await supabase.from('user_progress').select('completed_chapters').eq('user_id', currentUser.id).single();
+  if (data && data.completed_chapters && data.completed_chapters.length > 0) {
+    completedChapters = [...new Set([...completedChapters, ...data.completed_chapters])];
+    localStorage.setItem('da_completed_chapters', JSON.stringify(completedChapters));
+    updateProgressUI();
+    renderNavigation();
+  }
+}
+
+async function syncProgressToDb() {
+  if (!currentUser || !supabase) return;
+  const { error } = await supabase.from('user_progress').upsert({
+    user_id: currentUser.id,
+    completed_chapters: completedChapters
+  });
+  if(error) console.error("Error syncing to DB:", error);
+}
+
+// ----------------------------------------------------
+// FLASHCARD GENERATOR
+// ----------------------------------------------------
+async function generateFlashcard() {
+  // Update flashcard data
+  const pct = document.getElementById('home-progress-text').innerText;
+  document.getElementById('flashcard-pct').innerText = pct;
+  
+  let lastCh = 0;
+  if (completedChapters.length > 0) {
+    lastCh = Math.max(...completedChapters);
+  }
+  
+  let badgeText = lastCh > 0 ? \`Completed: \${chapters[lastCh].title}\` : 'Just Started';
+  if (completedChapters.length === chapters.length - 1) {
+    badgeText = "Course Fully Completed! 🎉";
+  }
+  document.getElementById('flashcard-chapter').innerText = badgeText;
+
+  // Render to canvas
+  const element = document.getElementById('flashcard');
+  element.style.top = '50%';
+  element.style.left = '50%';
+  element.style.transform = 'translate(-50%, -50%)';
+  element.style.zIndex = '99999';
+  
+  try {
+    const canvas = await html2canvas(element, { backgroundColor: null, scale: 2 });
+    const link = document.createElement('a');
+    link.download = 'data-analytics-accomplishment.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  } catch(e) {
+    console.error("Failed to generate flashcard", e);
+    alert("Sorry, could not generate the flashcard image.");
+  }
+  
+  element.style.top = '-9999px';
+  element.style.left = '-9999px';
+  element.style.transform = 'none';
+}
+
+// ----------------------------------------------------
+// GAMIFICATION STATE
+// ----------------------------------------------------
+let completedChapters = [];
+try {
+  completedChapters = JSON.parse(localStorage.getItem('da_completed_chapters') || '[]');
+} catch(e) {
+  console.warn("localStorage blocked", e);
+}
 
 function saveProgress() {
-  localStorage.setItem('da_completed_chapters', JSON.stringify(completedChapters));
+  try {
+    localStorage.setItem('da_completed_chapters', JSON.stringify(completedChapters));
+  } catch(e) {}
   updateProgressUI();
 }
 
@@ -380,11 +560,16 @@ function markCompleted(idx) {
   if (!completedChapters.includes(idx) && idx !== 0) {
     completedChapters.push(idx);
     saveProgress();
+    syncProgressToDb();
   }
 }
 
 // Theme State
-let isDark = localStorage.getItem('da_theme') === 'dark';
+let isDark = false;
+try {
+  isDark = localStorage.getItem('da_theme') === 'dark';
+} catch(e) {}
+
 function applyTheme(dark) {
   if(dark) {
     document.body.setAttribute('data-theme', 'dark');
@@ -396,26 +581,34 @@ function applyTheme(dark) {
 }
 function toggleTheme() {
   isDark = !isDark;
-  localStorage.setItem('da_theme', isDark ? 'dark' : 'light');
+  try { localStorage.setItem('da_theme', isDark ? 'dark' : 'light'); } catch(e) {}
   applyTheme(isDark);
 }
 applyTheme(isDark); // Apply on boot
 
-// Setup Marked
-marked.setOptions({ gfm: true, breaks: false });
-const renderer = new marked.Renderer();
-renderer.heading = function(text, level) {
-  let c = typeof text === 'object' ? (text.text||'') : text;
-  let l = typeof text === 'object' ? (text.depth||2) : level;
-  return '<h'+l+'>'+c+'</h'+l+'>';
-};
-renderer.code = function(code, language) {
-  if (language === 'mermaid') {
-    return '<div class="mermaid">' + code + '</div>';
+// Setup Marked safely
+try {
+  if (typeof marked !== 'undefined') {
+    marked.setOptions({ gfm: true, breaks: false });
+    const renderer = new marked.Renderer();
+    renderer.heading = function(text, level) {
+      let c = typeof text === 'object' ? (text.text||'') : text;
+      let l = typeof text === 'object' ? (text.depth||2) : level;
+      return '<h'+l+'>'+c+'</h'+l+'>';
+    };
+    renderer.code = function(code, language) {
+      if (language === 'mermaid') {
+        return '<div class="mermaid">' + code + '</div>';
+      }
+      return '<pre><code class="language-' + language + '">' + code + '</code></pre>';
+    };
+    marked.use({ renderer });
+  } else {
+    console.error("Marked.js failed to load from CDN.");
   }
-  return '<pre><code class="language-' + language + '">' + code + '</code></pre>';
-};
-marked.use({ renderer });
+} catch (e) {
+  console.error("Error setting up marked:", e);
+}
 
 // Render Syllabus and Sidebar Nav
 const syllabusListEl = document.getElementById('syllabus-list');
@@ -427,23 +620,20 @@ function renderNavigation() {
   sidebarNavEl.innerHTML = '';
   
   chapters.forEach((ch, idx) => {
-    if (idx !== 0) {
-      const isCompleted = completedChapters.includes(idx);
-      
-      // Home Syllabus List
-      const item = document.createElement('div');
-      item.className = 'syllabus-item' + (isCompleted ? ' completed' : '');
-      item.onclick = () => openChapter(idx);
-      item.innerHTML = \`
-        <div class="syl-num">\${isCompleted ? '✓' : idx}</div>
-        <div class="syl-content">
-          <h3>\${ch.title}</h3>
-          <p>\${ch.desc}</p>
-        </div>
-        <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">READ</button>
-      \`;
-      syllabusListEl.appendChild(item);
-    }
+    // Home Syllabus List (Show all chapters including Welcome)
+    const isCompleted = completedChapters.includes(idx);
+    const item = document.createElement('div');
+    item.className = 'syllabus-item' + (isCompleted ? ' completed' : '');
+    item.onclick = () => openChapter(idx);
+    item.innerHTML = \`
+      <div class="syl-num">\${isCompleted ? '✓' : (idx === 0 ? '★' : idx)}</div>
+      <div class="syl-content">
+        <h3>\${ch.title}</h3>
+        <p>\${ch.desc}</p>
+      </div>
+      <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">READ</button>
+    \`;
+    syllabusListEl.appendChild(item);
 
     // Sidebar Nav
     const navItem = document.createElement('a');
@@ -499,9 +689,15 @@ function openChapter(idx) {
   // Render Footer Button
   const footer = document.getElementById('chapter-footer');
   if (idx < chapters.length - 1) {
-    footer.innerHTML = \`<button class="btn btn-primary" onclick="markCompleted(\${idx}); openChapter(\${idx + 1});">MARK COMPLETE & CONTINUE ➔</button>\`;
+    footer.innerHTML = \`
+      <button class="btn btn-primary" onclick="markCompleted(\${idx}); openChapter(\${idx + 1});">MARK COMPLETE & CONTINUE ➔</button>
+      <button class="btn btn-secondary" onclick="generateFlashcard()">Share Progress 📸</button>
+    \`;
   } else if (idx !== 0) {
-    footer.innerHTML = \`<button class="btn btn-primary" onclick="markCompleted(\${idx}); goHome();">COMPLETE COURSE 🎉</button>\`;
+    footer.innerHTML = \`
+      <button class="btn btn-primary" onclick="markCompleted(\${idx}); goHome();">COMPLETE COURSE 🎉</button>
+      <button class="btn btn-secondary" onclick="generateFlashcard()">Share Progress 📸</button>
+    \`;
   } else {
     footer.innerHTML = \`\`;
   }
@@ -558,4 +754,4 @@ updateProgressUI();
 
 const finalHtml = html.split('<\\/script>').join('</script>');
 fs.writeFileSync(path.join(dir, 'index.html'), finalHtml, 'utf8');
-console.log('Built Neo-Brutalist SPA index.html with Dark Mode and ELI5 Summaries successfully!');
+console.log('Built Full-Stack SPA index.html with Supabase Auth and Flashcards successfully!');
