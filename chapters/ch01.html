@@ -1,0 +1,815 @@
+<h1 id="chapter-1---what-is-data-analytics">Chapter 1 - What Is Data Analytics?</h1>
+<p><img src="assets/images/analytics.png" alt="Data Analytics Dashboard"></p>
+<hr>
+<h2 id="chapter-overview">Chapter Overview</h2>
+<p>This chapter exists for a reason most courses skip: <strong>before you touch any tool, you need to understand what you are doing and why.</strong> Data analytics is not &quot;making charts in Excel.&quot; It is a discipline - a structured way of turning raw information into decisions. And like any discipline, it has a vocabulary, a process, a set of principles, and a history of failures that teach as much as the successes.</p>
+<p>We will not spend this chapter reciting dictionary definitions. Instead, we will explore what analysts actually do day-to-day, how different types of analysis answer different questions, what data <em>is</em> at a fundamental level (not just &quot;numbers in a spreadsheet&quot;), and how to develop the mental habits that separate competent analysts from people who merely produce reports.</p>
+<p>By the end of this chapter, you will have a framework for approaching any analytical problem - regardless of the tool, the domain, or the data. Everything in Chapters 2–12 builds on this framework.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>None. This is the starting point.</li>
+</ul>
+<hr>
+<h2 id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Define data analytics and distinguish it from related disciplines (data science, data engineering, business intelligence)</li>
+<li>Identify and describe the four types of analytics: descriptive, diagnostic, predictive, and prescriptive</li>
+<li>Walk through the six stages of the data analytics lifecycle and explain why each matters</li>
+<li>Classify data by type (quantitative vs qualitative, discrete vs continuous, and the four scales of measurement)</li>
+<li>Explain why structured thinking matters more than tool proficiency</li>
+<li>Recognise common cognitive biases that lead to flawed analysis</li>
+</ol>
+<hr>
+<h2 id="11-what-data-analytics-actually-is">1.1 What Data Analytics Actually Is</h2>
+<h3 id="111-a-working-definition">1.1.1 A Working Definition</h3>
+<p><strong>Data analytics</strong> is the process of examining raw data to find patterns, draw conclusions, and support decision-making.</p>
+<p>That is the textbook definition. Here is the practical one:</p>
+<p><strong>Data analytics is answering questions with evidence instead of guessing.</strong></p>
+<p>Every organisation has questions:</p>
+<ul>
+<li><em>Why did sales drop in Q3?</em></li>
+<li><em>Which marketing channel gives us the best return?</em></li>
+<li><em>Are we overstaffed in operations relative to output?</em></li>
+<li><em>Is this oil well underperforming compared to similar wells?</em></li>
+<li><em>Which patients are most likely to be readmitted within 30 days?</em></li>
+</ul>
+<p>Without analytics, these questions get answered by whoever has the loudest opinion in the meeting room. With analytics, they get answered by <em>what the data actually shows</em> - even when that contradicts assumptions.</p>
+<h3 id="112-what-analysts-do-day-to-day">1.1.2 What Analysts Do Day-to-Day</h3>
+<p>The Hollywood version of a data analyst involves staring at a screen full of scrolling green numbers. The reality is more like this:</p>
+<table>
+<thead>
+<tr>
+<th>Time Spent</th>
+<th>Activity</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>40–50%</strong></td>
+<td><strong>Data wrangling</strong>: Finding data, understanding its structure, cleaning it, merging it from different sources, fixing quality issues. This is the unglamorous majority of the job.</td>
+</tr>
+<tr>
+<td><strong>20–25%</strong></td>
+<td><strong>Analysis</strong>: Summarising, calculating, modelling, testing hypotheses, looking for patterns. The part people think is the whole job.</td>
+</tr>
+<tr>
+<td><strong>15–20%</strong></td>
+<td><strong>Communication</strong>: Building charts, dashboards, presentations. Explaining findings to stakeholders who don&#39;t know (and don&#39;t care) about your methodology.</td>
+</tr>
+<tr>
+<td><strong>10–15%</strong></td>
+<td><strong>Stakeholder management</strong>: Understanding what the business actually needs (not just what they ask for), clarifying ambiguous questions, managing expectations, iterating on feedback.</td>
+</tr>
+</tbody></table>
+<p>Notice that the largest single block is <em>cleaning data</em>. This is not a failure of the profession - it reflects reality. Real-world data is messy, incomplete, inconsistent, and frequently wrong. The ability to recognise and fix data quality issues is not a side skill; it is the core skill. Chapter 4 is dedicated entirely to this.</p>
+<h3 id="113-analytics-vs-related-disciplines">1.1.3 Analytics vs Related Disciplines</h3>
+<p>Data analytics is part of a broader ecosystem. Understanding where it sits - and where it doesn&#39;t - prevents confusion and helps you communicate with other professionals:</p>
+<table>
+<thead>
+<tr>
+<th>Discipline</th>
+<th>Primary Question</th>
+<th>Core Skills</th>
+<th>Typical Output</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Data Analytics</strong></td>
+<td>What happened? Why? What should we do?</td>
+<td>Excel, SQL, Power BI, Tableau, statistics</td>
+<td>Reports, dashboards, recommendations</td>
+</tr>
+<tr>
+<td><strong>Data Science</strong></td>
+<td>Can we predict what will happen?</td>
+<td>Python/R, machine learning, deep statistics</td>
+<td>Predictive models, algorithms, research papers</td>
+</tr>
+<tr>
+<td><strong>Data Engineering</strong></td>
+<td>How do we move, store, and process data at scale?</td>
+<td>Python, SQL, cloud platforms (AWS/GCP/Azure), ETL pipelines</td>
+<td>Data pipelines, data warehouses, APIs</td>
+</tr>
+<tr>
+<td><strong>Business Intelligence (BI)</strong></td>
+<td>How is the business performing right now?</td>
+<td>Power BI, Tableau, SQL, data modelling</td>
+<td>Dashboards, KPI tracking, automated reports</td>
+</tr>
+<tr>
+<td><strong>Machine Learning Engineering</strong></td>
+<td>How do we deploy models into production?</td>
+<td>Python, MLOps, containerisation, APIs</td>
+<td>Production ML systems</td>
+</tr>
+</tbody></table>
+<p><strong>The overlap</strong>: Analytics and BI share the most territory. In many organisations, they are the same role. The distinction is emphasis: BI focuses on <em>monitoring</em> (building dashboards that track ongoing metrics), while analytics focuses on <em>investigating</em> (answering specific questions, often ad hoc). In practice, most analysts do both.</p>
+<p><strong>Where you are heading</strong>: This course builds the analytics and BI skill set - specifically the Excel + Power BI stack. Chapter 12 introduces SQL and Python as the next steps toward the broader ecosystem.</p>
+<hr>
+<h2 id="12-the-four-types-of-analytics">1.2 The Four Types of Analytics</h2>
+<p>Not all analysis is the same. The four types form a hierarchy of increasing sophistication and value:</p>
+<h3 id="121-descriptive-analytics---what-happened">1.2.1 Descriptive Analytics - &quot;What Happened?&quot;</h3>
+<p>This is the foundation. Before you can explain <em>why</em> something happened, you need to know <em>what</em> happened. Descriptive analytics summarises historical data into understandable formats.</p>
+<p><strong>Techniques</strong>: Averages, totals, counts, percentages, trend lines, frequency tables, PivotTables, dashboards.</p>
+<p><strong>Examples by industry</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Industry</th>
+<th>Descriptive Question</th>
+<th>Analysis</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Retail</strong></td>
+<td>What were total sales by region last quarter?</td>
+<td>SUM of Sales grouped by Region in a PivotTable</td>
+</tr>
+<tr>
+<td><strong>Oil &amp; Gas</strong></td>
+<td>What was the average monthly oil production per well this year?</td>
+<td>AVERAGE of Oil_BBL grouped by Well_ID</td>
+</tr>
+<tr>
+<td><strong>Healthcare</strong></td>
+<td>How many patients visited the emergency department each day last month?</td>
+<td>COUNT of Patient_ID grouped by Arrival_Date</td>
+</tr>
+<tr>
+<td><strong>Marketing</strong></td>
+<td>What is our click-through rate by channel?</td>
+<td>Clicks / Impressions grouped by Channel</td>
+</tr>
+<tr>
+<td><strong>Finance</strong></td>
+<td>Are we over or under budget this quarter?</td>
+<td>Budget_Amount - Actual_Amount per department</td>
+</tr>
+</tbody></table>
+<p>Descriptive analytics is where 80% of organisational data work lives. It is not &quot;basic&quot; - a well-built descriptive dashboard that the CEO checks every morning is more valuable than a sophisticated predictive model that nobody uses.</p>
+<h3 id="122-diagnostic-analytics---why-did-it-happen">1.2.2 Diagnostic Analytics - &quot;Why Did It Happen?&quot;</h3>
+<p>Once you know <em>what</em> happened, the next question is <em>why</em>. Diagnostic analytics digs into root causes by drilling down, filtering, comparing, and correlating.</p>
+<p><strong>Techniques</strong>: Drill-downs, segmentation, correlation analysis, anomaly detection, comparing cohorts, root cause analysis (RCA).</p>
+<p><strong>Examples</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Observation (Descriptive)</th>
+<th>Diagnostic Question</th>
+<th>Analysis Approach</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sales dropped 15% in Q3</td>
+<td>Why?</td>
+<td>Segment by region, category, customer segment. Was it a specific region? A specific product? A seasonal effect? A pricing change?</td>
+</tr>
+<tr>
+<td>Oil well WELL-A03 production fell sharply</td>
+<td>Why?</td>
+<td>Check Days_Online (was it shut down?). Compare with nearby wells. Check maintenance records. Examine the decline curve - is this normal or abnormal?</td>
+</tr>
+<tr>
+<td>ER wait times increased in June</td>
+<td>Why?</td>
+<td>Segment by shift and day of week. Was it an understaffing issue? A surge in high-triage patients? A specific bottleneck in treatment rooms?</td>
+</tr>
+</tbody></table>
+<p><strong>The key skill here is asking follow-up questions.</strong> The data gives you clues, not answers. You test hypotheses by slicing the data in different ways until a pattern emerges. This is what &quot;thinking like an analyst&quot; means in practice - and it is a skill we will build throughout every chapter.</p>
+<h3 id="123-predictive-analytics---what-will-happen">1.2.3 Predictive Analytics - &quot;What Will Happen?&quot;</h3>
+<p>Predictive analytics uses historical patterns to estimate future outcomes. It does not predict the future with certainty - it estimates probabilities based on past behaviour.</p>
+<p><strong>Techniques</strong>: Regression, time-series forecasting, classification models, machine learning.</p>
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>Forecasting next quarter&#39;s revenue based on historical trends and seasonality</li>
+<li>Predicting which employees are most likely to leave (attrition modelling)</li>
+<li>Estimating the remaining productive life of an oil well based on its decline curve</li>
+<li>Predicting which patients are at high risk of readmission</li>
+</ul>
+<p><strong>In this course</strong>: We will touch on simple regression and trendlines in Excel (Chapters 5 and 7), and briefly introduce forecasting concepts. Deep predictive modelling requires Python or R - that is the next course, not this one. But understanding <em>what</em> predictive analytics is and <em>when</em> to use it is essential knowledge for any analyst.</p>
+<h3 id="124-prescriptive-analytics---what-should-we-do">1.2.4 Prescriptive Analytics - &quot;What Should We Do?&quot;</h3>
+<p>The most advanced type. Prescriptive analytics does not just predict outcomes - it recommends actions. It answers: &quot;Given what we predict will happen, what is the optimal decision?&quot;</p>
+<p><strong>Techniques</strong>: Optimisation, simulation, decision trees, scenario analysis, linear programming.</p>
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>Given demand forecasts, how should we allocate inventory across warehouses to minimise shipping costs?</li>
+<li>Given drilling cost estimates and production forecasts, which wells should we prioritise for development?</li>
+<li>Given budget constraints, which marketing channels should receive more investment to maximise conversions?</li>
+</ul>
+<p><strong>In this course</strong>: Chapter 8 introduces What-If Analysis (Goal Seek, Data Tables, Scenario Manager) and Solver in Excel - these are accessible prescriptive tools. Power BI&#39;s what-if parameters (Chapter 10) also touch this territory.</p>
+<h3 id="125-the-analytics-maturity-curve">1.2.5 The Analytics Maturity Curve</h3>
+<p>Most organisations live in the descriptive layer. The progression upward represents both increasing value and increasing difficulty:</p>
+<pre><code class="language-">                                         ┌──────────────────────┐
+                                         │   PRESCRIPTIVE       │  ← "What should we do?"
+                                         │   Optimisation,      │     Highest value,
+                                         │   simulation         │     highest difficulty
+                                    ┌────┴──────────────────────┴────┐
+                                    │        PREDICTIVE              │  ← "What will happen?"
+                                    │        Forecasting, ML models  │
+                               ┌────┴────────────────────────────────┴────┐
+                               │           DIAGNOSTIC                     │  ← "Why did it happen?"
+                               │           Root cause, correlation        │
+                          ┌────┴──────────────────────────────────────────┴────┐
+                          │              DESCRIPTIVE                           │  ← "What happened?"
+                          │              Dashboards, reports, KPIs             │     Most organisations
+                          └───────────────────────────────────────────────────┘     live here</code></pre><p><strong>Your goal is not to reach prescriptive analytics immediately.</strong> Your goal is to master descriptive and diagnostic analytics so thoroughly that your work is genuinely useful - and to understand the upper layers well enough to know when they are needed and how to collaborate with data scientists who build them.</p>
+<hr>
+<h2 id="13-the-data-analytics-lifecycle">1.3 The Data Analytics Lifecycle</h2>
+<p>Every analytical project - from a quick question answered in 15 minutes to a six-month strategic initiative - follows the same fundamental process. The six stages are:</p>
+<h3 id="131-stage-1-ask---define-the-question">1.3.1 Stage 1: Ask - Define the Question</h3>
+<p>The most critical stage, and the most frequently skipped. A vague question produces a vague answer.</p>
+<p><strong>Bad questions</strong>:</p>
+<ul>
+<li>&quot;Can you look at our sales data?&quot;</li>
+<li>&quot;Why is performance bad?&quot;</li>
+<li>&quot;What does the data show?&quot;</li>
+</ul>
+<p><strong>Good questions</strong> (SMART framework adapted for analytics):</p>
+<ul>
+<li>&quot;What was the percentage change in revenue by product category between Q3 2023 and Q3 2024, and which categories contributed most to the overall change?&quot;</li>
+<li>&quot;Among employees who left in the last 12 months, what distinguishes them from those who stayed - by department, tenure, performance rating, and satisfaction score?&quot;</li>
+<li>&quot;Which marketing channel has the highest conversion rate per dollar spent for the 25-34 age segment in North America?&quot;</li>
+</ul>
+<p><strong>What makes a question good</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>Bad Example</th>
+<th>Good Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Specific</strong></td>
+<td>&quot;Look at sales&quot;</td>
+<td>&quot;Compare Q3 YoY revenue by category&quot;</td>
+</tr>
+<tr>
+<td><strong>Measurable</strong></td>
+<td>&quot;Is marketing working?&quot;</td>
+<td>&quot;What is the ROI by channel?&quot;</td>
+</tr>
+<tr>
+<td><strong>Answerable with data</strong></td>
+<td>&quot;Is the CEO making good decisions?&quot;</td>
+<td>&quot;How does our budget variance compare to last year?&quot;</td>
+</tr>
+<tr>
+<td><strong>Actionable</strong></td>
+<td>&quot;Show me everything&quot;</td>
+<td>&quot;Which underperforming products should we discontinue?&quot;</td>
+</tr>
+<tr>
+<td><strong>Time-bound</strong></td>
+<td>&quot;How are we doing?&quot;</td>
+<td>&quot;What was our January-June 2024 performance vs the same period in 2023?&quot;</td>
+</tr>
+</tbody></table>
+<h3 id="132-stage-2-collect---gather-the-data">1.3.2 Stage 2: Collect - Gather the Data</h3>
+<p>Once you know the question, you identify what data you need and where it lives.</p>
+<p><strong>Common data sources</strong>:</p>
+<ul>
+<li>Internal databases (SQL databases, ERP systems, CRM platforms)</li>
+<li>Spreadsheets and CSV files (the most common format you will encounter)</li>
+<li>APIs (pulling data from web services)</li>
+<li>Web scraping (extracting data from websites)</li>
+<li>Third-party data providers (market data, demographic data, industry benchmarks)</li>
+<li>Manual collection (surveys, interviews, observations)</li>
+</ul>
+<p><strong>In this course</strong>: Your data is pre-prepared in the <code>datasets/</code> folder. In real work, data collection is often the hardest and most time-consuming stage. You may discover the data you need does not exist, is in a format you cannot use, or is owned by a department that will not share it.</p>
+<h3 id="133-stage-3-clean---prepare-the-data">1.3.3 Stage 3: Clean - Prepare the Data</h3>
+<p>Raw data is almost never ready for analysis. Cleaning (also called &quot;data wrangling&quot; or &quot;data preparation&quot;) involves:</p>
+<ul>
+<li>Removing duplicate records</li>
+<li>Fixing formatting inconsistencies (dates, text casing, number formats)</li>
+<li>Handling missing values (deciding whether to fill, remove, or flag them)</li>
+<li>Correcting errors and typos</li>
+<li>Standardising categories (e.g., &quot;US&quot;, &quot;USA&quot;, &quot;United States&quot; → &quot;United States&quot;)</li>
+<li>Converting data types (text stored as numbers, dates stored as text)</li>
+<li>Restructuring data (pivoting, unpivoting, splitting columns, merging tables)</li>
+</ul>
+<p><strong>This is Chapter 4&#39;s entire focus.</strong> We will use <code>02_sales_dirty.csv</code> - a dataset deliberately packed with 12 categories of quality issues - to practice every cleaning technique systematically.</p>
+<h3 id="134-stage-4-analyse---find-the-patterns">1.3.4 Stage 4: Analyse - Find the Patterns</h3>
+<p>This is where you apply calculations, statistical methods, and logical reasoning to the cleaned data:</p>
+<ul>
+<li>Computing summary statistics (mean, median, mode, standard deviation)</li>
+<li>Segmenting data by categories (PivotTables, GROUP BY)</li>
+<li>Identifying trends over time</li>
+<li>Testing hypotheses (&quot;Is this difference statistically significant, or just random noise?&quot;)</li>
+<li>Building models (regression, forecasting)</li>
+<li>Finding outliers and anomalies</li>
+</ul>
+<p><strong>Chapters 3, 5, 6, and 8</strong> build this skill set progressively.</p>
+<h3 id="135-stage-5-visualise---communicate-the-findings">1.3.5 Stage 5: Visualise - Communicate the Findings</h3>
+<p>Analysis without communication is wasted effort. Visualisation translates numbers into stories that decision-makers can understand and act on.</p>
+<ul>
+<li>Choosing the right chart type for the data and message</li>
+<li>Designing for clarity, not decoration</li>
+<li>Building interactive dashboards</li>
+<li>Writing clear annotations and titles</li>
+</ul>
+<p><strong>Chapters 7 and 11</strong> are dedicated to this.</p>
+<h3 id="136-stage-6-act---drive-decisions">1.3.6 Stage 6: Act - Drive Decisions</h3>
+<p>The purpose of analytics is action. A beautiful dashboard that no one uses has zero value. This stage involves:</p>
+<ul>
+<li>Presenting findings to stakeholders</li>
+<li>Making specific, data-supported recommendations</li>
+<li>Implementing changes and measuring their impact</li>
+<li>Creating feedback loops (did the action produce the expected result?)</li>
+</ul>
+<p><strong>The capstone projects in Chapter 12</strong> practice this end-to-end: from raw data to actionable recommendations.</p>
+<h3 id="137-the-lifecycle-in-practice">1.3.7 The Lifecycle in Practice</h3>
+<p>The lifecycle is not purely linear. In practice, it is iterative:</p>
+<pre><code class="language-">    ┌────────────────────────────────────────┐
+    │                                        │
+    ▼                                        │
+   ASK  →  COLLECT  →  CLEAN  →  ANALYSE  → │ ← (discover you need more data)
+                                   │         │
+                                   ▼         │
+                              VISUALISE  ────┘ ← (stakeholder asks a follow-up question)
+                                   │
+                                   ▼
+                                  ACT</code></pre><p>You will frequently cycle back: analysing the data reveals a new question (back to Ask), or a stakeholder sees your visualisation and asks &quot;What about...?&quot; (back to Collect or Analyse).</p>
+<hr>
+<h2 id="14-what-is-data---types-structures-and-scales">1.4 What Is Data? - Types, Structures, and Scales</h2>
+<p>Before you can analyse data, you need to understand what you are looking at. &quot;Data&quot; is not one thing - it comes in different types, and the type determines which operations, functions, and charts are appropriate.</p>
+<h3 id="141-quantitative-vs-qualitative-data">1.4.1 Quantitative vs Qualitative Data</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Definition</th>
+<th>Examples</th>
+<th>What You Can Do With It</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Quantitative (Numerical)</strong></td>
+<td>Data that represents amounts or measurements. Can be counted or measured.</td>
+<td>Revenue ($12,500), temperature (72°F), patient wait time (45 min), oil production (8,500 BBL), employee age (34)</td>
+<td>Sum, average, min, max, standard deviation, regression, histograms</td>
+</tr>
+<tr>
+<td><strong>Qualitative (Categorical)</strong></td>
+<td>Data that represents categories, labels, or descriptions. Cannot be meaningfully summed or averaged.</td>
+<td>Region (&quot;North America&quot;), department (&quot;Engineering&quot;), ship mode (&quot;First Class&quot;), triage level (&quot;Urgent&quot;), gender (&quot;Female&quot;)</td>
+<td>Count, frequency tables, proportions, bar charts, pie charts</td>
+</tr>
+</tbody></table>
+<p><strong>Why this matters</strong>: You cannot calculate the average of &quot;North America&quot; and &quot;Europe.&quot; You cannot create a histogram of customer names. If someone asks you to average a categorical column, they are asking the wrong question - or the data is miscoded.</p>
+<h3 id="142-discrete-vs-continuous-data-quantitative-subdivision">1.4.2 Discrete vs Continuous Data (Quantitative Subdivision)</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Definition</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Discrete</strong></td>
+<td>Countable values, usually integers. There are gaps between possible values.</td>
+<td>Number of orders (3), quantity sold (7), number of employees (200), number of wells (25)</td>
+</tr>
+<tr>
+<td><strong>Continuous</strong></td>
+<td>Measurable values that can take any value within a range, including decimals.</td>
+<td>Revenue ($12,456.78), temperature (72.3°F), weight (14.7 kg), wait time (37.5 min)</td>
+</tr>
+</tbody></table>
+<p><strong>Why this matters for charts</strong>: Discrete data works well with bar charts (each value gets its own bar). Continuous data works well with histograms (values are grouped into bins) and line charts (showing smooth trends).</p>
+<h3 id="143-the-four-scales-of-measurement">1.4.3 The Four Scales of Measurement</h3>
+<p>This framework (developed by psychologist Stanley Stevens in 1946) tells you <em>how much information</em> a variable carries:</p>
+<table>
+<thead>
+<tr>
+<th>Scale</th>
+<th>Definition</th>
+<th>Properties</th>
+<th>Examples</th>
+<th>Allowed Operations</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Nominal</strong></td>
+<td>Categories with no inherent order</td>
+<td>Identity only</td>
+<td>Country, department, ship mode, customer segment, well status (&quot;Active&quot;, &quot;Shut-in&quot;)</td>
+<td>Count, mode, proportion</td>
+</tr>
+<tr>
+<td><strong>Ordinal</strong></td>
+<td>Categories with a meaningful order, but unequal spacing</td>
+<td>Identity + order</td>
+<td>Triage level (1-5), performance rating (1-5), education level (High School, Bachelor&#39;s, Master&#39;s, PhD), T-shirt size (S, M, L, XL)</td>
+<td>Count, mode, median, rank</td>
+</tr>
+<tr>
+<td><strong>Interval</strong></td>
+<td>Numeric with equal spacing, but no true zero</td>
+<td>Identity + order + equal intervals</td>
+<td>Temperature in °C/°F (0°C ≠ &quot;no temperature&quot;), calendar year (year 0 is arbitrary), credit score</td>
+<td>Mean, standard deviation, addition, subtraction</td>
+</tr>
+<tr>
+<td><strong>Ratio</strong></td>
+<td>Numeric with equal spacing AND a true zero</td>
+<td>Identity + order + equal intervals + true zero</td>
+<td>Revenue ($0 = no revenue), weight (0 kg = no weight), oil production (0 BBL = nothing produced), age, distance</td>
+<td>All operations including multiplication, division, percentages</td>
+</tr>
+</tbody></table>
+<p><strong>Why this matters</strong>: The scale determines which statistics are valid:</p>
+<ul>
+<li>You <strong>cannot</strong> calculate the mean of nominal data (&quot;the average country is 2.3&quot; is nonsense)</li>
+<li>You <strong>can</strong> calculate the median of ordinal data (median triage level = 3 is meaningful)</li>
+<li>You <strong>should not</strong> say &quot;80°F is twice as hot as 40°F&quot; (interval scale - no true zero)</li>
+<li>You <strong>can</strong> say &quot;$80,000 salary is twice $40,000&quot; (ratio scale - $0 is a true zero)</li>
+</ul>
+<blockquote>
+<p><strong>Practical tip</strong>: In Excel, you rarely need to think about Stevens&#39; scales explicitly. But when someone asks you to &quot;average the satisfaction scores&quot; (ordinal data), you should recognise that the mean of 1-5 ratings is mathematically valid but conceptually debatable - the difference between a 2 and a 3 may not be the same as between a 4 and a 5. Reporting the median is often more defensible.</p>
+</blockquote>
+<h3 id="144-structured-vs-unstructured-data">1.4.4 Structured vs Unstructured Data</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Definition</th>
+<th>Examples</th>
+<th>Tools</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Structured</strong></td>
+<td>Organised in rows and columns with defined types</td>
+<td>CSV files, Excel tables, database tables</td>
+<td>Excel, SQL, Power BI (this course)</td>
+</tr>
+<tr>
+<td><strong>Semi-structured</strong></td>
+<td>Has some organisation but not rigid rows/columns</td>
+<td>JSON, XML, log files, emails</td>
+<td>Python, Power Query (partially)</td>
+</tr>
+<tr>
+<td><strong>Unstructured</strong></td>
+<td>No predefined structure</td>
+<td>Images, audio, video, free-text documents, social media posts</td>
+<td>Python, NLP/ML tools (not this course)</td>
+</tr>
+</tbody></table>
+<p>This course focuses entirely on <strong>structured data</strong> - tabular data organised in rows and columns. This is where Excel and Power BI excel (pun intended), and it is where the vast majority of business data analytics happens.</p>
+<hr>
+<h2 id="15-the-analytics-tool-landscape">1.5 The Analytics Tool Landscape</h2>
+<p>Before we dive into Excel in Chapter 2, let us map out where each tool fits. This prevents the common mistake of trying to use one tool for everything.</p>
+<h3 id="151-where-each-tool-fits">1.5.1 Where Each Tool Fits</h3>
+<pre><code class="language-">    ┌──────────────────────────────────────────────────────────────┐
+    │                    THE ANALYTICS STACK                       │
+    │                                                              │
+    │   ┌─────────────┐  ┌──────────────┐  ┌─────────────────┐   │
+    │   │   COLLECT    │  │   STORE      │  │   TRANSFORM     │   │
+    │   │             │  │              │  │                 │   │
+    │   │  APIs       │  │  SQL Server  │  │  Power Query    │   │
+    │   │  Web scrape │  │  PostgreSQL  │  │  Python/pandas  │   │
+    │   │  CSV export │  │  BigQuery    │  │  SQL            │   │
+    │   │  Manual     │  │  Snowflake   │  │  Excel formulas │   │
+    │   └──────┬──────┘  └──────┬───────┘  └────────┬────────┘   │
+    │          └────────────────┼────────────────────┘            │
+    │                          ▼                                  │
+    │   ┌──────────────────────────────────────────────────────┐  │
+    │   │                    ANALYSE                            │  │
+    │   │                                                      │  │
+    │   │    Excel (formulas, PivotTables, statistics)         │  │
+    │   │    SQL (querying, aggregation, window functions)     │  │
+    │   │    Python (pandas, scipy, scikit-learn)              │  │
+    │   │    R (statistical modelling, visualisation)          │  │
+    │   └──────────────────────┬───────────────────────────────┘  │
+    │                          ▼                                  │
+    │   ┌──────────────────────────────────────────────────────┐  │
+    │   │                   VISUALISE & SHARE                   │  │
+    │   │                                                      │  │
+    │   │    Power BI (dashboards, interactive reports)        │  │
+    │   │    Tableau (data visualisation)                      │  │
+    │   │    Excel (charts, dashboards - smaller audiences)    │  │
+    │   │    Looker / Metabase (embedded analytics)            │  │
+    │   └──────────────────────────────────────────────────────┘  │
+    └──────────────────────────────────────────────────────────────┘</code></pre><h3 id="152-why-we-start-with-excel">1.5.2 Why We Start With Excel</h3>
+<p>Excel is the right starting tool for three reasons:</p>
+<ol>
+<li><p><strong>Immediate feedback</strong>: You type a formula, press Enter, and see the result. There is no compilation step, no server to start, no syntax to memorise before you can do anything useful. This tight feedback loop accelerates learning.</p>
+</li>
+<li><p><strong>Visual data model</strong>: In Excel, you can <em>see</em> your data and your formulas simultaneously. When <code>=VLOOKUP(A2, products!A:D, 3, FALSE)</code> returns <code>#N/A</code>, you can click on the lookup table and visually check whether the value exists. This visibility makes debugging intuitive.</p>
+</li>
+<li><p><strong>Universal accessibility</strong>: Nearly every professional has Excel installed. When you build a model or analysis in Excel, you can share it with anyone - no special software required. This pragmatic reality means Excel skills have immediate workplace value.</p>
+</li>
+</ol>
+<p><strong>Excel&#39;s limitations</strong> (and why we add Power BI):</p>
+<ul>
+<li>Excel struggles with datasets larger than ~100,000 rows (Power BI handles millions)</li>
+<li>Excel dashboards are static - Power BI dashboards are interactive, refreshable, and shareable</li>
+<li>Excel&#39;s data model capabilities are limited - Power BI&#39;s star schema modelling is dramatically more powerful</li>
+<li>Excel files become unwieldy when shared among many users - Power BI reports are designed for organisational distribution</li>
+</ul>
+<h3 id="153-the-t-shaped-analyst">1.5.3 The T-Shaped Analyst</h3>
+<p>The most effective analysts are &quot;T-shaped&quot;: deep expertise in a few tools, broad familiarity with the ecosystem.</p>
+<pre><code class="language-">           BROAD KNOWLEDGE (understand what they do, when to use them)
+    ─────────────────────────────────────────────────────────────────
+    SQL     Python    Tableau    Cloud     Statistics    ML/AI
+                                Platforms
+
+
+              │            │
+              │            │
+              │            │
+              ▼            ▼
+           Excel       Power BI
+
+         DEEP EXPERTISE (can build production-quality work)</code></pre><p>This course builds the vertical bars: deep Excel and Power BI skills. The horizontal bar - awareness of SQL, Python, cloud platforms, machine learning - is introduced in Chapter 12 and expanded in subsequent courses.</p>
+<hr>
+<h2 id="16-thinking-like-an-analyst">1.6 Thinking Like an Analyst</h2>
+<p>This section is arguably the most important in the chapter. Tools change. Data formats change. The ability to think clearly about data does not change.</p>
+<h3 id="161-ask-compared-to-what">1.6.1 Ask &quot;Compared to What?&quot;</h3>
+<p>A number in isolation means nothing. &quot;We made $2.3 million in revenue&quot; is a fact, not an insight. The insight comes from comparison:</p>
+<ul>
+<li>Compared to <strong>last year</strong>: Did revenue grow or shrink?</li>
+<li>Compared to <strong>budget</strong>: Are we on track?</li>
+<li>Compared to <strong>competitors</strong>: Is our growth rate above or below market?</li>
+<li>Compared to <strong>a different segment</strong>: Which region or product drove the change?</li>
+</ul>
+<p>Every number needs context. When you build a chart, a PivotTable, or a dashboard, always include the comparison. A standalone number is decoration; a comparison is analysis.</p>
+<h3 id="162-simpsons-paradox---the-ultimate-warning-story">1.6.2 Simpson&#39;s Paradox - The Ultimate Warning Story</h3>
+<p>Here is a scenario that has misled real analysts working with real data:</p>
+<p><strong>Overall admission rates by gender</strong> at a hypothetical university:</p>
+<table>
+<thead>
+<tr>
+<th>Gender</th>
+<th>Applied</th>
+<th>Admitted</th>
+<th>Admission Rate</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Men</td>
+<td>2,700</td>
+<td>1,198</td>
+<td><strong>44.4%</strong></td>
+</tr>
+<tr>
+<td>Women</td>
+<td>1,800</td>
+<td>684</td>
+<td><strong>38.0%</strong></td>
+</tr>
+</tbody></table>
+<p>At first glance, this looks like gender discrimination - men are admitted at a higher rate. But let us break it down by department:</p>
+<p><strong>Department A</strong> (easy to get into, high acceptance rate):</p>
+<table>
+<thead>
+<tr>
+<th>Gender</th>
+<th>Applied</th>
+<th>Admitted</th>
+<th>Rate</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Men</td>
+<td>500</td>
+<td>450</td>
+<td>90%</td>
+</tr>
+<tr>
+<td>Women</td>
+<td>100</td>
+<td>92</td>
+<td><strong>92%</strong></td>
+</tr>
+</tbody></table>
+<p><strong>Department B</strong> (hard to get into, low acceptance rate):</p>
+<table>
+<thead>
+<tr>
+<th>Gender</th>
+<th>Applied</th>
+<th>Admitted</th>
+<th>Rate</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Men</td>
+<td>2,200</td>
+<td>748</td>
+<td>34%</td>
+</tr>
+<tr>
+<td>Women</td>
+<td>1,700</td>
+<td>592</td>
+<td><strong>34.8%</strong></td>
+</tr>
+</tbody></table>
+<p>Within <em>each individual department</em>, women have a slightly higher admission rate! The paradox: women applied in much greater numbers to the more competitive department, dragging down their overall rate.</p>
+<p><strong>The lesson</strong>: Aggregated data can reverse the conclusion of disaggregated data. Always check whether a hidden variable (in this case, department choice) is driving the pattern. This is not an academic curiosity - it affects real decisions in hiring, healthcare, marketing, and every domain you will encounter.</p>
+<h3 id="163-correlation-is-not-causation">1.6.3 Correlation Is Not Causation</h3>
+<p>This phrase is repeated so often it has become a cliché, but analysts still fall for it regularly:</p>
+<ul>
+<li>Ice cream sales and drowning deaths are strongly correlated. Ice cream does not cause drowning. Both are driven by a third variable: <strong>hot weather</strong> (people swim more and buy more ice cream).</li>
+<li>A company notices that employees who attend training sessions have higher performance ratings. Does training improve performance? Or do already-motivated employees (who would perform well anyway) self-select into training?</li>
+<li>Marketing spend and revenue are correlated. Does spending more money <em>cause</em> more revenue? Or does the company spend more during peak seasons when revenue would be high anyway?</li>
+</ul>
+<p><strong>How to protect yourself</strong>:</p>
+<ol>
+<li>Always ask: <em>Is there a plausible mechanism?</em> (Does X logically cause Y?)</li>
+<li>Always ask: <em>Could a third variable explain both?</em> (Is there a confounding variable?)</li>
+<li>The only reliable way to prove causation is a <strong>controlled experiment</strong> (A/B test) - not observation of historical data.</li>
+</ol>
+<h3 id="164-survivorship-bias">1.6.4 Survivorship Bias</h3>
+<p>You analyse the performance of mutual funds and find that the average fund returned 12% over 10 years. Impressive? Not necessarily - because the funds that <em>performed badly were shut down</em> and are no longer in the dataset. You are only seeing the survivors.</p>
+<p>This bias appears everywhere:</p>
+<ul>
+<li>&quot;Companies that did X were successful&quot; (what about companies that did X and failed?)</li>
+<li>&quot;Patients who received treatment Y recovered faster&quot; (patients healthy enough to receive treatment may have recovered faster anyway)</li>
+<li>&quot;Our top-selling products have high margins&quot; (products with high margins that didn&#39;t sell were discontinued)</li>
+</ul>
+<p><strong>The lesson</strong>: Always ask what is <em>missing</em> from your data, not just what is present.</p>
+<h3 id="165-confirmation-bias">1.6.5 Confirmation Bias</h3>
+<p>The human tendency to search for, interpret, and remember data that confirms your pre-existing beliefs - and to ignore data that contradicts them.</p>
+<p><strong>In analytics, this manifests as</strong>:</p>
+<ul>
+<li>Cherry-picking metrics that support the conclusion you already believe</li>
+<li>Stopping analysis when you find a result you like (instead of testing it further)</li>
+<li>Choosing chart types or scales that exaggerate the pattern you want to show</li>
+<li>Ignoring outliers that contradict your narrative</li>
+</ul>
+<p><strong>How to protect yourself</strong>:</p>
+<ol>
+<li>Before analysing, write down your hypothesis <em>and what would disprove it</em></li>
+<li>Actively look for evidence against your conclusion</li>
+<li>Have someone else review your analysis - fresh eyes catch biases</li>
+</ol>
+<h3 id="166-the-base-rate-fallacy">1.6.6 The Base Rate Fallacy</h3>
+<p>A medical test for a rare disease is 99% accurate. You test positive. What is the probability you actually have the disease?</p>
+<p>Intuition says 99%. The correct answer depends on the <strong>base rate</strong> - how common the disease is:</p>
+<ul>
+<li>If 1 in 10,000 people have the disease (0.01% base rate):</li>
+<li>Out of 10,000 people tested: 1 true positive, 100 false positives (1% of 9,999 healthy people)</li>
+<li>Your probability of actually having the disease: 1 / 101 ≈ <strong>1%</strong></li>
+</ul>
+<p>The 99% accurate test gives you only a 1% chance of being sick. The base rate (how rare the disease is) dominates the calculation.</p>
+<p><strong>In analytics</strong>: When your model flags 500 transactions as fraudulent out of 1 million, and fraud is rare (0.1%), most of those 500 flags are likely false positives. Understanding base rates prevents you from overreacting to model predictions.</p>
+<hr>
+<h2 id="17-a-preview-of-the-course-datasets">1.7 A Preview of the Course Datasets</h2>
+<p>To make the concepts above concrete, let us preview the primary dataset you will use throughout this course. Open <code>datasets/01_global_superstore_sales.csv</code> in Excel (File → Open → navigate to the file).</p>
+<h3 id="171-what-you-will-see">1.7.1 What You Will See</h3>
+<p>A table with 1,000 rows and 18 columns representing three years of multinational retail sales. Each row is one order:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Data Type</th>
+<th>Scale</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Order_ID</code></td>
+<td>Qualitative</td>
+<td>Nominal</td>
+<td><code>ORD-0001</code></td>
+</tr>
+<tr>
+<td><code>Order_Date</code></td>
+<td>Quantitative</td>
+<td>Interval</td>
+<td><code>2023-06-15</code></td>
+</tr>
+<tr>
+<td><code>Ship_Mode</code></td>
+<td>Qualitative</td>
+<td>Nominal</td>
+<td><code>Standard Class</code></td>
+</tr>
+<tr>
+<td><code>Customer_Name</code></td>
+<td>Qualitative</td>
+<td>Nominal</td>
+<td><code>Maria Schmidt</code></td>
+</tr>
+<tr>
+<td><code>Segment</code></td>
+<td>Qualitative</td>
+<td>Nominal</td>
+<td><code>Consumer</code></td>
+</tr>
+<tr>
+<td><code>Region</code></td>
+<td>Qualitative</td>
+<td>Nominal</td>
+<td><code>Europe</code></td>
+</tr>
+<tr>
+<td><code>Country</code></td>
+<td>Qualitative</td>
+<td>Nominal</td>
+<td><code>Germany</code></td>
+</tr>
+<tr>
+<td><code>Category</code></td>
+<td>Qualitative</td>
+<td>Nominal</td>
+<td><code>Technology</code></td>
+</tr>
+<tr>
+<td><code>Sales</code></td>
+<td>Quantitative</td>
+<td>Ratio</td>
+<td><code>$1,245.67</code></td>
+</tr>
+<tr>
+<td><code>Quantity</code></td>
+<td>Quantitative (Discrete)</td>
+<td>Ratio</td>
+<td><code>3</code></td>
+</tr>
+<tr>
+<td><code>Discount</code></td>
+<td>Quantitative</td>
+<td>Ratio</td>
+<td><code>0.15</code></td>
+</tr>
+<tr>
+<td><code>Profit</code></td>
+<td>Quantitative</td>
+<td>Ratio</td>
+<td><code>$312.45</code> (can be negative)</td>
+</tr>
+</tbody></table>
+<h3 id="172-first-observations">1.7.2 First Observations</h3>
+<p>Without any formulas, just by scrolling through the data, you can already start thinking analytically:</p>
+<ul>
+<li><strong>The data spans 3 years</strong> (2022–2024). This means you can do year-over-year comparisons.</li>
+<li><strong>There are 5 regions</strong> across 20 countries. Regional analysis will be meaningful.</li>
+<li><strong>Profit can be negative</strong>. High discounts on some products cause losses. This is worth investigating.</li>
+<li><strong>Some orders have large quantities</strong> (up to 14), while most are 1–5. Are large orders from Corporate customers?</li>
+<li><strong>Discounts range from 0 to 0.45</strong>. What is the relationship between discount level and profitability?</li>
+</ul>
+<p>These are the kinds of questions that will drive your analysis in the chapters ahead. For now, just notice them. The ability to <em>look at data and start asking questions</em> is the analyst&#39;s fundamental habit.</p>
+<hr>
+<h2 id="common-mistakes--misconceptions">Common Mistakes &amp; Misconceptions</h2>
+<h3 id="mistake-1-confusing-data-with-insight">Mistake 1: Confusing Data with Insight</h3>
+<p><strong>Data</strong>: &quot;Sales in Q3 were $1.2 million.&quot;
+<strong>Insight</strong>: &quot;Q3 sales dropped 18% versus last year, driven by a 35% decline in Furniture - specifically Office Chairs, where we lost 3 major corporate accounts to a competitor&#39;s price cut.&quot;</p>
+<p>Data is the raw number. Insight is the number <em>in context</em>, with a <em>cause</em> identified and an <em>action</em> implied. Your job as an analyst is to produce insights, not data summaries.</p>
+<h3 id="mistake-2-starting-with-the-tool-instead-of-the-question">Mistake 2: Starting with the Tool Instead of the Question</h3>
+<p>&quot;Let me build a PivotTable and see what comes out&quot; is the analytical equivalent of driving without a destination. Always start with a question, then choose the tool and technique that answers it.</p>
+<h3 id="mistake-3-treating-all-data-types-the-same">Mistake 3: Treating All Data Types the Same</h3>
+<p>Averaging zip codes, summing customer IDs, or creating pie charts of continuous data are all technically possible in Excel - and all analytically meaningless. The data type determines which operations and visualisations are valid.</p>
+<h3 id="mistake-4-assuming-more-data--better-analysis">Mistake 4: Assuming More Data = Better Analysis</h3>
+<p>10,000 rows of inaccurate, inconsistent data will produce worse results than 200 rows of clean, well-structured data. Quality beats quantity every time. This is why Chapter 4 (Data Cleaning) comes before Chapter 5 (Statistics).</p>
+<h3 id="mistake-5-ignoring-what-the-data-cannot-tell-you">Mistake 5: Ignoring What the Data Cannot Tell You</h3>
+<p>Every dataset has blind spots. Your sales data does not tell you why customers bought. Your employee data does not capture office culture or team dynamics. Your oil production data does not reflect geological uncertainties. Acknowledging limitations is not weakness - it is intellectual honesty.</p>
+<hr>
+<h2 id="in-simple-terms-tldr">In Simple Terms (TL;DR)</h2>
+<blockquote>
+<p><strong>ELI5 (Explain Like I&#39;m 5):</strong>
+Data analytics is just answering questions using numbers. &quot;Descriptive&quot; means what happened. &quot;Diagnostic&quot; means why it happened. &quot;Predictive&quot; means what will happen next. &quot;Prescriptive&quot; means what we should do about it.</p>
+</blockquote>
+<div class="class-activities"><h2>Practice Exercises</h2>
+
+<div class="exercise-section">### Beginner
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 1.1</div><div class="activity-body">Open `datasets/01_global_superstore_sales.csv` in Excel. Without using any formulas, just by scrolling and reading, answer these questions:
+- How many columns does the dataset have?
+- What date range does the data cover?
+- Name three quantitative columns and three qualitative columns.
+- What are the possible values in the `Segment` column?
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 1.2</div><div class="activity-body">Classify each of the following as descriptive, diagnostic, predictive, or prescriptive analytics:
+- "Our website had 12,000 visitors last week."
+- "Visitors from social media had a 2.1% conversion rate, while email visitors had 4.8% - the social media landing page may need improvement."
+- "Based on the last 6 months of traffic, we expect 15,000 visitors next week."
+- "To maximise conversions within our $5,000 budget, we should allocate 60% to email and 40% to search ads."
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 1.3</div><div class="activity-body">For each column in the sales dataset, identify the measurement scale (nominal, ordinal, interval, or ratio). Write your answers in a list.
+
+</div></div></div><div class="exercise-section">### Intermediate
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 1.4</div><div class="activity-body">Read the Simpson's Paradox example in Section 1.6.2 again. Now imagine you are an analyst at a hospital. The overall mortality rate for Surgery Department A is 5%, and for Surgery Department B is 3%. Before concluding that Department B is safer, what confounding variables might you need to investigate? List at least three.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 1.5</div><div class="activity-body">Open `datasets/03_employee_data.csv` in Excel. Just by scrolling (no formulas), identify:
+- What departments are represented?
+- What is the range of salary values (roughly)?
+- What column might you use to study employee retention?
+- Are there any obvious patterns you notice just by looking?
+
+</div></div></div><div class="exercise-section">### Challenge
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 1.6</div><div class="activity-body">A marketing team shares this claim: "Our social media campaign was a huge success - the number of followers grew 300% in three months." Using the analytical thinking principles from Section 1.6, write three critical questions you would ask before accepting this claim. Consider: base rates, comparison points, correlation vs causation, and what the metric of "followers" actually measures in terms of business value.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 1.7</div><div class="activity-body">Design an analytical question for each of the six datasets in this course. Each question should be specific, measurable, and actionable. For example, for the oil & gas dataset: "Which wells have production decline rates more than 2 standard deviations above the basin average, suggesting potential mechanical issues that warrant inspection?"
+</div></div></div></div>

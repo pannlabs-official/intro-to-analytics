@@ -1,0 +1,302 @@
+<h1 id="chapter-7---data-visualisation-charts-that-communicate">Chapter 7 - Data Visualisation: Charts That Communicate</h1>
+<hr>
+<h2 id="chapter-overview">Chapter Overview</h2>
+<p>If statistics is how analysts reason with data, visualisation is how they communicate it. A brilliant analysis presented poorly will be ignored. A mediocre analysis presented brilliantly will drive action. Your goal is brilliant analysis presented brilliantly.</p>
+<p>Most people learn to make charts by highlighting a table and clicking &quot;Recommended Charts.&quot; Excel then produces something with 3D effects, clashing colours, a redundant legend, and slanted axis labels. In this chapter, you will learn to turn off Excel&#39;s bad defaults. You will learn the cognitive principles of data visualisation: what chart types to use when, how to reduce &quot;data ink,&quot; and how to use colour strategically to draw the eye to the insight.</p>
+<p>We will move from basic charts (bar, line, scatter) to advanced visualisations (waterfalls, bullet graphs) and finally cover dashboard design principles.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Chapters 2-6 completed</li>
+<li><code>datasets/01_global_superstore_sales.csv</code> loaded</li>
+<li><code>datasets/05_marketing_campaigns.csv</code> available</li>
+<li><code>datasets/06_financial_budget_actuals.csv</code> available</li>
+</ul>
+<hr>
+<h2 id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Select the correct chart type for a given analytical question (comparison, trend, relationship, composition)</li>
+<li>Apply the &quot;Data-Ink Ratio&quot; principle to strip away visual clutter from Excel&#39;s default charts</li>
+<li>Use colour strategically to highlight the main message, rather than for decoration</li>
+<li>Create and format Bar/Column charts, Line charts, Scatter plots, and Combo charts</li>
+<li>Build advanced charts: Waterfalls (for variance) and Bullet graphs (for target tracking)</li>
+<li>Understand why Pie charts are often the wrong choice, and when it is acceptable to use them</li>
+<li>Apply the principles of dashboard layout (the &quot;F-pattern&quot;, whitespace, and visual hierarchy)</li>
+</ol>
+<hr>
+<h2 id="71-principles-of-effective-visualisation">7.1 Principles of Effective Visualisation</h2>
+<p>Before building a single chart, you need to understand <em>why</em> some charts work and others fail. Data visualisation relies on &quot;preattentive attributes&quot; - visual cues that the human brain processes in milliseconds, before conscious thought.</p>
+<p>Length (bar charts), position (scatter plots), and line direction (line charts) are processed accurately and instantly. Area (pie charts) and colour intensity (heatmaps) are processed less accurately. This biology dictates which charts we use.</p>
+<h3 id="711-edward-tufte-and-the-data-ink-ratio">7.1.1 Edward Tufte and the Data-Ink Ratio</h3>
+<p>Edward Tufte, a pioneer of data visualisation, coined the term <strong>Data-Ink Ratio</strong>:</p>
+<p><code>Data-Ink Ratio = (Ink used to display data) / (Total ink used to print the graphic)</code></p>
+<p><strong>Your goal is to maximise this ratio.</strong> Erase any ink that does not convey data.</p>
+<p><strong>What to strip away from Excel&#39;s default charts</strong>:</p>
+<ol>
+<li><strong>Chart borders</strong>: Remove the outline around the chart box</li>
+<li><strong>Gridlines</strong>: If you label the data points, delete the gridlines. If you keep gridlines, make them light grey, not black</li>
+<li><strong>Axes</strong>: If you label the bars with exact numbers, delete the vertical axis. You do not need both</li>
+<li><strong>Legends</strong>: If you only have one data series, delete the legend. Use the chart title to explain the data</li>
+<li><strong>3D Effects</strong>: Never use 3D. It distorts the data (the piece closer to the viewer looks larger than it is)</li>
+<li><strong>Shadows and gradients</strong>: These add cognitive load without adding information</li>
+</ol>
+<h3 id="712-colour-as-a-tool-not-decoration">7.1.2 Colour as a Tool, Not Decoration</h3>
+<p>Colour is the most abused element in Excel charts. A bar chart showing sales across 5 regions does not need 5 different colours. The labels already tell you which bar is which region.</p>
+<p><strong>The rules of colour</strong>:</p>
+<ol>
+<li><strong>Start with grey</strong>: Make all data elements a muted grey</li>
+<li><strong>Highlight the insight</strong>: Use a strong, bold colour (like dark blue or teal) <em>only</em> on the data point you want the audience to focus on</li>
+<li><strong>Use semantic colours</strong>: Red implies bad/negative. Green implies good/positive. Do not make the &quot;Returns&quot; bar green. Do not make the &quot;Profit&quot; bar red</li>
+<li><strong>Be colourblind-friendly</strong>: Avoid relying solely on red/green distinctions (the most common type of colour blindness). Add symbols, or use a blue/orange palette instead</li>
+</ol>
+<h3 id="713-the-chart-title-is-the-headline">7.1.3 The Chart Title is the Headline</h3>
+<p>Default title: <em>&quot;Sales by Region&quot;</em> (This just describes the axes).
+Better title: <em>&quot;Asia Pacific drove 45% of Q3 revenue growth, while Europe stalled.&quot;</em></p>
+<p>Treat the chart title like a newspaper headline. Tell the audience the conclusion, then use the chart to prove it.</p>
+<hr>
+<h2 id="72-choosing-the-right-chart-type">7.2 Choosing the Right Chart Type</h2>
+<p>The biggest mistake is choosing a chart because it &quot;looks cool.&quot; You must choose the chart that answers the analytical question.</p>
+<h3 id="721-comparison-magnitude">7.2.1 Comparison (Magnitude)</h3>
+<p>&quot;Which item is the biggest/smallest? How do they rank?&quot;</p>
+<p><strong>The tool</strong>: Bar Chart or Column Chart.</p>
+<ul>
+<li>Use <strong>Column charts</strong> (vertical bars) when you have few categories (e.g., 4 quarters) or ordinal data (e.g., Age 20-30, 30-40, 40-50).</li>
+<li>Use <strong>Bar charts</strong> (horizontal bars) when you have long category names (e.g., product names) or many categories. It prevents tilted axis text.</li>
+</ul>
+<p><strong>Crucial rule</strong>: Bar/column charts must <em>always</em> start their axis at zero. Because our brains compare the <em>length</em> of the bars, cutting off the bottom exaggerates small differences.</p>
+<h3 id="722-trends-over-time">7.2.2 Trends Over Time</h3>
+<p>&quot;How is this metric changing? Is it going up, down, or flat?&quot;</p>
+<p><strong>The tool</strong>: Line Chart.</p>
+<ul>
+<li>Place time on the horizontal (X) axis.</li>
+<li>Use solid lines for historical data, dashed lines for projections/forecasts.</li>
+</ul>
+<p><strong>Alternative</strong>: Column chart. If you have very few time periods (e.g., 3 years), a column chart is acceptable. If you have 24 months, use a line chart.</p>
+<h3 id="723-correlation--relationship">7.2.3 Correlation / Relationship</h3>
+<p>&quot;Does X increase when Y increases?&quot;</p>
+<p><strong>The tool</strong>: Scatter Plot.</p>
+<ul>
+<li>Both axes are numerical (e.g., X = Marketing Spend, Y = Revenue).</li>
+<li>Every dot represents one record (e.g., one campaign).</li>
+<li>Add a trendline to show the direction of the relationship.</li>
+</ul>
+<h3 id="724-composition-part-to-whole">7.2.4 Composition (Part-to-Whole)</h3>
+<p>&quot;What percentage of the total does each piece represent?&quot;</p>
+<p><strong>The tool</strong>: Pie Chart or 100% Stacked Bar Chart.</p>
+<p><strong>The Pie Chart Controversy</strong>: Data visualisation experts hate pie charts. Human brains are terrible at comparing angles and areas. We are great at comparing lengths.</p>
+<ul>
+<li>Is slice A bigger than slice B? In a pie chart, it is often hard to tell. In a bar chart, it is instantly obvious.</li>
+</ul>
+<p><strong>When you CAN use a pie chart</strong>:</p>
+<ol>
+<li>You have 2-3 categories maximum (e.g., Male/Female, Domestic/International).</li>
+<li>The differences are massive and obvious (e.g., 80% vs 20%).</li>
+<li>You include the percentage labels on the slices.</li>
+</ol>
+<p>For more than 3 categories, use a horizontal bar chart instead.</p>
+<hr>
+<h2 id="73-hands-on-building-and-formatting-core-charts">7.3 Hands-On: Building and Formatting Core Charts</h2>
+<p>Let us build a clean, professional chart step-by-step using <code>SalesData</code>.</p>
+<h3 id="731-building-a-clean-column-chart">7.3.1 Building a Clean Column Chart</h3>
+<p><strong>Goal</strong>: Show total sales by Region.</p>
+<ol>
+<li><strong>Create the data</strong>: Build a PivotTable. Rows: <code>Region</code>, Values: <code>Sales</code>. Sort largest to smallest.</li>
+<li><strong>Insert the chart</strong>: Click inside the PivotTable → Insert → Column Chart → Clustered Column (the first option).</li>
+<li><strong>Clean it up (Data-Ink Ratio)</strong>:<ul>
+<li>Click the legend and press <code>Delete</code>.</li>
+<li>Click the gridlines and press <code>Delete</code>.</li>
+<li>Right-click any of the grey &quot;Field Buttons&quot; on the chart → <strong>Hide All Field Buttons on Chart</strong>.</li>
+</ul>
+</li>
+<li><strong>Format the axes</strong>:<ul>
+<li>Double-click the vertical axis to open the Format pane.</li>
+<li>If the numbers are too long (e.g., $1,000,000), change Display Units to &quot;Millions&quot; or &quot;Thousands&quot;.</li>
+</ul>
+</li>
+<li><strong>Format the bars</strong>:<ul>
+<li>Right-click a bar → Format Data Series.</li>
+<li>Change <strong>Gap Width</strong> to 50% or 75% (Excel&#39;s default is too skinny. Fatter bars look more professional).</li>
+<li>Change the Fill Color to a muted grey.</li>
+</ul>
+</li>
+<li><strong>Highlight the insight</strong>:<ul>
+<li>Click the bars once (selects all). Click the &quot;Asia Pacific&quot; bar again (selects just that one).</li>
+<li>Change its Fill Color to a bold blue.</li>
+</ul>
+</li>
+<li><strong>Add data labels</strong>:<ul>
+<li>Click the chart → <code>+</code> icon (Chart Elements) → Check <strong>Data Labels</strong>.</li>
+<li>Now that you have labels, you can delete the vertical axis entirely.</li>
+</ul>
+</li>
+<li><strong>Add a headline</strong>: Change the title to <em>&quot;Asia Pacific leads regional sales at $1.2M&quot;</em>.</li>
+</ol>
+<p>Compare your result to Excel&#39;s default. Yours is cleaner, faster to read, and tells a specific story.</p>
+<h3 id="732-building-a-line-chart-with-a-target">7.3.2 Building a Line Chart with a Target</h3>
+<p><strong>Goal</strong>: Show monthly sales against a target.</p>
+<ol>
+<li><strong>Create the data</strong>: PivotTable. Rows: <code>Order_Date</code> (grouped by Year and Month). Values: <code>Sales</code>. Filter to a specific year.</li>
+<li><strong>Insert the chart</strong>: Insert → Line Chart → Line with Markers.</li>
+<li><strong>Clean it up</strong>: Delete legend, hide field buttons.</li>
+<li><strong>Add a target line</strong>:<ul>
+<li>In the cells next to the PivotTable, type a target number (e.g., $100,000) and copy it down for all months.</li>
+<li>Copy these target cells (<code>Ctrl+C</code>). Select the chart, and Paste (<code>Ctrl+V</code>). A second line appears.</li>
+</ul>
+</li>
+<li><strong>Format the target line</strong>:<ul>
+<li>Right-click the target line → Format Data Series.</li>
+<li>Change line colour to red or dark grey.</li>
+<li>Change &quot;Dash type&quot; to a dashed line (this is the universal visual language for targets/projections).</li>
+<li>Remove the markers from the target line (Marker Options → None).</li>
+</ul>
+</li>
+</ol>
+<h3 id="733-building-a-combo-chart-dual-axis">7.3.3 Building a Combo Chart (Dual Axis)</h3>
+<p><strong>Goal</strong>: Show Sales (magnitude, large numbers) and Profit Margin (percentage, very small numbers) on the same chart over time.</p>
+<p>If you put both on a standard chart, the Profit Margin line will sit flat at the bottom because 0.15 (15%) is invisible on an axis that goes up to $100,000.</p>
+<ol>
+<li><strong>Create the data</strong>: PivotTable. Rows: <code>Order_Date</code> (Months). Values: <code>Sales</code> and <code>Profit Margin</code> (Calculated Field).</li>
+<li><strong>Insert Combo Chart</strong>: Insert → Recommended Charts → All Charts → <strong>Combo</strong>.</li>
+<li><strong>Configure</strong>:<ul>
+<li>Sales: Clustered Column, Primary Axis.</li>
+<li>Profit Margin: Line with Markers, <strong>Secondary Axis</strong> (check the box).</li>
+</ul>
+</li>
+<li><strong>Format</strong>:<ul>
+<li>Ensure the secondary axis (percentages) is formatted as %.</li>
+<li>Colour the Sales bars light grey. Colour the Profit Margin line a bold colour.</li>
+<li>Make the chart title explicitly mention both metrics so the dual axes do not confuse the reader.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="74-advanced-business-charts">7.4 Advanced Business Charts</h2>
+<p>These charts are not in Excel&#39;s standard gallery, but they are essential for corporate reporting.</p>
+<h3 id="741-the-waterfall-chart-variance-analysis">7.4.1 The Waterfall Chart (Variance Analysis)</h3>
+<p><strong>Purpose</strong>: To explain <em>why</em> a number changed from Point A to Point B by showing the positive and negative contributing factors.</p>
+<p><strong>Example</strong>: Why did profit drop from Q1 to Q2?</p>
+<ul>
+<li>Q1 Profit: $50,000</li>
+<li>Technology grew: +$10,000</li>
+<li>Furniture crashed: -$25,000</li>
+<li>Office Supplies dropped: -$5,000</li>
+<li>Q2 Profit: $30,000</li>
+</ul>
+<p><strong>How to build in Excel (2016+)</strong>:</p>
+<ol>
+<li>You must build this from a plain Table or range, <em>not</em> a PivotTable (Waterfall charts do not support PivotTables directly).</li>
+<li>Set up your data with the start value, the changes, and the end value.</li>
+<li>Select the data → Insert → Waterfall Chart.</li>
+<li><strong>Crucial step</strong>: Double-click the &quot;Q1 Profit&quot; bar to select just that bar. Right-click → <strong>Set as Total</strong>. Repeat for &quot;Q2 Profit&quot;. This anchors them to the baseline instead of letting them float.</li>
+<li>Format the positive changes green and negative changes red.</li>
+</ol>
+<h3 id="742-the-bullet-graph-target-tracking">7.4.2 The Bullet Graph (Target Tracking)</h3>
+<p>Invented by Stephen Few, the bullet graph was designed to replace dashboard gauges and dials (which take up too much space and provide too little context).</p>
+<p>A bullet graph shows a primary measure (bar), a target (marker), and qualitative ranges (e.g., poor, satisfactory, good) as background bands.</p>
+<p><strong>How to build in Excel</strong> (using a workaround, as it is not a native chart type):</p>
+<ol>
+<li>Use a Clustered Column chart.</li>
+<li>Put the actual value, target value, and the background ranges (e.g., 0-50, 50-75, 75-100) in your data.</li>
+<li>Move the Target to a Secondary Axis, change its chart type to a Line with Markers (no line, just the marker). Change the marker to a horizontal dash.</li>
+<li>Move the Actual value to the Secondary Axis as well. Make its Gap Width very wide (so the bar is skinny).</li>
+<li>Ensure the Primary and Secondary axes have the exact same maximum value, then hide the Secondary axis.</li>
+</ol>
+<p><em>(Note: Bullet graphs are natively supported in Power BI, which we will cover in Chapter 11. In Excel, they require significant formatting effort).</em></p>
+<hr>
+<h2 id="75-conditional-formatting-as-visualisation">7.5 Conditional Formatting as Visualisation</h2>
+<p>Sometimes a chart is the wrong tool. If a stakeholder wants to see the exact numbers in a table, but you want to guide their eye to the insights, use <strong>in-cell visualisation</strong>.</p>
+<h3 id="751-data-bars">7.5.1 Data Bars</h3>
+<p>Data bars turn a column of numbers into tiny in-cell bar charts.</p>
+<ul>
+<li>Select the numbers → Home → Conditional Formatting → Data Bars.</li>
+<li><strong>Tip</strong>: Check the box &quot;Show Bar Only&quot; (Edit Rule) to hide the numbers and just show the bars, effectively creating a mini chart column within a table.</li>
+</ul>
+<h3 id="752-heatmaps-color-scales">7.5.2 Heatmaps (Color Scales)</h3>
+<p>Heatmaps use colour intensity to represent values. Excellent for cross-tabulations (e.g., Sales by Day of Week vs Hour of Day).</p>
+<ul>
+<li>Select the grid of numbers → Home → Conditional Formatting → Color Scales.</li>
+<li><strong>Tip</strong>: Do not use the Red-Yellow-Green scale. It is terrible for colourblind users and implies good/bad when that might not be true. Use a single-colour gradient (e.g., Light Blue to Dark Blue) for pure magnitude.</li>
+</ul>
+<h3 id="753-sparklines">7.5.3 Sparklines</h3>
+<p>Sparklines are tiny line or column charts that fit inside a single cell. They provide historical context to a current-status table without taking up space.</p>
+<ul>
+<li>Select the cell where you want the sparkline → Insert → Sparklines (Line or Column) → Select the data range (e.g., the 12 months of historical data).</li>
+<li><strong>Tip</strong>: Always add the &quot;High Point&quot; and &quot;Low Point&quot; markers (Sparkline tab) to provide reference points.</li>
+</ul>
+<hr>
+<h2 id="76-designing-an-excel-dashboard">7.6 Designing an Excel Dashboard</h2>
+<p>A dashboard is a visual display of the most important information needed to achieve one or more objectives, consolidated on a single screen.</p>
+<h3 id="761-the-grid-layout">7.6.1 The Grid Layout</h3>
+<p>Never place charts randomly on a sheet. Use the spreadsheet grid to enforce alignment.</p>
+<ol>
+<li>Create a new sheet named &quot;Dashboard&quot;.</li>
+<li>Turn off gridlines for the entire sheet (View → uncheck Gridlines).</li>
+<li>Resize the columns to be narrow (e.g., width 2 or 3) to create a fine grid.</li>
+<li>Snap your charts to this grid (Hold <code>Alt</code> while dragging a chart to snap it perfectly to the cell borders).</li>
+</ol>
+<h3 id="762-the-f-pattern-and-visual-hierarchy">7.6.2 The F-Pattern and Visual Hierarchy</h3>
+<p>Eye-tracking studies show that in western cultures, people scan dashboards in an &quot;F&quot; pattern: Top-left across, then down the left side, then across again.</p>
+<p><strong>Layout strategy</strong>:</p>
+<ul>
+<li><strong>Top Left</strong>: The most important high-level KPIs (Total Revenue, Total Profit). Large numbers, no charts.</li>
+<li><strong>Top Right</strong>: Interactive controls (Slicers, Timelines).</li>
+<li><strong>Middle Row</strong>: Context charts (Trends over time, Performance against target).</li>
+<li><strong>Bottom Row</strong>: Detailed charts (Breakdowns by category, region, product).</li>
+</ul>
+<h3 id="763-the-dashboard-construction-workflow">7.6.3 The Dashboard Construction Workflow</h3>
+<p>Do not build charts directly from raw data on the dashboard sheet. Use a three-layer architecture:</p>
+<ol>
+<li><strong>Data Layer</strong> (Sheet: <code>SalesData</code>): The raw table. Hide this from the end user.</li>
+<li><strong>Calculation Layer</strong> (Sheet: <code>Pivot_Calcs</code>): A sheet containing all the PivotTables and formulas driving the dashboard. Hide this.</li>
+<li><strong>Presentation Layer</strong> (Sheet: <code>Dashboard</code>): The clean sheet containing only Charts, KPI text boxes, and Slicers.</li>
+</ol>
+<p>When you create a chart from a PivotTable in the Calculation layer, simply cut it (<code>Ctrl+X</code>) and paste it (<code>Ctrl+V</code>) onto the Dashboard layer. The chart remains linked to the hidden PivotTable.</p>
+<hr>
+<h2 id="common-mistakes--misconceptions">Common Mistakes &amp; Misconceptions</h2>
+<h3 id="mistake-1-the-exploding-3d-pie-chart">Mistake 1: The Exploding 3D Pie Chart</h3>
+<p>The worst chart in business. 3D distorts the area (making the front slice look bigger than it is mathematically). &quot;Exploding&quot; the slices makes it harder for the eye to compare them. Never use 3D charts for 2D data.</p>
+<h3 id="mistake-2-dual-axes-with-different-baselines">Mistake 2: Dual Axes with Different Baselines</h3>
+<p>If you use a secondary axis, both axes <strong>must</strong> start at zero. If the primary axis starts at 0 and the secondary axis starts at 50, the lines will cross in meaningless places, implying correlations that do not exist.</p>
+<h3 id="mistake-3-putting-a-line-chart-on-categorical-data">Mistake 3: Putting a Line Chart on Categorical Data</h3>
+<p>A line implies continuity. You can draw a line from January to February. You <strong>cannot</strong> draw a line from &quot;Furniture&quot; to &quot;Technology&quot; - there is no continuous space between them. Use a bar chart for categorical data.</p>
+<h3 id="mistake-4-overusing-red-and-green">Mistake 4: Overusing Red and Green</h3>
+<p>Red and Green mean &quot;Bad&quot; and &quot;Good&quot;. If you use a red bar for &quot;North Region&quot; and a green bar for &quot;South Region&quot;, the audience will subliminally assume the North is failing and the South is succeeding, regardless of the actual numbers.</p>
+<h3 id="mistake-5-decorating-instead-of-communicating">Mistake 5: &quot;Decorating&quot; Instead of Communicating</h3>
+<p>Adding corporate logos in the background of a chart, using pictures of products instead of bars, or applying heavy bevel effects. This is chartjunk. It distracts from the data.</p>
+<hr>
+<h2 id="in-simple-terms-tldr">In Simple Terms (TL;DR)</h2>
+<blockquote>
+<p><strong>ELI5 (Explain Like I&#39;m 5):</strong>
+Charts make numbers easy to see. Bar charts compare sizes. Line charts show time. Avoid pie charts because human brains are bad at judging slices. Keep it simple and remove useless ink.</p>
+</blockquote>
+<div class="class-activities"><h2>Practice Exercises</h2>
+
+<div class="exercise-section">### Beginner
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 7.1</div><div class="activity-body">Open `datasets/01_global_superstore_sales.csv`. Create a PivotTable of Sales by Sub_Category. Insert a default Clustered Column chart. Now apply the Data-Ink principles: remove gridlines, remove the legend, hide field buttons, change the bars to grey, and make the top-selling Sub_Category blue. Add data labels. Compare the before and after.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 7.2</div><div class="activity-body">Change the chart from 7.1 to a Bar chart (horizontal). Why is this better for the Sub_Category data?
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 7.3</div><div class="activity-body">Create a PivotTable of Sales by Month. Create a Line Chart. Delete the legend. Add a linear trendline. Change the trendline to a dashed grey line.
+
+</div></div></div><div class="exercise-section">### Intermediate
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 7.4</div><div class="activity-body">Using `datasets/05_marketing_campaigns.csv`, create a Scatter Plot with `Spend` on the X-axis and `Revenue` on the Y-axis. Does there appear to be a correlation? Add a trendline to confirm.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 7.5</div><div class="activity-body">Open `datasets/06_financial_budget_actuals.csv`. Create a PivotTable comparing `Budget` vs `Actual` by Department. Create a Combo Chart where `Budget` is a grey Column chart and `Actual` is a red Line chart with markers (no connecting line). This is a clean way to show "actual vs target" without overlapping bars.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 7.6</div><div class="activity-body">On a new sheet, build a KPI grid. Write formulas that extract the Total Sales, Total Profit, and Profit Margin for the most recent month. Format these numbers with very large font sizes (e.g., 24pt). Below each, insert a Sparkline showing the 12-month trend for that metric.
+
+</div></div></div><div class="exercise-section">### Challenge
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 7.7</div><div class="activity-body">Build a complete, interactive Dashboard using the three-layer architecture (Data, Calculation, Dashboard sheets).
+- Include 3 high-level KPIs at the top
+- Include a Line chart showing sales over time
+- Include a Bar chart showing sales by Region
+- Include Slicers for `Category` and `Segment` (connected to all charts and KPIs)
+- Apply the F-pattern layout and remove all gridlines
+- Ensure all charts follow the Data-Ink ratio principles (no unnecessary borders, legends, or gridlines)
+</div></div></div></div>

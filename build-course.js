@@ -3,6 +3,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { marked } = require('marked');
 
 const dir = __dirname;
 
@@ -75,9 +76,29 @@ function escapeJS(str) {
   return str.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
 }
 
-const dataBlock = `const chapterData = {\n${chapters.map(ch =>
-  `  "${ch.id}": \`${escapeJS(mdData[ch.id])}\``
-).join(',\n')}\n};`;
+// Pre-render markdown to HTML at build time
+marked.setOptions({ gfm: true, breaks: false });
+const renderer = new marked.Renderer();
+renderer.code = function(code, language) {
+  if (typeof code === 'object') { language = code.lang; code = code.text; }
+  if (language === 'mermaid') {
+    return '<div class="mermaid">' + code + '</div>';
+  }
+  return '<pre><code class="language-' + (language || '') + '">' + code + '</code></pre>';
+};
+marked.use({ renderer });
+
+// Write each chapter as a separate HTML fragment file for lazy loading
+const chaptersOutDir = path.join(dir, 'chapters');
+if (!fs.existsSync(chaptersOutDir)) fs.mkdirSync(chaptersOutDir, { recursive: true });
+
+for (const ch of chapters) {
+  const renderedHtml = marked.parse(mdData[ch.id]);
+  fs.writeFileSync(path.join(chaptersOutDir, ch.id + '.html'), renderedHtml, 'utf8');
+}
+
+// No inline chapter data - chapters are fetched on demand via fetch()
+const dataBlock = 'const chapterCache = {};';
 
 const html = `<!DOCTYPE html>
 <html lang="en">
@@ -86,10 +107,9 @@ const html = `<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Data Analytics Course | Full-Stack Edition</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"><\\/script>
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"><\\/script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"><\\/script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\\/script>
+<script src="assets/js/mermaid.min.js" defer><\\/script>
+<script src="assets/js/supabase.js" defer><\\/script>
+<script src="assets/js/html2canvas.min.js" defer><\\/script>
 <style>
 :root {
   /* Light Theme Palette */
@@ -284,6 +304,7 @@ body { font-family: var(--font-body); background-color: var(--bg); background-im
 
 <!-- Top Navigation -->
 <div style="position:absolute; top:1rem; right:2rem; z-index: 300; display:flex; align-items:center; gap: 1rem;">
+  <button class="btn btn-secondary" id="admin-nav-btn" onclick="showAdmin()" style="padding: 0.5rem 1rem; font-size: 0.9rem; display:none; background:var(--accent); color:#fff; border-color:var(--border-color);">Admin Dashboard 📊</button>
   <span style="font-family:var(--font-mono); font-size:0.8rem; font-weight:700; color:var(--text); text-transform:uppercase; display:none;" id="optional-login-text">Login to save progress ➔</span>
   <button class="btn btn-secondary" id="auth-ui-btn" onclick="document.getElementById('auth-modal').style.display='flex'" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Login / Sync</button>
 </div>
@@ -324,6 +345,53 @@ body { font-family: var(--font-body); background-color: var(--bg); background-im
   <footer class="global-footer">
     <p>&copy; 2026 Data Analytics Course. Built by Humans.</p>
   </footer>
+</div>
+
+<!-- Admin Dashboard View -->
+<div id="admin-view" class="view">
+  <div class="home-wrapper" style="padding-top:2rem;">
+    <div class="hero-card" style="border-color:var(--accent); box-shadow:8px 8px 0px var(--accent); background:var(--accent);">
+      <div class="hero-badge" style="background:var(--accent);">Admin Panel</div>
+      <h1 class="hero-title" style="font-size:2.5rem; text-shadow: 3px 3px 0px #111;">Site Analytics & Progress</h1>
+      <p class="hero-desc">Monitor student enrollment, average course completion, and see student progress details in real-time.</p>
+      
+      <div id="admin-stats-cards" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1.5rem; margin-top:2rem;">
+        <div class="article-card" style="padding:1.5rem; margin:0; text-align:center; box-shadow: 4px 4px 0px var(--shadow-color);">
+          <h4 style="font-family:var(--font-mono); margin:0; font-size:0.9rem; text-transform:uppercase; color:var(--text);">Total Enrolled</h4>
+          <p id="admin-stat-users" style="font-family:var(--font-heading); font-size:3rem; font-weight:800; margin:0.5rem 0; color:var(--primary);">0</p>
+        </div>
+        <div class="article-card" style="padding:1.5rem; margin:0; text-align:center; box-shadow: 4px 4px 0px var(--shadow-color);">
+          <h4 style="font-family:var(--font-mono); margin:0; font-size:0.9rem; text-transform:uppercase; color:var(--text);">Avg. Completion</h4>
+          <p id="admin-stat-avg" style="font-family:var(--font-heading); font-size:3rem; font-weight:800; margin:0.5rem 0; color:var(--secondary);">0%</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="syllabus-section" style="margin-top:3rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem;">
+        <h2 class="syllabus-title" style="margin:0;"><span style="background:var(--secondary); color:#111; padding:0 0.5rem; border:3px solid var(--border-color);">Student</span> Progress</h2>
+        <button class="btn btn-secondary" onclick="loadAdminData()" style="padding:0.5rem 1rem; font-size:0.9rem;">Refresh Data 🔄</button>
+      </div>
+      
+      <div id="admin-table-container" style="overflow-x:auto; border:var(--border-width) solid var(--border-color); background:var(--bg-card); box-shadow:6px 6px 0px var(--shadow-color); margin-bottom: 2rem;">
+        <table style="width:100%; border-collapse:collapse; text-align:left; font-family:var(--font-body);">
+          <thead>
+            <tr style="border-bottom:var(--border-width) solid var(--border-color); background:var(--accent); color:#fff; font-family:var(--font-heading); text-transform:uppercase; font-size:0.9rem;">
+              <th style="padding:1rem;">User ID / UUID</th>
+              <th style="padding:1rem;">Completed</th>
+              <th style="padding:1rem;">Progress</th>
+              <th style="padding:1rem;">Last Active</th>
+            </tr>
+          </thead>
+          <tbody id="admin-student-rows">
+            <!-- Loaded via JS -->
+          </tbody>
+        </table>
+      </div>
+      
+      <button class="btn btn-secondary" onclick="goHome()" style="margin-top:1rem; font-size: 1.1rem; padding: 0.8rem 2rem;">➔ Back to Home</button>
+    </div>
+  </div>
 </div>
 
 <!-- Course Player (Reading View) -->
@@ -403,7 +471,7 @@ body { font-family: var(--font-body); background-color: var(--bg); background-im
 </div>
 
 <script>
-window.onerror = function(msg, url, line) { alert("Global Error: " + msg + "\\nAt line: " + line); };
+window.onerror = function(msg, url, line) { console.error("JS Error:", msg, "at line", line); };
 
 ${dataBlock}
 const chapters = ${JSON.stringify(chapters)};
@@ -413,33 +481,37 @@ const chapters = ${JSON.stringify(chapters)};
 // ----------------------------------------------------
 const supabaseUrl = 'https://dpvibjgwstolrkjbznxm.supabase.co';
 const supabaseKey = 'sb_publishable_3QhJaZ5USUIqwoD0acyQIw_mmqMc1ON';
-let supabase = null;
+let supabaseClient = null;
 let currentUser = null;
 
-try {
-  if (window.supabase) {
-    supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-    
-    supabase.auth.onAuthStateChange((event, session) => {
-      if (session) {
-        currentUser = session.user;
-        document.getElementById('auth-modal').style.display = 'none';
-        document.getElementById('auth-error').innerText = '';
-        syncProgressFromDb();
-      } else {
-        currentUser = null;
-      }
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    if (window.supabase) {
+      supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+      
+      supabaseClient.auth.onAuthStateChange((event, session) => {
+        if (session) {
+          currentUser = session.user;
+          document.getElementById('auth-modal').style.display = 'none';
+          document.getElementById('auth-error').innerText = '';
+          syncProgressFromDb();
+        } else {
+          currentUser = null;
+        }
+        updateAuthUI();
+      });
+    } else {
+      console.warn("Supabase library not loaded. Falling back to local storage only.");
       updateAuthUI();
-    });
-  } else {
-    console.warn("Supabase library not loaded. Falling back to local storage only.");
+    }
+  } catch (e) {
+    console.error("Failed to initialize Supabase:", e);
+    updateAuthUI();
   }
-} catch (e) {
-  console.error("Failed to initialize Supabase:", e);
-}
+});
 
 async function handleAuth(action) {
-  if (!supabase) {
+  if (!supabaseClient) {
     alert("Authentication is currently unavailable. Please check your adblocker or internet connection.");
     return;
   }
@@ -450,10 +522,10 @@ async function handleAuth(action) {
   
   let res;
   if (action === 'signup') {
-    res = await supabase.auth.signUp({ email, password: pass });
+    res = await supabaseClient.auth.signUp({ email, password: pass });
     if(!res.error) errEl.innerText = "Check your email for the confirmation link! (If email confirmations are off, you can just login now).";
   } else {
-    res = await supabase.auth.signInWithPassword({ email, password: pass });
+    res = await supabaseClient.auth.signInWithPassword({ email, password: pass });
   }
   
   if (res.error) {
@@ -464,22 +536,31 @@ async function handleAuth(action) {
 function updateAuthUI() {
   const authBtn = document.getElementById('auth-ui-btn');
   const optText = document.getElementById('optional-login-text');
-  if(authBtn) {
-    if (currentUser) {
+  const adminNavBtn = document.getElementById('admin-nav-btn');
+  
+  if (currentUser) {
+    const isAdmin = currentUser.email === 'admin@example.com' || currentUser.email === 'petre@example.com' || currentUser.email.endsWith('@pannlabs.com') || currentUser.email.endsWith('@pannlabs.co');
+    if (adminNavBtn) {
+      adminNavBtn.style.display = isAdmin ? 'inline-block' : 'none';
+    }
+    if(authBtn) {
       authBtn.innerText = 'Logout';
-      authBtn.onclick = () => { if(supabase) supabase.auth.signOut(); };
-      if(optText) optText.style.display = 'none';
-    } else {
+      authBtn.onclick = () => { if(supabaseClient) supabaseClient.auth.signOut(); };
+    }
+    if(optText) optText.style.display = 'none';
+  } else {
+    if (adminNavBtn) adminNavBtn.style.display = 'none';
+    if(authBtn) {
       authBtn.innerText = 'Login / Sync';
       authBtn.onclick = () => document.getElementById('auth-modal').style.display = 'flex';
-      if(optText) optText.style.display = 'inline-block';
     }
+    if(optText) optText.style.display = 'inline-block';
   }
 }
 
 async function syncProgressFromDb() {
-  if (!currentUser || !supabase) return;
-  const { data, error } = await supabase.from('user_progress').select('completed_chapters').eq('user_id', currentUser.id).single();
+  if (!currentUser || !supabaseClient) return;
+  const { data, error } = await supabaseClient.from('user_progress').select('completed_chapters').eq('user_id', currentUser.id).single();
   if (data && data.completed_chapters && data.completed_chapters.length > 0) {
     completedChapters = [...new Set([...completedChapters, ...data.completed_chapters])];
     localStorage.setItem('da_completed_chapters', JSON.stringify(completedChapters));
@@ -489,8 +570,8 @@ async function syncProgressFromDb() {
 }
 
 async function syncProgressToDb() {
-  if (!currentUser || !supabase) return;
-  const { error } = await supabase.from('user_progress').upsert({
+  if (!currentUser || !supabaseClient) return;
+  const { error } = await supabaseClient.from('user_progress').upsert({
     user_id: currentUser.id,
     completed_chapters: completedChapters
   });
@@ -586,29 +667,7 @@ function toggleTheme() {
 }
 applyTheme(isDark); // Apply on boot
 
-// Setup Marked safely
-try {
-  if (typeof marked !== 'undefined') {
-    marked.setOptions({ gfm: true, breaks: false });
-    const renderer = new marked.Renderer();
-    renderer.heading = function(text, level) {
-      let c = typeof text === 'object' ? (text.text||'') : text;
-      let l = typeof text === 'object' ? (text.depth||2) : level;
-      return '<h'+l+'>'+c+'</h'+l+'>';
-    };
-    renderer.code = function(code, language) {
-      if (language === 'mermaid') {
-        return '<div class="mermaid">' + code + '</div>';
-      }
-      return '<pre><code class="language-' + language + '">' + code + '</code></pre>';
-    };
-    marked.use({ renderer });
-  } else {
-    console.error("Marked.js failed to load from CDN.");
-  }
-} catch (e) {
-  console.error("Error setting up marked:", e);
-}
+// Marked is no longer needed at runtime - HTML is pre-rendered at build time
 
 // Render Syllabus and Sidebar Nav
 const syllabusListEl = document.getElementById('syllabus-list');
@@ -679,12 +738,37 @@ function updateProgressUI() {
 }
 
 // Navigation Logic
-function openChapter(idx) {
+async function openChapter(idx) {
   const ch = chapters[idx];
   
-  // Render content
-  let rawMd = chapterData[ch.id] || '_Content not found_';
-  document.getElementById('content').innerHTML = marked.parse(rawMd);
+  // Show loading state
+  document.getElementById('content').innerHTML = '<p style="font-family:var(--font-mono); text-align:center; padding:4rem;">Loading chapter...</p>';
+  
+  // Switch Views immediately so user sees feedback
+  document.getElementById('home-view').classList.remove('active');
+  document.getElementById('admin-view').classList.remove('active');
+  document.getElementById('reading-view').classList.add('active');
+  window.scrollTo(0,0);
+  
+  // Fetch chapter content (with cache)
+  let htmlContent = '';
+  if (chapterCache[ch.id]) {
+    htmlContent = chapterCache[ch.id];
+  } else {
+    try {
+      const resp = await fetch('chapters/' + ch.id + '.html');
+      if (resp.ok) {
+        htmlContent = await resp.text();
+        chapterCache[ch.id] = htmlContent;
+      } else {
+        htmlContent = '<p>Failed to load chapter content.</p>';
+      }
+    } catch(e) {
+      htmlContent = '<p>Error loading chapter: ' + e.message + '</p>';
+    }
+  }
+  
+  document.getElementById('content').innerHTML = htmlContent;
   
   // Render Footer Button
   const footer = document.getElementById('chapter-footer');
@@ -707,11 +791,6 @@ function openChapter(idx) {
   document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
   document.getElementById('nav-item-' + idx).classList.add('active');
   
-  // Switch Views
-  document.getElementById('home-view').classList.remove('active');
-  document.getElementById('reading-view').classList.add('active');
-  window.scrollTo(0,0);
-  
   // Close mobile sidebar if open
   document.getElementById('sidebar').classList.remove('open');
   
@@ -724,9 +803,94 @@ function openChapter(idx) {
 
 function goHome() {
   document.getElementById('reading-view').classList.remove('active');
+  document.getElementById('admin-view').classList.remove('active');
   document.getElementById('home-view').classList.add('active');
   renderNavigation(); // Refresh checkmarks
   window.scrollTo(0,0);
+}
+
+function showAdmin() {
+  const isAdmin = currentUser && (currentUser.email === 'admin@example.com' || currentUser.email === 'petre@example.com' || currentUser.email.endsWith('@pannlabs.com') || currentUser.email.endsWith('@pannlabs.co'));
+  if (!isAdmin) {
+    alert("Access Denied: Admin privileges required.");
+    return;
+  }
+  document.getElementById('home-view').classList.remove('active');
+  document.getElementById('reading-view').classList.remove('active');
+  document.getElementById('admin-view').classList.add('active');
+  loadAdminData();
+}
+
+async function loadAdminData() {
+  const rowsContainer = document.getElementById('admin-student-rows');
+  if (!rowsContainer) return;
+  
+  rowsContainer.innerHTML = '<tr><td colspan="4" style="padding:2rem; text-align:center; font-family:var(--font-mono); color:var(--text);">Loading analytics data...</td></tr>';
+  
+  try {
+    if (!supabaseClient) {
+      throw new Error("Database client is offline or not loaded.");
+    }
+    
+    const { data, error } = await supabaseClient
+      .from('user_progress')
+      .select('*')
+      .order('updated_at', { ascending: false });
+      
+    if (error) throw error;
+    
+    if (!data || data.length === 0) {
+      rowsContainer.innerHTML = '<tr><td colspan="4" style="padding:2rem; text-align:center; font-family:var(--font-mono); color:var(--text);">No student records found.</td></tr>';
+      document.getElementById('admin-stat-users').innerText = '0';
+      document.getElementById('admin-stat-avg').innerText = '0%';
+      return;
+    }
+    
+    const totalStudents = data.length;
+    let totalCompletionPct = 0;
+    const totalChaptersCount = chapters.length - 1; // Exclude welcome overview
+    
+    rowsContainer.innerHTML = '';
+    
+    data.forEach(row => {
+      const completedCount = row.completed_chapters ? row.completed_chapters.length : 0;
+      const pct = totalChaptersCount > 0 ? Math.round((completedCount / totalChaptersCount) * 100) : 0;
+      totalCompletionPct += pct;
+      
+      const lastActive = new Date(row.updated_at).toLocaleString();
+      
+      const tr = document.createElement('tr');
+      tr.style.borderBottom = '1px solid var(--border-color)';
+      tr.innerHTML = \`
+        <td style="padding:1rem; font-family:var(--font-mono); font-size:0.85rem; word-break:break-all; color:var(--text);">
+          \${row.user_id}
+        </td>
+        <td style="padding:1rem; font-family:var(--font-heading); font-weight:700; color:var(--text);">
+          \${completedCount} / \${totalChaptersCount} chapters
+        </td>
+        <td style="padding:1rem; color:var(--text);">
+          <div style="display:flex; align-items:center; gap:0.5rem; width:150px;">
+            <div class="progress-track" style="height:10px; margin:0; flex:1;">
+              <div class="progress-fill" style="width:\${pct}%; background:var(--secondary);"></div>
+            </div>
+            <span style="font-family:var(--font-mono); font-weight:700; font-size:0.85rem;">\${pct}%</span>
+          </div>
+        </td>
+        <td style="padding:1rem; font-family:var(--font-mono); font-size:0.8rem; color:#666;">
+          \${lastActive}
+        </td>
+      \`;
+      rowsContainer.appendChild(tr);
+    });
+    
+    const avgCompletion = Math.round(totalCompletionPct / totalStudents);
+    document.getElementById('admin-stat-users').innerText = totalStudents;
+    document.getElementById('admin-stat-avg').innerText = avgCompletion + '%';
+    
+  } catch (e) {
+    console.error("Failed to load admin data:", e);
+    rowsContainer.innerHTML = \`<tr><td colspan="4" style="padding:2rem; text-align:center; font-family:var(--font-mono); color:var(--primary);">Error: \${e.message}</td></tr>\`;
+  }
 }
 
 // Sidebar Toggles

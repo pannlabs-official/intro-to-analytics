@@ -56,3 +56,14 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
+
+-- 6. Create Policy to allow Admins to read all student progress
+-- Replace 'admin@example.com' or add other admin emails as needed
+CREATE POLICY "Admins can view all student progress" 
+ON public.user_progress FOR SELECT 
+USING (
+  auth.jwt() ->> 'email' = 'admin@example.com' OR 
+  auth.jwt() ->> 'email' = 'petre@example.com' OR
+  auth.jwt() ->> 'email' LIKE '%@pannlabs.com' OR
+  auth.jwt() ->> 'email' LIKE '%@pannlabs.co'
+);

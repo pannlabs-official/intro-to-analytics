@@ -1,0 +1,234 @@
+<h1 id="chapter-10---dax-the-language-of-power-bi">Chapter 10 - DAX: The Language of Power BI</h1>
+<hr>
+<h2 id="chapter-overview">Chapter Overview</h2>
+<p>If the Star Schema is the skeleton of Power BI, <strong>DAX</strong> (Data Analysis Expressions) is the brain.</p>
+<p>DAX looks confusingly similar to Excel formulas. You use <code>=SUM()</code>, <code>=IF()</code>, and <code>=ROUND()</code>. But beneath the surface, DAX behaves completely differently. Excel thinks in cells (<code>A1+B1</code>); DAX thinks in tables and columns (<code>Sales[Revenue]</code>). If you try to write DAX as if it were Excel, you will fail in frustrating ways.</p>
+<p>In this chapter, we break down the two fundamental concepts of DAX: <strong>Calculated Columns</strong> vs <strong>Measures</strong>, and <strong>Row Context</strong> vs <strong>Filter Context</strong>. Once you understand Filter Context, DAX changes from a confusing syntax into a logical, incredibly powerful analytical engine. We will cover the most important function in the language (<code>CALCULATE</code>) and introduce Time Intelligence (e.g., Year-to-Date, Year-over-Year calculations).</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Chapter 9 (Power BI Interface and Star Schema) completed.</li>
+<li>Power BI Desktop open with the <code>Sales</code> and <code>Products</code> model built in Chapter 9.</li>
+</ul>
+<hr>
+<h2 id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Distinguish between Calculated Columns and Measures, and know when to use each</li>
+<li>Write basic DAX Measures (<code>SUM</code>, <code>AVERAGE</code>, <code>DIVIDE</code>)</li>
+<li>Explain the difference between Row Context and Filter Context</li>
+<li>Master the <code>CALCULATE</code> function to override default filter context</li>
+<li>Write iterator functions (<code>SUMX</code>) to perform row-by-row calculations inside a Measure</li>
+<li>Use Time Intelligence functions for dynamic period comparisons</li>
+</ol>
+<hr>
+<h2 id="101-calculated-columns-vs-measures">10.1 Calculated Columns vs. Measures</h2>
+<p>This is the first hurdle every new Power BI user must clear. There are two ways to write a calculation in DAX. They are fundamentally different.</p>
+<h3 id="1011-calculated-columns">10.1.1 Calculated Columns</h3>
+<p>A calculated column adds a physical new column to a table in your data model. It computes a value <em>for every single row</em>, one row at a time.</p>
+<p><strong>How to create one</strong>:</p>
+<ol>
+<li>Go to the Data view. Select the <code>Sales</code> table.</li>
+<li>Table Tools ribbon → <strong>New Column</strong>.</li>
+<li>The formula bar appears. Type:<pre><code class="language-dax">Unit_Price = Sales[Sales] / Sales[Quantity]</code></pre></li>
+<li>Press Enter. The column appears, filled with numbers.</li>
+</ol>
+<p><strong>When to use Calculated Columns</strong>:</p>
+<ul>
+<li>When you need to slice, filter, or group by the result (e.g., categorising sales into &quot;High Value&quot; vs &quot;Low Value&quot; buckets so you can put that bucket on the axis of a chart).</li>
+<li>Very rarely for numeric aggregation.</li>
+</ul>
+<p><strong>The downside</strong>: Calculated columns consume RAM and increase your file size. If you have 10 million rows, you just added 10 million new data points to memory.</p>
+<h3 id="1012-measures">10.1.2 Measures</h3>
+<p>A measure is a formula that calculates an aggregate result <em>on the fly</em>, based on whatever filters the user has clicked on the report. It does not add data to your tables; it lives in memory as a rule.</p>
+<p><strong>How to create one</strong>:</p>
+<ol>
+<li>Right-click the <code>Sales</code> table in the Data pane → <strong>New Measure</strong>.</li>
+<li>Type:<pre><code class="language-dax">Total Revenue = SUM(Sales[Sales])</code></pre></li>
+<li>Press Enter. Nothing seems to happen. A calculator icon appears next to <code>Total Revenue</code> in the field list, but no data is visible.</li>
+</ol>
+<p><strong>How to use it</strong>:</p>
+<ol>
+<li>Go to the Report view.</li>
+<li>Drag <code>Region</code> to a table visual.</li>
+<li>Drag your new <code>Total Revenue</code> measure into the visual.</li>
+<li>The measure calculates the sum for Europe, then calculates it for Asia, then calculates the Grand Total.</li>
+</ol>
+<p><strong>When to use Measures</strong>:</p>
+<ul>
+<li><strong>Almost always.</strong> If the result is a number you want to plot on a chart (revenue, profit margin, average wait time), it should be a Measure.</li>
+<li>Measures do not increase file size. They are calculated instantly at CPU speed when requested.</li>
+</ul>
+<h3 id="1013-the-golden-rule-of-dax">10.1.3 The Golden Rule of DAX</h3>
+<blockquote>
+<p><strong>If you want to filter or group by it, use a Calculated Column. If you want to calculate a result, use a Measure.</strong></p>
+</blockquote>
+<hr>
+<h2 id="102-filter-context---the-secret-to-understanding-dax">10.2 Filter Context - The Secret to Understanding DAX</h2>
+<p>Why did the <code>Total Revenue = SUM(Sales[Sales])</code> measure return $500,000 for Europe but $1,200,000 for Asia Pacific? The formula is exactly the same for both rows.</p>
+<p>The answer is <strong>Filter Context</strong>.</p>
+<h3 id="1021-how-filter-context-works">10.2.1 How Filter Context Works</h3>
+<p>Before a Measure calculates its result, Power BI looks at the visual and applies filters.</p>
+<p>Imagine a Matrix visual:</p>
+<ul>
+<li>Rows: <code>Region</code></li>
+<li>Columns: <code>Year</code></li>
+<li>Values: <code>Total Revenue</code> measure</li>
+</ul>
+<p>When Power BI calculates the cell intersecting &quot;Europe&quot; and &quot;2023&quot;, the following happens internally:</p>
+<ol>
+<li><strong>Apply Filters</strong>: Filter the entire data model so that <code>Region = &quot;Europe&quot;</code> AND <code>Year = 2023</code>.</li>
+<li><strong>Evaluate Formula</strong>: Take the surviving rows and run <code>=SUM(Sales[Sales])</code>.</li>
+<li><strong>Return Result</strong>: Display the number in that specific cell.</li>
+</ol>
+<p>This process repeats for every single cell in every visual on the page. If the user clicks a Slicer for &quot;Technology&quot;, that filter is added to the Filter Context for every calculation.</p>
+<h3 id="1022-the-magic-of-the-star-schema">10.2.2 The Magic of the Star Schema</h3>
+<p>Remember the relationship arrow from Chapter 9?</p>
+<p>If you build a matrix with <code>Category</code> from the <code>Products</code> table on the rows, and <code>Total Revenue</code> from the <code>Sales</code> table in the values:</p>
+<ol>
+<li>Filter Context says: &quot;Filter the <code>Products</code> table to <code>Category = Furniture</code>.&quot;</li>
+<li>The relationship arrow points from <code>Products</code> to <code>Sales</code>.</li>
+<li>The filter flows down the line. The <code>Sales</code> table is now filtered to only show sales of Furniture.</li>
+<li>The Measure <code>SUM(Sales[Sales])</code> calculates the total of those surviving rows.</li>
+</ol>
+<p>This is why your model structure matters more than your DAX skills. A good model makes DAX simple. A bad model requires impossibly complex DAX to force filters to work.</p>
+<hr>
+<h2 id="103-basic-dax-syntax-and-best-practices">10.3 Basic DAX Syntax and Best Practices</h2>
+<h3 id="1031-fully-qualified-vs-unqualified-references">10.3.1 Fully Qualified vs. Unqualified References</h3>
+<p><strong>Best Practice</strong>: Always include the Table Name when referencing a Column. Never include the Table Name when referencing a Measure.</p>
+<ul>
+<li>Column: <code>Sales[Quantity]</code> (Correct)</li>
+<li>Column: <code>[Quantity]</code> (Technically works, but bad practice)</li>
+<li>Measure: <code>[Total Revenue]</code> (Correct)</li>
+<li>Measure: <code>Sales[Total Revenue]</code> (Bad practice)</li>
+</ul>
+<p>Why? Because columns physically live in a specific table. Measures belong to the whole model (you can move a measure to a different table without breaking the formula). Adhering to this convention means anyone reading your DAX instantly knows whether <code>[Profit]</code> is a column or a measure.</p>
+<h3 id="1032-basic-mathematical-measures">10.3.2 Basic Mathematical Measures</h3>
+<p><strong>Sum, Average, Min, Max</strong>:</p>
+<pre><code class="language-dax">Total Quantity = SUM(Sales[Quantity])
+Average Order Value = AVERAGE(Sales[Sales])</code></pre><p><strong>Counting</strong>:</p>
+<pre><code class="language-dax">Order Count = COUNTROWS(Sales)
+Unique Customers = DISTINCTCOUNT(Sales[Customer_Name])</code></pre><p><strong>DIVIDE (The Safe Division Function)</strong>:
+In Excel, <code>A/B</code> throws a <code>#DIV/0!</code> error if B is blank or zero. You have to wrap it in <code>IFERROR</code>. DAX has a built-in safe division function.</p>
+<pre><code class="language-dax">Profit Margin = DIVIDE([Total Profit], [Total Revenue], 0)</code></pre><p>If <code>Total Revenue</code> is zero, this gracefully returns 0 (the third parameter) instead of crashing the visual.</p>
+<hr>
+<h2 id="104-iterator-functions-the-x-functions">10.4 Iterator Functions (The &quot;X&quot; Functions)</h2>
+<h3 id="1041-the-row-context-problem-in-measures">10.4.1 The Row Context Problem in Measures</h3>
+<p>Suppose you want to calculate Total Cost. You do not have a Cost column, but you have <code>Sales</code> and <code>Profit</code>.</p>
+<p>You try to write a Measure:</p>
+<pre><code class="language-dax">Total Cost = SUM(Sales[Sales] - Sales[Profit])  // THIS WILL ERROR</code></pre><p>Why does it error? <code>SUM</code> only accepts a single column reference. It cannot do row-by-row math. Measures operate in Filter Context, not Row Context. A standard measure cannot look at row 1, do the math, look at row 2, do the math, and then sum the results.</p>
+<h3 id="1042-the-solution-sumx">10.4.2 The Solution: SUMX</h3>
+<p>To force a measure to iterate row-by-row before summing, use an &quot;X&quot; function (an iterator).</p>
+<pre><code class="language-dax">Total Cost = SUMX(
+    Sales,                        // 1. The table to iterate over
+    Sales[Sales] - Sales[Profit]  // 2. The row-by-row expression to evaluate
+)</code></pre><p><strong>How it works</strong>:</p>
+<ol>
+<li><code>SUMX</code> creates a temporary Row Context.</li>
+<li>It goes to row 1 of the filtered <code>Sales</code> table, calculates <code>Sales - Profit</code>, and stores the result in memory.</li>
+<li>It repeats for row 2, row 3, up to row N.</li>
+<li>Finally, it sums all the stored results.</li>
+</ol>
+<p>Iterators exist for most aggregations: <code>AVERAGEX</code>, <code>MINX</code>, <code>MAXX</code>, <code>COUNTX</code>.</p>
+<hr>
+<h2 id="105-calculate-the-master-function">10.5 CALCULATE: The Master Function</h2>
+<p>If you only learn one DAX function, make it <code>CALCULATE</code>. It is the most powerful and unique function in the language.</p>
+<h3 id="1051-what-calculate-does">10.5.1 What CALCULATE Does</h3>
+<p><code>CALCULATE</code> evaluates an expression in a modified Filter Context. It is the <em>only</em> function in DAX that can alter the filters coming from the visual or slicers.</p>
+<p><strong>Syntax</strong>:</p>
+<pre><code class="language-dax">CALCULATE( <Expression>, <Filter1>, <Filter2>, ... )</code></pre><h3 id="1052-overriding-filters">10.5.2 Overriding Filters</h3>
+<p>Imagine a bar chart showing Sales by Region.
+You want to add a line to that chart showing the Global Total (so you can compare each region to the global number).</p>
+<p>If you just use <code>[Total Revenue]</code>, the bar for Europe is filtered to Europe. You need a measure that <em>ignores</em> the Region filter.</p>
+<pre><code class="language-dax">Global Revenue = CALCULATE(
+    [Total Revenue],
+    REMOVEFILTERS(Sales[Region])
+)</code></pre><p><strong>What happens for the &quot;Europe&quot; bar</strong>:</p>
+<ol>
+<li>Default Filter Context: <code>Region = Europe</code>.</li>
+<li><code>CALCULATE</code> intervenes. <code>REMOVEFILTERS</code> strips away the Region filter.</li>
+<li>Modified Filter Context: (No Region filter).</li>
+<li>Evaluates <code>[Total Revenue]</code> on the whole dataset.</li>
+<li>Returns $5,000,000 (the global total) for the Europe bar.</li>
+</ol>
+<h3 id="1053-applying-specific-filters">10.5.3 Applying Specific Filters</h3>
+<p>You want a measure that only ever calculates Technology sales, regardless of what the user clicks.</p>
+<pre><code class="language-dax">Tech Revenue = CALCULATE(
+    [Total Revenue],
+    Products[Category] = "Technology"
+)</code></pre><p>This overwrites any Category filter coming from the visual with &quot;Technology&quot;.</p>
+<h3 id="1054-creating-ratios">10.5.4 Creating Ratios</h3>
+<p>Because <code>CALCULATE</code> can alter context, it is how we build complex ratios, like &quot;% of Grand Total&quot; (doing what PivotTables do automatically, but flexibly).</p>
+<pre><code class="language-dax">% of Global Revenue = DIVIDE(
+    [Total Revenue],
+    CALCULATE([Total Revenue], REMOVEFILTERS(Sales))
+)</code></pre><p>Numerator: Context-aware revenue (e.g., Europe).
+Denominator: Global revenue (filters removed).</p>
+<hr>
+<h2 id="106-time-intelligence">10.6 Time Intelligence</h2>
+<p>Analyzing data over time (Year-to-Date, Month-over-Month variance) is so common that DAX includes built-in functions for it.</p>
+<h3 id="1061-the-prerequisite-a-dedicated-date-table">10.6.1 The Prerequisite: A Dedicated Date Table</h3>
+<p>Time Intelligence functions <strong>will not work reliably</strong> using the date column in your Fact table. You must have a separate Dimension table dedicated to dates.</p>
+<p><em>(In practice, you create a Date table in Power Query or using the DAX <code>CALENDARAUTO()</code> function, mark it as a Date Table, and link it to <code>Sales[Order_Date]</code>. For these examples, assume a table named <code>Dates</code> exists and is linked).</em></p>
+<h3 id="1062-year-to-date-ytd">10.6.2 Year-to-Date (YTD)</h3>
+<p>Calculate cumulative sales from Jan 1 to the current filter date:</p>
+<pre><code class="language-dax">Revenue YTD = CALCULATE(
+    [Total Revenue],
+    DATESYTD(Dates[Date])
+)</code></pre><p>There are also <code>DATESMTD</code> (Month-to-Date) and <code>DATESQTD</code> (Quarter-to-Date).</p>
+<h3 id="1063-previous-year-year-over-year-comparison">10.6.3 Previous Year (Year-over-Year Comparison)</h3>
+<p>To calculate YoY growth, you first need a measure that retrieves exactly the same period from the prior year.</p>
+<pre><code class="language-dax">Revenue Last Year = CALCULATE(
+    [Total Revenue],
+    SAMEPERIODLASTYEAR(Dates[Date])
+)</code></pre><p>If the user filters the dashboard to &quot;March 2024&quot;, <code>SAMEPERIODLASTYEAR</code> intercepts the filter, shifts it back one year, and passes &quot;March 2023&quot; to the <code>[Total Revenue]</code> calculation.</p>
+<h3 id="1064-yoy-growth-percentage">10.6.4 YoY Growth Percentage</h3>
+<p>Once you have both measures, calculating the variance is simple division:</p>
+<pre><code class="language-dax">YoY Growth % = DIVIDE(
+    [Total Revenue] - [Revenue Last Year],
+    [Revenue Last Year]
+)</code></pre><hr>
+<h2 id="common-mistakes--misconceptions">Common Mistakes &amp; Misconceptions</h2>
+<h3 id="mistake-1-using-calculated-columns-for-everything">Mistake 1: Using Calculated Columns for Everything</h3>
+<p>New users write <code>Sales - Cost</code> as a calculated column, then write <code>Sales / Quantity</code> as a calculated column, then write a giant nested <code>IF</code> calculated column. The file size balloons, performance crashes, and metrics aggregate incorrectly (summing ratios instead of recalculating them). <strong>Use Measures for math.</strong></p>
+<h3 id="mistake-2-missing-the-table-name-in-calculate-filters">Mistake 2: Missing the Table Name in CALCULATE Filters</h3>
+<pre><code class="language-dax">❌ CALCULATE([Sales], Region = "Europe")
+✅ CALCULATE([Sales], Sales[Region] = "Europe")</code></pre><p>DAX requires the table name for column references in filter expressions.</p>
+<h3 id="mistake-3-blank-vs-zero">Mistake 3: Blank vs Zero</h3>
+<p>In DAX, <code>BLANK()</code> is distinct from <code>0</code>. If a customer bought nothing, their sales are blank, not zero. If you force blanks to zero (e.g., by adding <code>+ 0</code> to a measure), Power BI will render a row for <em>every possible customer</em> in your database in a table visual, because they now have a value (0) instead of blank. This causes visual bloat and performance crashes. Let blanks be blanks.</p>
+<h3 id="mistake-4-not-formatting-measures">Mistake 4: Not Formatting Measures</h3>
+<p>When you create a measure, the format defaults to General. If you use it in 5 different charts, it will look ugly in all 5. Format the measure <em>immediately</em> after creating it (Measure Tools ribbon → Currency/Percentage/Comma) so it looks correct everywhere it is used.</p>
+<hr>
+<h2 id="in-simple-terms-tldr">In Simple Terms (TL;DR)</h2>
+<blockquote>
+<p><strong>ELI5 (Explain Like I&#39;m 5):</strong>
+DAX is the formula language for Power BI. The most important formula is CALCULATE, which is like saying &quot;Do this math, but only for these specific rules (like only for the year 2023).&quot;</p>
+</blockquote>
+<div class="class-activities"><h2>Practice Exercises</h2>
+
+<div class="exercise-section">### Beginner
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 10.1</div><div class="activity-body">In your Power BI model, create three base Measures:
+1. `Total Sales = SUM(Sales[Sales])`
+2. `Total Quantity = SUM(Sales[Quantity])`
+3. `Total Profit = SUM(Sales[Profit])`
+Format the first and third as Currency, the second as a Whole Number with a comma separator.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 10.2</div><div class="activity-body">Create a Measure for `Profit Margin` using the `DIVIDE` function. Format it as a Percentage with 1 decimal place. Add it to a Matrix visual with `Category` on the rows.
+
+</div></div></div><div class="exercise-section">### Intermediate
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 10.3</div><div class="activity-body">Use `SUMX` to create a Measure named `Total Discount Amount`. The logic per row is `Sales * Discount`. Since you cannot use `SUM` across two columns, use `SUMX` to iterate the `Sales` table.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 10.4</div><div class="activity-body">Using `CALCULATE`, create a Measure named `Technology Sales` that returns the Total Sales only for the "Technology" category. Place this in a card visual next to a card showing `Total Sales`. If you click a slicer for "Furniture", what happens to the Technology card?
+
+</div></div></div><div class="exercise-section">### Challenge
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 10.5</div><div class="activity-body">Build a dynamic "% of Category Sales" measure.
+You have a Matrix with `Category` (e.g., Furniture) on the rows, and `Sub_Category` (e.g., Chairs, Tables) underneath it.
+1. Create a measure that uses `CALCULATE` and `REMOVEFILTERS(Products[Sub_Category])` to find the total for the parent Category.
+2. Create a second measure that divides `[Total Sales]` by the measure you created in step 1.
+3. This should result in Chairs showing its % contribution to Furniture, not its % contribution to the Grand Total.
+</div></div></div></div>

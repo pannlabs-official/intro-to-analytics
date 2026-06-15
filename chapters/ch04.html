@@ -1,0 +1,680 @@
+<h1 id="chapter-4---data-cleaning--transformation">Chapter 4 - Data Cleaning &amp; Transformation</h1>
+<hr>
+<h2 id="chapter-overview">Chapter Overview</h2>
+<p>This is the chapter most courses skip - and it is the chapter most analysts wish they had learned first. Data cleaning (also called data wrangling, data preparation, or data munging) is the process of detecting and correcting errors, inconsistencies, and structural problems in raw data before analysis.</p>
+<p>The number you will hear everywhere: <strong>analysts spend 60-80% of their time on data preparation.</strong> This is not hyperbole. Real-world data arrives with misspellings, mixed date formats, numbers stored as text, duplicates, missing values, merged cells, and dozens of other issues that will produce wrong results if not addressed.</p>
+<p>In this chapter, you will open <code>datasets/02_sales_dirty.csv</code> - a dataset we deliberately packed with 12 categories of quality issues - and systematically clean every single one. By the end, you will have a repeatable process for assessing and fixing data quality, and you will have been introduced to Power Query as a tool for building reusable, automated cleaning pipelines.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Chapter 3 completed (you need text functions like <code>TRIM</code>, <code>PROPER</code>, <code>SUBSTITUTE</code>, and lookup functions)</li>
+<li><code>datasets/02_sales_dirty.csv</code> downloaded</li>
+<li><code>datasets/01_global_superstore_sales.csv</code> available (for comparison against the clean version)</li>
+</ul>
+<hr>
+<h2 id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Assess a dataset for quality issues using a systematic checklist</li>
+<li>Remove exact and near-duplicate records</li>
+<li>Fix text inconsistencies: trailing spaces, mixed casing, special characters, typos</li>
+<li>Convert text-formatted dates and numbers to proper data types</li>
+<li>Handle missing values using context-appropriate strategies</li>
+<li>Build data validation rules to prevent bad data from entering a spreadsheet</li>
+<li>Create a Power Query pipeline that automates repeatable cleaning transformations</li>
+</ol>
+<hr>
+<h2 id="41-why-data-cleaning-matters---the-cost-of-dirty-data">4.1 Why Data Cleaning Matters - The Cost of Dirty Data</h2>
+<h3 id="411-what-goes-wrong">4.1.1 What Goes Wrong</h3>
+<p>Dirty data does not just look bad - it produces <strong>wrong answers</strong> that lead to <strong>wrong decisions</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Data Issue</th>
+<th>Wrong Result</th>
+<th>Business Impact</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&quot;Germany&quot; and &quot;germany&quot; are treated as different regions</td>
+<td>PivotTable shows two separate rows for Germany</td>
+<td>Revenue is split, making Germany look smaller than it is</td>
+</tr>
+<tr>
+<td>Date stored as text</td>
+<td>Sorting gives &quot;10/2/2023&quot; before &quot;2/1/2023&quot; (text sort, not date sort)</td>
+<td>Time-series analysis is incorrect</td>
+</tr>
+<tr>
+<td>Numbers stored as text (with <code>$</code> and <code>,</code>)</td>
+<td><code>SUM</code> returns 0 because it skips text values</td>
+<td>Financial totals are undercounted</td>
+</tr>
+<tr>
+<td>5 duplicate rows</td>
+<td>Counts and sums are inflated by 5 extra records</td>
+<td>Revenue is overstated</td>
+</tr>
+<tr>
+<td>Missing values left as blank vs &quot;N/A&quot; vs &quot;-&quot;</td>
+<td><code>COUNTBLANK</code> misses &quot;N/A&quot; and &quot;-&quot;</td>
+<td>Missing data count is underreported</td>
+</tr>
+<tr>
+<td>Trailing spaces in lookup keys</td>
+<td><code>VLOOKUP(&quot;Germany &quot;)</code> fails to match <code>&quot;Germany&quot;</code></td>
+<td>Lookups return <code>#N/A</code> for valid entries</td>
+</tr>
+</tbody></table>
+<h3 id="412-the-data-quality-assessment-checklist">4.1.2 The Data Quality Assessment Checklist</h3>
+<p>Before cleaning any dataset, run through this checklist. This becomes second nature with practice.</p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>How</th>
+<th>What to Look For</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>1. Row count</strong></td>
+<td><code>Ctrl+End</code>, check the Status Bar count</td>
+<td>Does the count match what you expect?</td>
+</tr>
+<tr>
+<td><strong>2. Column headers</strong></td>
+<td>Visual inspection of row 1</td>
+<td>Are headers present, descriptive, and in a single row?</td>
+</tr>
+<tr>
+<td><strong>3. Data types per column</strong></td>
+<td>Select a column, check if numbers left-align (text) or right-align (number)</td>
+<td>Mixed types within a column?</td>
+</tr>
+<tr>
+<td><strong>4. Blank rows/columns</strong></td>
+<td><code>Ctrl+Down</code> through data - does it stop prematurely?</td>
+<td>Blanks interrupting the data range</td>
+</tr>
+<tr>
+<td><strong>5. Duplicates</strong></td>
+<td>Data → Remove Duplicates (preview first)</td>
+<td>Exact or near-exact duplicate rows</td>
+</tr>
+<tr>
+<td><strong>6. Text consistency</strong></td>
+<td>Sort a text column - do you see multiple versions of the same value?</td>
+<td>&quot;Germany&quot;, &quot;germany&quot;, &quot;GERMANY&quot;, &quot;Germany &quot;</td>
+</tr>
+<tr>
+<td><strong>7. Date validity</strong></td>
+<td>Sort a date column chronologically - does it sort correctly?</td>
+<td>Dates that do not sort (stored as text)</td>
+</tr>
+<tr>
+<td><strong>8. Numeric validity</strong></td>
+<td>Try <code>=SUM()</code> on a numeric column - is the result correct?</td>
+<td>Sum = 0 or error means text values present</td>
+</tr>
+<tr>
+<td><strong>9. Missing values</strong></td>
+<td><code>Ctrl+G</code> → Special → Blanks</td>
+<td>How many blanks? Are they truly empty or contain spaces?</td>
+</tr>
+<tr>
+<td><strong>10. Outliers</strong></td>
+<td>Sort numeric columns min-to-max</td>
+<td>Negative quantities, impossibly large values</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="42-hands-on-cleaning-the-dirty-dataset">4.2 Hands-On: Cleaning the Dirty Dataset</h2>
+<p>Open <code>datasets/02_sales_dirty.csv</code> in Excel. Take a moment to scroll through it and observe the chaos. Then we will fix everything systematically.</p>
+<h3 id="421-issue-1-blank-rows">4.2.1 Issue 1: Blank Rows</h3>
+<p><strong>Diagnosis</strong>: Press <code>Ctrl+End</code>. If the last row is higher than expected, you may have blank rows at the end. Use <code>Ctrl+Down</code> from A1 - if it stops before the last data row, there are blank rows within the data.</p>
+<p><strong>Fix</strong>:</p>
+<ol>
+<li>Select all data: <code>Ctrl+Home</code>, then <code>Ctrl+Shift+End</code></li>
+<li><code>Ctrl+G</code> (Go To) → Special → Blanks → OK</li>
+<li>This selects all blank cells. If entire rows are blank:</li>
+<li>Right-click → Delete → Entire Row</li>
+</ol>
+<p><strong>Why blanks matter</strong>: Blank rows break range detection, Table conversion, and <code>Ctrl+Down</code> navigation. Remove them first because subsequent cleaning steps may not find all data if blanks interrupt the range.</p>
+<h3 id="422-issue-2-duplicate-rows">4.2.2 Issue 2: Duplicate Rows</h3>
+<p><strong>Diagnosis</strong>: After removing blank rows, convert the data to a Table (<code>Ctrl+T</code>). Then check for duplicates.</p>
+<p><strong>Method 1 - Remove Duplicates tool</strong>:</p>
+<ol>
+<li>Click any cell in the Table</li>
+<li>Table Design → Remove Duplicates (or Data → Remove Duplicates)</li>
+<li>Ensure all columns are checked (an exact duplicate must match on every column)</li>
+<li>Click OK</li>
+<li>Excel reports: &quot;X duplicate values found and removed; Y unique values remain&quot;</li>
+</ol>
+<p><strong>Method 2 - Find duplicates first</strong> (before removing, to inspect them):</p>
+<p>Add a helper column with <code>COUNTIF</code> to count how many times each Order_ID appears:</p>
+<pre><code class="language-">=COUNTIFS([Order_ID], [@Order_ID])</code></pre><p>Sort by this column descending. Any value &gt; 1 is a duplicate. Review them before deleting.</p>
+<blockquote>
+<p><strong>Important</strong>: Not all duplicates are errors. In some datasets, the same Order_ID might legitimately have multiple line items (different products in the same order). Always understand the grain of your data before removing duplicates.</p>
+</blockquote>
+<h3 id="423-issue-3-leading-and-trailing-spaces">4.2.3 Issue 3: Leading and Trailing Spaces</h3>
+<p><strong>Diagnosis</strong>: A column sorted alphabetically shows <code>&quot; Maria Schmidt&quot;</code> before <code>&quot;Ahmed Al-Rashid&quot;</code> - the leading space pushes it to the top.</p>
+<p>Another test: <code>=LEN(A2)</code> returns 16 for what looks like a 14-character name. Those 2 extra characters are invisible spaces.</p>
+<p><strong>Fix</strong> - <code>TRIM</code>:</p>
+<pre><code class="language-">=TRIM([@Customer_Name])</code></pre><p><code>TRIM</code> removes:</p>
+<ul>
+<li>Leading spaces (before the first character)</li>
+<li>Trailing spaces (after the last character)</li>
+<li>Extra internal spaces (reduces multiple spaces between words to one)</li>
+</ul>
+<p><strong>Apply to all affected columns</strong>: Create new cleaned columns, then paste-values over the originals.</p>
+<p><strong>Batch fix process</strong>:</p>
+<ol>
+<li>Insert a new column next to <code>Customer_Name</code></li>
+<li>Enter: <code>=TRIM([@Customer_Name])</code></li>
+<li>The formula auto-fills the entire Table column</li>
+<li>Copy the new column → select the original column → Paste Special → Values</li>
+<li>Delete the helper column</li>
+</ol>
+<p>Repeat for <code>City</code> and any other text columns with space issues.</p>
+<h3 id="424-issue-4-inconsistent-casing">4.2.4 Issue 4: Inconsistent Casing</h3>
+<p><strong>Diagnosis</strong>: Sort the <code>Region</code> column. You see: <code>&quot;EUROPE&quot;</code>, <code>&quot;Europe&quot;</code>, <code>&quot;asia pacific&quot;</code>, <code>&quot;North America&quot;</code>, <code>&quot;north america&quot;</code>.</p>
+<p><strong>Fix</strong> - <code>PROPER</code>:</p>
+<pre><code class="language-">=PROPER([@Region])</code></pre><table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&quot;north america&quot;</code></td>
+<td><code>&quot;North America&quot;</code></td>
+</tr>
+<tr>
+<td><code>&quot;EUROPE&quot;</code></td>
+<td><code>&quot;Europe&quot;</code></td>
+</tr>
+<tr>
+<td><code>&quot;asia pacific&quot;</code></td>
+<td><code>&quot;Asia Pacific&quot;</code></td>
+</tr>
+</tbody></table>
+<p><strong>Caveat with PROPER</strong>: It capitalises the first letter of <em>every</em> word. This works well for names and regions but would turn <code>&quot;iPhone&quot;</code> into <code>&quot;Iphone&quot;</code> and <code>&quot;McDonald&quot;</code> into <code>&quot;Mcdonald&quot;</code>. For cases like these, use <code>SUBSTITUTE</code> to fix specific known values.</p>
+<h3 id="425-issue-5-category-typos">4.2.5 Issue 5: Category Typos</h3>
+<p><strong>Diagnosis</strong>: Sort the <code>Category</code> column. You see <code>&quot;Technolgy&quot;</code>, <code>&quot;Furntiure&quot;</code>, <code>&quot;Offce Supplies&quot;</code> alongside the correct spellings.</p>
+<p><strong>Fix</strong> - <code>SUBSTITUTE</code> chain:</p>
+<pre><code class="language-">=SUBSTITUTE(SUBSTITUTE(SUBSTITUTE([@Category],
+    "Technolgy", "Technology"),
+    "Furntiure", "Furniture"),
+    "Offce Supplies", "Office Supplies")</code></pre><p><strong>Better fix for many corrections</strong> - Use a lookup table:</p>
+<p>Create a reference table on a separate sheet:</p>
+<table>
+<thead>
+<tr>
+<th>Incorrect</th>
+<th>Correct</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Technolgy</td>
+<td>Technology</td>
+</tr>
+<tr>
+<td>Furntiure</td>
+<td>Furniture</td>
+</tr>
+<tr>
+<td>Offce Supplies</td>
+<td>Office Supplies</td>
+</tr>
+<tr>
+<td>technology</td>
+<td>Technology</td>
+</tr>
+<tr>
+<td>TECHNOLOGY</td>
+<td>Technology</td>
+</tr>
+</tbody></table>
+<p>Then use:</p>
+<pre><code class="language-">=IFNA(XLOOKUP([@Category], CorrectionTable[Incorrect], CorrectionTable[Correct]), [@Category])</code></pre><p>If the value is found in the correction table, replace it. Otherwise, keep the original.</p>
+<h3 id="426-issue-6-mixed-date-formats">4.2.6 Issue 6: Mixed Date Formats</h3>
+<p><strong>Diagnosis</strong>: The <code>Order_Date</code> column contains dates in at least three formats:</p>
+<ul>
+<li><code>&quot;2023-06-15&quot;</code> (ISO format)</li>
+<li><code>&quot;15/06/2023&quot;</code> (DD/MM/YYYY)</li>
+<li><code>&quot;June 15, 2023&quot;</code> (text format)</li>
+</ul>
+<p>Some of these may have imported as real dates; others are text. Test: <code>=ISNUMBER(A2)</code> - TRUE for real dates, FALSE for text.</p>
+<p><strong>Fix</strong> - This requires different approaches for each format:</p>
+<p><strong>For ISO text dates</strong> (<code>&quot;2023-06-15&quot;</code>):</p>
+<pre><code class="language-">=DATEVALUE(A2)</code></pre><p><strong>For DD/MM/YYYY text dates</strong> (<code>&quot;15/06/2023&quot;</code>):</p>
+<pre><code class="language-">=DATE(
+    RIGHT(A2, 4),
+    MID(A2, FIND("/", A2) + 1, FIND("/", A2, FIND("/", A2) + 1) - FIND("/", A2) - 1),
+    LEFT(A2, FIND("/", A2) - 1)
+)</code></pre><p><strong>For text month names</strong> (<code>&quot;June 15, 2023&quot;</code>):</p>
+<pre><code class="language-">=DATEVALUE(A2)</code></pre><p>Excel&#39;s <code>DATEVALUE</code> often handles this format automatically.</p>
+<p><strong>Universal approach</strong> - Combine with error handling:</p>
+<pre><code class="language-">=IFERROR(
+    IF(ISNUMBER([@Order_Date]), [@Order_Date],
+        IFERROR(DATEVALUE([@Order_Date]),
+            DATE(RIGHT([@Order_Date],4),
+                 MID([@Order_Date], FIND("/",[@Order_Date])+1, 2),
+                 LEFT([@Order_Date], FIND("/",[@Order_Date])-1))
+        )
+    ),
+    "PARSE ERROR"
+)</code></pre><h3 id="427-issue-7-numbers-stored-as-text">4.2.7 Issue 7: Numbers Stored as Text</h3>
+<p><strong>Diagnosis</strong>: The <code>Sales</code> column contains values like <code>&quot;$1,234.56&quot;</code> - with dollar signs and commas. Excel treats these as text, not numbers. <code>SUM</code> ignores them.</p>
+<p>Visual clue: text numbers are <strong>left-aligned</strong> by default. Real numbers are <strong>right-aligned</strong>. You may also see a small green triangle in the top-left corner of the cell (Excel&#39;s &quot;Number stored as text&quot; warning).</p>
+<p><strong>Fix</strong> - <code>SUBSTITUTE</code> to remove non-numeric characters, then <code>VALUE</code> to convert:</p>
+<pre><code class="language-">=VALUE(SUBSTITUTE(SUBSTITUTE([@Sales], "$", ""), ",", ""))</code></pre><p>Step by step:</p>
+<ol>
+<li><code>SUBSTITUTE([@Sales], &quot;$&quot;, &quot;&quot;)</code> → removes dollar sign: <code>&quot;1,234.56&quot;</code></li>
+<li><code>SUBSTITUTE(..., &quot;,&quot;, &quot;&quot;)</code> → removes comma: <code>&quot;1234.56&quot;</code></li>
+<li><code>VALUE(...)</code> → converts text to number: <code>1234.56</code></li>
+</ol>
+<p><strong>Quick fix for the green triangle</strong>: Select all affected cells → click the warning icon → &quot;Convert to Number&quot;. This works when the only issue is the data type, not extra characters.</p>
+<h3 id="428-issue-8-missing-values">4.2.8 Issue 8: Missing Values</h3>
+<p><strong>Diagnosis</strong>: Missing data appears as:</p>
+<ul>
+<li>Truly blank cells (empty)</li>
+<li><code>&quot;N/A&quot;</code> text</li>
+<li><code>&quot;n/a&quot;</code> text (different casing)</li>
+<li><code>&quot;-&quot;</code> dash</li>
+</ul>
+<p><strong>Fix</strong> - First, standardise all missing value indicators to blank:</p>
+<pre><code class="language-">=IF(OR([@Profit]="N/A", [@Profit]="n/a", [@Profit]="-", [@Profit]=""), "", [@Profit])</code></pre><p><strong>Then decide how to handle blanks</strong> - This depends on the column:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Strategy</th>
+<th>Reasoning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Customer_Name</code></td>
+<td>Flag for investigation</td>
+<td>Names should never be missing; this indicates a data entry error</td>
+</tr>
+<tr>
+<td><code>Profit</code></td>
+<td>Calculate from Sales and Cost if available; otherwise leave blank</td>
+<td>Can be derived from other data</td>
+</tr>
+<tr>
+<td><code>Region</code></td>
+<td>Look up from Customer_ID if mapping exists; otherwise &quot;Unknown&quot;</td>
+<td>Categorical - cannot average or interpolate</td>
+</tr>
+<tr>
+<td><code>Quantity</code></td>
+<td>Leave blank (do not fill with 0 - zero means &quot;no items&quot;, blank means &quot;unknown&quot;)</td>
+<td>0 and unknown are different</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>Critical principle</strong>: Missing data is information. A blank cell means &quot;we don&#39;t know.&quot; Zero means &quot;we know, and it&#39;s zero.&quot; Never replace blanks with zeros unless you are genuinely certain the value is zero.</p>
+</blockquote>
+<h3 id="429-issue-9-inconsistent-id-formats">4.2.9 Issue 9: Inconsistent ID Formats</h3>
+<p><strong>Diagnosis</strong>: The <code>Order_ID</code> column contains: <code>&quot;ORD-0001&quot;</code>, <code>&quot;ORD0002&quot;</code>, <code>&quot;1003&quot;</code>, <code>&quot;ord-0004&quot;</code>.</p>
+<p><strong>Fix</strong> - Standardise to the <code>ORD-XXXX</code> format:</p>
+<pre><code class="language-">=IF(ISNUMBER(VALUE([@Order_ID])),
+    "ORD-" & TEXT([@Order_ID], "0000"),
+    "ORD-" & TEXT(VALUE(SUBSTITUTE(SUBSTITUTE(UPPER([@Order_ID]), "ORD-", ""), "ORD", "")), "0000")
+)</code></pre><p>This handles all cases:</p>
+<ul>
+<li>Pure number (<code>&quot;1003&quot;</code>) → <code>&quot;ORD-1003&quot;</code></li>
+<li>Missing hyphen (<code>&quot;ORD0002&quot;</code>) → <code>&quot;ORD-0002&quot;</code></li>
+<li>Lowercase (<code>&quot;ord-0004&quot;</code>) → <code>&quot;ORD-0004&quot;</code></li>
+</ul>
+<h3 id="4210-issue-10-negative-quantities">4.2.10 Issue 10: Negative Quantities</h3>
+<p><strong>Diagnosis</strong>: Sort the <code>Quantity</code> column smallest to largest. Any negative values are data entry errors (you cannot sell -3 items).</p>
+<p><strong>Fix</strong>:</p>
+<pre><code class="language-">=ABS(VALUE([@Quantity]))</code></pre><p><code>ABS</code> converts negative numbers to positive. <code>VALUE</code> ensures the result is numeric (in case Quantity was stored as text).</p>
+<h3 id="4211-issue-11-crammed-data-address-in-name-field">4.2.11 Issue 11: Crammed Data (Address in Name Field)</h3>
+<p><strong>Diagnosis</strong>: Some <code>Customer_Name</code> cells contain: <code>&quot;Maria Schmidt, 123 Main St, Munich&quot;</code> - address data crammed into the name field.</p>
+<p><strong>Fix</strong> - Extract just the name (everything before the first comma):</p>
+<pre><code class="language-">=IF(ISNUMBER(FIND(",", [@Customer_Name])),
+    LEFT([@Customer_Name], FIND(",", [@Customer_Name]) - 1),
+    [@Customer_Name]
+)</code></pre><p>If a comma exists, take everything before it. Otherwise, return the full value (no comma means the name is clean).</p>
+<h3 id="4212-issue-12-special-characters">4.2.12 Issue 12: Special Characters</h3>
+<p><strong>Diagnosis</strong>: Product names contain <code>™</code>, <code>–</code> (em dash), and other special characters that may cause matching issues.</p>
+<p><strong>Fix</strong> - <code>SUBSTITUTE</code> for known characters:</p>
+<pre><code class="language-">=SUBSTITUTE(SUBSTITUTE([@Product_Name], "™", ""), "–", "-")</code></pre><p>For a thorough clean, also apply <code>CLEAN()</code> to remove non-printable characters:</p>
+<pre><code class="language-">=CLEAN(SUBSTITUTE(SUBSTITUTE([@Product_Name], "™", ""), "–", "-"))</code></pre><hr>
+<h2 id="43-data-validation---preventing-dirty-data">4.3 Data Validation - Preventing Dirty Data</h2>
+<p>Cleaning data is reactive. <strong>Data validation</strong> is proactive - it prevents bad data from being entered in the first place.</p>
+<h3 id="431-setting-up-validation-rules">4.3.1 Setting Up Validation Rules</h3>
+<p>Select the cells you want to validate → Data → Data Validation.</p>
+<p><strong>Common rules</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Rule Type</th>
+<th>Setting</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Whole Number</strong></td>
+<td>Between 1 and 100</td>
+<td>Quantity column - no negative or zero values</td>
+</tr>
+<tr>
+<td><strong>Decimal</strong></td>
+<td>Greater than 0</td>
+<td>Sales, Profit - must be numeric and positive</td>
+</tr>
+<tr>
+<td><strong>Date</strong></td>
+<td>Between 1/1/2022 and 12/31/2025</td>
+<td>Order dates within a valid range</td>
+</tr>
+<tr>
+<td><strong>Text Length</strong></td>
+<td>Less than or equal to 50</td>
+<td>Customer names - prevent excessively long entries</td>
+</tr>
+<tr>
+<td><strong>List</strong></td>
+<td>Source: <code>&quot;Technology,Furniture,Office Supplies&quot;</code></td>
+<td>Category column - only allow valid categories</td>
+</tr>
+<tr>
+<td><strong>Custom</strong></td>
+<td>Formula: <code>=ISNUMBER(A2)</code></td>
+<td>Ensure a cell contains a number, not text</td>
+</tr>
+</tbody></table>
+<h3 id="432-dropdown-lists">4.3.2 Dropdown Lists</h3>
+<p>The most commonly used validation type. Create a cell where users can only select from predefined options:</p>
+<ol>
+<li>Select the target cell(s)</li>
+<li>Data → Data Validation → Allow: List</li>
+<li>Source: Either type values separated by commas, or reference a range (e.g., <code>=CategoryList</code>)</li>
+<li>Check &quot;In-cell dropdown&quot;</li>
+</ol>
+<p><strong>Best practice</strong>: Store dropdown lists in a reference sheet (e.g., &quot;Lookups&quot;) using Named Ranges. If the list changes, update it in one place.</p>
+<h3 id="433-custom-validation-with-formulas">4.3.3 Custom Validation with Formulas</h3>
+<p>For complex rules, use a formula that returns TRUE (valid) or FALSE (invalid):</p>
+<p><strong>No leading/trailing spaces</strong>:</p>
+<pre><code class="language-">=LEN(A2) = LEN(TRIM(A2))</code></pre><p><strong>Date must be a weekday</strong>:</p>
+<pre><code class="language-">=WEEKDAY(A2, 2) <= 5</code></pre><p><strong>Value must be unique</strong>:</p>
+<pre><code class="language-">=COUNTIF(A:A, A2) = 1</code></pre><h3 id="434-error-messages">4.3.4 Error Messages</h3>
+<p>In the Data Validation dialog, click the &quot;Error Alert&quot; tab to customise the message users see when they enter invalid data:</p>
+<ul>
+<li><strong>Stop</strong>: Prevents entry entirely (recommended for critical fields)</li>
+<li><strong>Warning</strong>: Warns but allows override (good for soft rules)</li>
+<li><strong>Information</strong>: Just informs, always allows entry</li>
+</ul>
+<hr>
+<h2 id="44-introduction-to-power-query---automated-repeatable-cleaning">4.4 Introduction to Power Query - Automated, Repeatable Cleaning</h2>
+<p>Everything we have done so far uses formulas - effective but manual. If you receive the same messy file every week (a common scenario), you would need to repeat all the cleaning steps every time.</p>
+<p><strong>Power Query</strong> solves this. It records your cleaning transformations as a series of steps (a &quot;recipe&quot;). When new data arrives, you refresh the query, and all transformations are reapplied automatically.</p>
+<h3 id="441-what-power-query-is">4.4.1 What Power Query Is</h3>
+<p>Power Query is a data transformation engine built into Excel (and Power BI). It:</p>
+<ul>
+<li>Connects to data sources (CSV, Excel files, databases, web pages, APIs)</li>
+<li>Records transformations as an ordered list of &quot;Applied Steps&quot;</li>
+<li>The process is generally the same regardless of the tool:</li>
+</ul>
+<ol>
+<li>Identify the mess (profiling)</li>
+<li>Clean and standardise (transformation)</li>
+<li>Connect and shape (modeling)</li>
+</ol>
+<div class="mermaid">graph LR
+    A[Raw Data] --> B[Data Profiling];
+    B --> C{Issues Found?};
+    C -- Yes --> D[Data Cleaning];
+    C -- No --> E[Data Modeling];
+    D --> E;
+    E --> F[Analysis Ready];
+    style A fill:#3b82f6,stroke:#1e3a8a,stroke-width:2px;
+    style F fill:#14b8a6,stroke:#0f766e,stroke-width:2px;
+    style C fill:#eab308,stroke:#a16207,stroke-width:2px,color:#000;</div><p>This chapter covers the first two steps using Excel&#39;s built-in tools and introduces Power Query.</p>
+<ol>
+<li>Open a new Excel workbook</li>
+<li>Data → Get Data → From File → From Text/CSV</li>
+<li>Navigate to <code>datasets/02_sales_dirty.csv</code></li>
+<li>In the preview dialog, click <strong>Transform Data</strong> (not &quot;Load&quot; - we want to clean first)</li>
+</ol>
+<p>Power Query Editor opens, showing your data.</p>
+<h3 id="443-the-power-query-editor-interface">4.4.3 The Power Query Editor Interface</h3>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Queries pane</strong> (left)</td>
+<td>List of all queries in this workbook</td>
+</tr>
+<tr>
+<td><strong>Data preview</strong> (centre)</td>
+<td>Shows a preview of the current data state</td>
+</tr>
+<tr>
+<td><strong>Applied Steps</strong> (right, under Query Settings)</td>
+<td>The ordered list of transformations. Each step is recorded. You can delete, reorder, or edit steps.</td>
+</tr>
+<tr>
+<td><strong>Ribbon</strong> (top)</td>
+<td>Home, Transform, Add Column, View tabs with transformation tools</td>
+</tr>
+</tbody></table>
+<h3 id="444-basic-power-query-transformations">4.4.4 Basic Power Query Transformations</h3>
+<p><strong>Remove blank rows</strong>:</p>
+<ol>
+<li>Home → Remove Rows → Remove Blank Rows</li>
+</ol>
+<p><strong>Remove duplicates</strong>:</p>
+<ol>
+<li>Select all columns (Ctrl+A in the preview)</li>
+<li>Home → Remove Rows → Remove Duplicates</li>
+</ol>
+<p><strong>Change column types</strong>:</p>
+<ol>
+<li>Click the type icon next to a column header (e.g., &quot;ABC&quot; for text, &quot;123&quot; for number)</li>
+<li>Select the correct type</li>
+<li>For dates: Choose Date. If it fails, the dates are in an ambiguous format - you may need to use &quot;Using Locale&quot; to specify the format.</li>
+</ol>
+<p><strong>Trim and clean text</strong>:</p>
+<ol>
+<li>Select a text column</li>
+<li>Transform → Format → Trim</li>
+<li>Transform → Format → Clean (removes non-printable characters)</li>
+<li>Transform → Format → Capitalize Each Word (equivalent of PROPER)</li>
+</ol>
+<p><strong>Replace values</strong>:</p>
+<ol>
+<li>Select a column</li>
+<li>Home → Replace Values</li>
+<li>Enter: Value to Find = <code>&quot;Technolgy&quot;</code>, Replace With = <code>&quot;Technology&quot;</code></li>
+<li>Repeat for other typos</li>
+</ol>
+<p><strong>Split columns</strong>:</p>
+<ol>
+<li>Select the column with crammed data (e.g., &quot;Maria Schmidt, 123 Main St, Munich&quot;)</li>
+<li>Transform → Split Column → By Delimiter → Comma</li>
+<li>This creates separate columns. Rename them appropriately.</li>
+</ol>
+<p><strong>Remove columns</strong>:</p>
+<ol>
+<li>Right-click a column header → Remove</li>
+<li>Or: select columns to keep → right-click → Remove Other Columns</li>
+</ol>
+<h3 id="445-applied-steps---your-cleaning-recipe">4.4.5 Applied Steps - Your Cleaning Recipe</h3>
+<p>Every transformation you performed is listed in the Applied Steps pane. This is the power of Power Query: the recipe is saved. When you get a new dirty file:</p>
+<ol>
+<li>Right-click the query → Edit</li>
+<li>In the first step (&quot;Source&quot;), change the file path to the new file</li>
+<li>All subsequent steps are reapplied automatically</li>
+</ol>
+<h3 id="446-loading-cleaned-data-to-excel">4.4.6 Loading Cleaned Data to Excel</h3>
+<p>When you are satisfied with the transformations:</p>
+<ol>
+<li>Home → Close &amp; Load</li>
+<li>Power Query creates a new worksheet with the cleaned data as a Table</li>
+<li>The Table is connected to the query - when you right-click it and select &quot;Refresh&quot;, Power Query re-runs all steps from the original source</li>
+</ol>
+<h3 id="447-power-query-vs-formulas---when-to-use-each">4.4.7 Power Query vs Formulas - When to Use Each</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Use Formulas</th>
+<th>Use Power Query</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>One-time cleaning of a small dataset</td>
+<td>✅</td>
+<td>Overkill</td>
+</tr>
+<tr>
+<td>Recurring data refresh (weekly report)</td>
+<td>Tedious, error-prone</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Combining multiple files</td>
+<td>Very difficult</td>
+<td>✅ (designed for this)</td>
+</tr>
+<tr>
+<td>Complex multi-step transformations</td>
+<td>Hard to audit</td>
+<td>✅ (each step is visible and editable)</td>
+</tr>
+<tr>
+<td>Non-technical users need to replicate</td>
+<td>Formulas can be edited accidentally</td>
+<td>✅ (query is separate from the output)</td>
+</tr>
+<tr>
+<td>Quick one-off lookups or calculations</td>
+<td>✅</td>
+<td>Overkill</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>In this course</strong>: We introduce Power Query here for awareness. Chapter 8 goes deep - including folder combines (merging 12 monthly files), advanced M language, and parameter queries. Power BI (Chapters 9-11) uses the same Power Query engine, so everything you learn here transfers directly.</p>
+</blockquote>
+<hr>
+<h2 id="45-the-clean-data-checklist---your-quality-gate">4.5 The Clean Data Checklist - Your Quality Gate</h2>
+<p>After cleaning, verify the result against this checklist. If every item passes, your data is analysis-ready.</p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>How to Verify</th>
+<th>Pass Criteria</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>No blank rows</td>
+<td><code>Ctrl+Down</code> reaches the last row without stopping</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>No duplicate rows</td>
+<td><code>Remove Duplicates</code> reports 0 removed</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Consistent text casing</td>
+<td>Sort text columns - no duplicates from casing differences</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>No leading/trailing spaces</td>
+<td><code>=LEN(A2) = LEN(TRIM(A2))</code> for all text cells</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>All dates are real dates</td>
+<td><code>=ISNUMBER(date_cell)</code> returns TRUE for every date</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>All numbers are real numbers</td>
+<td><code>=SUM(column)</code> returns a plausible total (not 0 or error)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>No rogue missing-value indicators</td>
+<td>Filter each column - no &quot;N/A&quot;, &quot;n/a&quot;, &quot;-&quot;, &quot;#N/A&quot; text values</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Consistent categories</td>
+<td>Sort category columns - each value appears exactly as expected</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Consistent ID formats</td>
+<td>Sort ID column - all follow the same pattern</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>No negative quantities</td>
+<td><code>=MIN(Quantity)</code> ≥ 1</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="common-mistakes--misconceptions">Common Mistakes &amp; Misconceptions</h2>
+<h3 id="mistake-1-cleaning-data-in-place-without-a-backup">Mistake 1: Cleaning Data In Place Without a Backup</h3>
+<p>Always work on a copy. If a cleaning step goes wrong and you save over the original, the raw data is lost.</p>
+<p><strong>Best practice</strong>: Keep the original file untouched. Create a copy or use Power Query (which never modifies the source).</p>
+<h3 id="mistake-2-replacing-blanks-with-zeros">Mistake 2: Replacing Blanks with Zeros</h3>
+<p>Missing ≠ zero. A blank cell in the Profit column means &quot;we don&#39;t know the profit.&quot; Zero means &quot;the profit was zero.&quot; These have different analytical implications. Replacing blanks with zeros inflates your denominator in averages and masks data quality issues.</p>
+<h3 id="mistake-3-using-find--replace-without-checking-match-entire-cell-contents">Mistake 3: Using Find &amp; Replace Without Checking &quot;Match Entire Cell Contents&quot;</h3>
+<p><code>Find: &quot;NA&quot; Replace: &quot;&quot;</code> - this removes &quot;NA&quot; from everywhere, including inside words like &quot;CANADA&quot; → &quot;CADA&quot;. Always check &quot;Match entire cell contents&quot; when replacing category values.</p>
+<h3 id="mistake-4-not-verifying-after-cleaning">Mistake 4: Not Verifying After Cleaning</h3>
+<p>Running <code>Remove Duplicates</code> and assuming it worked without checking the result. Always verify: count rows before and after, spot-check specific known issues, and run the quality checklist.</p>
+<h3 id="mistake-5-ignoring-the-source-of-the-problem">Mistake 5: Ignoring the Source of the Problem</h3>
+<p>Cleaning the same 5 issues every week? Fix the data entry process upstream. Add validation rules. Talk to the team creating the data. Cleaning is necessary but should not be a permanent band-aid over a broken data collection process.</p>
+<hr>
+<h2 id="in-simple-terms-tldr">In Simple Terms (TL;DR)</h2>
+<blockquote>
+<p><strong>ELI5 (Explain Like I&#39;m 5):</strong>
+Data is usually messy. We use tools like TRIM (removes extra spaces) and Power Query (an automatic cleaning machine) to fix bad data so we can actually use it without errors.</p>
+</blockquote>
+<div class="class-activities"><h2>Practice Exercises</h2>
+
+<div class="exercise-section">### Beginner
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 4.1</div><div class="activity-body">Open `datasets/02_sales_dirty.csv` in Excel. Run through the Data Quality Assessment Checklist from Section 4.1.2 and document every issue you find. How many categories of issues are there?
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 4.2</div><div class="activity-body">Remove all blank rows from the dirty dataset. How many blank rows did you find?
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 4.3</div><div class="activity-body">Remove exact duplicate rows. How many duplicates were there? How many unique rows remain?
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 4.4</div><div class="activity-body">Use `TRIM` and `PROPER` to clean the `Customer_Name` and `Region` columns. Create helper columns with the cleaned values, then paste-values over the originals.
+
+</div></div></div><div class="exercise-section">### Intermediate
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 4.5</div><div class="activity-body">Fix the `Order_Date` column so all values are real Excel dates. This requires handling three different input formats. Verify your results by sorting chronologically.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 4.6</div><div class="activity-body">Convert the `Sales` column from text (with `$` and `,`) to real numbers. Verify by calculating `=SUM(Sales_column)` - it should return a plausible total.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 4.7</div><div class="activity-body">Standardise the `Category` column by fixing all typos. Use a correction lookup table approach (create a small reference table with incorrect → correct mappings).
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 4.8</div><div class="activity-body">Build a data validation template: create a new blank workbook with headers matching the sales dataset, and apply validation rules to each column (dropdown list for Region and Category, number range for Quantity and Sales, date range for Order_Date).
+
+</div></div></div><div class="exercise-section">### Challenge
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 4.9</div><div class="activity-body">Load `datasets/02_sales_dirty.csv` into Power Query. Replicate all the cleaning steps from this chapter using Power Query's tools (not formulas). Save the query. Your Applied Steps should include at least: Remove blank rows, Remove duplicates, Trim/Clean text columns, Replace category typos, Change column types. Load the cleaned result to a new sheet.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 4.10</div><div class="activity-body">Compare your cleaned dataset against `datasets/01_global_superstore_sales.csv` (the clean source). The dirty dataset was derived from the first 70 rows of the clean dataset plus some noise. Can you verify that your cleaning produced results consistent with the original? Use VLOOKUP or XLOOKUP to match on Order_ID and compare key columns.
+</div></div></div></div>

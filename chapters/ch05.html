@@ -1,0 +1,565 @@
+<h1 id="chapter-5---statistics-for-analysts-the-reasoning-layer">Chapter 5 - Statistics for Analysts: The Reasoning Layer</h1>
+<hr>
+<h2 id="chapter-overview">Chapter Overview</h2>
+<p>This chapter changes how you think about data. Up to now, you have been learning to <em>handle</em> data - import it, clean it, look things up, compute values. Statistics teaches you to <em>reason</em> about data - to distinguish signal from noise, to quantify uncertainty, and to make defensible claims about what the numbers actually mean.</p>
+<p>This is not a university statistics course. We skip derivations and proofs. Instead, every concept is taught through the lens of &quot;How does this help me make a better decision?&quot; - with worked examples using the course datasets. You will compute every statistic in Excel, interpret the results in plain English, and understand the common traps that lead analysts to wrong conclusions.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Chapters 2-4 completed</li>
+<li><code>datasets/01_global_superstore_sales.csv</code> loaded as <code>SalesData</code></li>
+<li><code>datasets/03_employee_data.csv</code> loaded as <code>EmployeeData</code></li>
+<li><code>datasets/04_oil_gas_production.csv</code> available</li>
+<li><code>datasets/07_hospital_patient_flow.csv</code> available</li>
+</ul>
+<hr>
+<h2 id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Calculate and interpret measures of central tendency (mean, median, mode) and know when each is appropriate</li>
+<li>Calculate and interpret measures of spread (range, variance, standard deviation, IQR)</li>
+<li>Build frequency distributions and histograms to visualise data shape</li>
+<li>Identify outliers using the IQR method and z-scores</li>
+<li>Explain basic probability concepts and apply conditional probability reasoning</li>
+<li>Understand the normal distribution and apply the 68-95-99.7 rule</li>
+<li>Calculate and interpret correlation coefficients, and explain why correlation ≠ causation</li>
+<li>Perform and interpret a basic hypothesis test (t-test) in Excel</li>
+</ol>
+<hr>
+<h2 id="51-descriptive-statistics---summarising-data">5.1 Descriptive Statistics - Summarising Data</h2>
+<h3 id="511-measures-of-central-tendency">5.1.1 Measures of Central Tendency</h3>
+<p>Central tendency answers: &quot;What is the typical value?&quot;</p>
+<p><strong>Mean (Average)</strong>: The sum of all values divided by the count.</p>
+<pre><code class="language-">=AVERAGE(SalesData[Sales])</code></pre><p><strong>When to use</strong>: When the data is roughly symmetric with no extreme outliers. Good for: test scores, temperatures, production quantities.</p>
+<p><strong>When NOT to use</strong>: When the data is skewed or has outliers. Bad for: incomes, house prices, CEO compensation.</p>
+<p><strong>Median</strong>: The middle value when data is sorted. Half the values are above, half below.</p>
+<pre><code class="language-">=MEDIAN(SalesData[Sales])</code></pre><p><strong>When to use</strong>: When the data is skewed or contains outliers. The median is robust - a single billionaire does not distort it.</p>
+<p><strong>Example - Why median matters for salary data</strong>:</p>
+<p>Using <code>datasets/03_employee_data.csv</code>:</p>
+<pre><code class="language-">=AVERAGE(EmployeeData[Salary])     → approximately $85,000
+=MEDIAN(EmployeeData[Salary])      → approximately $76,000</code></pre><p>The mean is pulled up by a few high-salary VPs and Directors. The median better represents what a &quot;typical&quot; employee earns. When someone asks &quot;What do employees at this company make?&quot;, the median is the honest answer.</p>
+<p><strong>Mode</strong>: The most frequently occurring value.</p>
+<pre><code class="language-">=MODE.SNGL(EmployeeData[Performance_Rating])</code></pre><p>For <code>MODE.MULT</code> (which returns all modes if there are ties), use:</p>
+<pre><code class="language-">=MODE.MULT(range)    → spills multiple values (Excel 365)</code></pre><p><strong>When to use</strong>: Categorical or discrete data. &quot;What is the most common rating?&quot;, &quot;What is the most popular product category?&quot;</p>
+<h3 id="512-measures-of-spread">5.1.2 Measures of Spread</h3>
+<p>Knowing the centre is not enough. Two datasets can have the same average but wildly different distributions.</p>
+<p><strong>Example</strong>: Two sales teams both average $500/day. Team A: every member sells between $480-$520. Team B: members sell between $100-$900. Same average, completely different reality.</p>
+<p><strong>Range</strong>: Maximum minus minimum. Simplest measure, but sensitive to outliers.</p>
+<pre><code class="language-">=MAX(SalesData[Sales]) - MIN(SalesData[Sales])</code></pre><p><strong>Variance</strong>: The average of squared deviations from the mean. Measures how spread out the data is.</p>
+<pre><code class="language-">=VAR.S(SalesData[Sales])     → sample variance (use this for data samples)
+=VAR.P(SalesData[Sales])     → population variance (use when you have ALL the data)</code></pre><blockquote>
+<p><strong>S vs P</strong>: Use <code>.S</code> (sample) when your data is a subset of a larger population. Use <code>.P</code> (population) when your data IS the entire population. In practice, <code>.S</code> is almost always correct - you rarely have data on every single entity that ever existed.</p>
+</blockquote>
+<p><strong>Standard Deviation</strong>: The square root of variance. Same unit as the original data (dollars, hours, barrels).</p>
+<pre><code class="language-">=STDEV.S(SalesData[Sales])     → sample standard deviation
+=STDEV.P(SalesData[Sales])     → population standard deviation</code></pre><p><strong>Interpretation</strong>: If the mean is $500 and the standard deviation is $200, most values fall within $300-$700 (one standard deviation from the mean). A sale of $1,200 is unusually high (3.5 standard deviations above the mean).</p>
+<h3 id="513-summary-statistics-table---employee-dataset">5.1.3 Summary Statistics Table - Employee Dataset</h3>
+<p>Build this summary table in Excel for the <code>Salary</code> column of <code>EmployeeData</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Statistic</th>
+<th>Formula</th>
+<th>Value (approximate)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Count</td>
+<td><code>=COUNTA(EmployeeData[Salary])</code></td>
+<td>200</td>
+</tr>
+<tr>
+<td>Mean</td>
+<td><code>=AVERAGE(EmployeeData[Salary])</code></td>
+<td>~$85,000</td>
+</tr>
+<tr>
+<td>Median</td>
+<td><code>=MEDIAN(EmployeeData[Salary])</code></td>
+<td>~$76,000</td>
+</tr>
+<tr>
+<td>Mode</td>
+<td><code>=MODE.SNGL(EmployeeData[Salary])</code></td>
+<td>Varies</td>
+</tr>
+<tr>
+<td>Min</td>
+<td><code>=MIN(EmployeeData[Salary])</code></td>
+<td>~$38,000</td>
+</tr>
+<tr>
+<td>Max</td>
+<td><code>=MAX(EmployeeData[Salary])</code></td>
+<td>~$185,000</td>
+</tr>
+<tr>
+<td>Range</td>
+<td><code>=MAX(...) - MIN(...)</code></td>
+<td>~$147,000</td>
+</tr>
+<tr>
+<td>Std Dev</td>
+<td><code>=STDEV.S(EmployeeData[Salary])</code></td>
+<td>~$35,000</td>
+</tr>
+<tr>
+<td>Variance</td>
+<td><code>=VAR.S(EmployeeData[Salary])</code></td>
+<td>~1.2 billion</td>
+</tr>
+</tbody></table>
+<p>Notice: Mean &gt; Median, which tells you the distribution is <strong>right-skewed</strong> (pulled up by high earners). This is typical for salary data worldwide.</p>
+<hr>
+<h2 id="52-frequency-distributions--histograms">5.2 Frequency Distributions &amp; Histograms</h2>
+<h3 id="521-what-they-show">5.2.1 What They Show</h3>
+<p>A frequency distribution groups values into ranges (bins) and counts how many values fall in each range. A histogram is its visual representation.</p>
+<p><strong>Why you need this</strong>: Summary statistics (mean, median) tell you the centre. A histogram tells you the <em>shape</em> - is the data symmetric? Skewed? Bimodal (two peaks)? Shape determines which statistics are valid and which analytical approaches are appropriate.</p>
+<h3 id="522-building-a-frequency-distribution-in-excel">5.2.2 Building a Frequency Distribution in Excel</h3>
+<p><strong>Using COUNTIFS for manual binning</strong>:</p>
+<p>Define your bins for the <code>Sales</code> column:</p>
+<table>
+<thead>
+<tr>
+<th>Bin Label</th>
+<th>Lower</th>
+<th>Upper</th>
+<th>Count Formula</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$0 - $500</td>
+<td>0</td>
+<td>500</td>
+<td><code>=COUNTIFS(SalesData[Sales], &quot;&gt;=&quot;&amp;0, SalesData[Sales], &quot;&lt;&quot;&amp;500)</code></td>
+</tr>
+<tr>
+<td>$500 - $1,000</td>
+<td>500</td>
+<td>1000</td>
+<td><code>=COUNTIFS(SalesData[Sales], &quot;&gt;=&quot;&amp;500, SalesData[Sales], &quot;&lt;&quot;&amp;1000)</code></td>
+</tr>
+<tr>
+<td>$1,000 - $2,000</td>
+<td>1000</td>
+<td>2000</td>
+<td><code>=COUNTIFS(SalesData[Sales], &quot;&gt;=&quot;&amp;1000, SalesData[Sales], &quot;&lt;&quot;&amp;2000)</code></td>
+</tr>
+<tr>
+<td>$2,000 - $5,000</td>
+<td>2000</td>
+<td>5000</td>
+<td>...</td>
+</tr>
+<tr>
+<td>$5,000+</td>
+<td>5000</td>
+<td>∞</td>
+<td><code>=COUNTIFS(SalesData[Sales], &quot;&gt;=&quot;&amp;5000)</code></td>
+</tr>
+</tbody></table>
+<h3 id="523-using-the-data-analysis-toolpak">5.2.3 Using the Data Analysis ToolPak</h3>
+<p>Excel has a built-in histogram tool (if you install the Analysis ToolPak add-in):</p>
+<ol>
+<li>File → Options → Add-Ins → Go → check &quot;Analysis ToolPak&quot; → OK</li>
+<li>Data → Data Analysis → Histogram</li>
+<li>Input Range: select the Sales column</li>
+<li>Bin Range: select your bin boundaries</li>
+<li>Check &quot;Chart Output&quot;</li>
+</ol>
+<h3 id="524-interpreting-shape">5.2.4 Interpreting Shape</h3>
+<table>
+<thead>
+<tr>
+<th>Shape</th>
+<th>Description</th>
+<th>Example</th>
+<th>Implication</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Symmetric (Normal)</strong></td>
+<td>Bell-shaped, mean ≈ median</td>
+<td>Test scores, heights</td>
+<td>Mean is appropriate; standard deviation is meaningful</td>
+</tr>
+<tr>
+<td><strong>Right-skewed</strong></td>
+<td>Long tail to the right, mean &gt; median</td>
+<td>Salaries, house prices, company revenues</td>
+<td>Use median, not mean; consider log transformation</td>
+</tr>
+<tr>
+<td><strong>Left-skewed</strong></td>
+<td>Long tail to the left, mean &lt; median</td>
+<td>Age at retirement, exam scores (if most students do well)</td>
+<td>Use median</td>
+</tr>
+<tr>
+<td><strong>Bimodal</strong></td>
+<td>Two distinct peaks</td>
+<td>Mixed populations (e.g., height of men and women combined)</td>
+<td>Consider separating into subgroups</td>
+</tr>
+<tr>
+<td><strong>Uniform</strong></td>
+<td>Roughly equal frequencies across bins</td>
+<td>Random number generator, roll of a fair die</td>
+<td>Mean and median are nearly equal but not very informative</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="53-percentiles-quartiles--outlier-detection">5.3 Percentiles, Quartiles &amp; Outlier Detection</h2>
+<h3 id="531-percentiles">5.3.1 Percentiles</h3>
+<p>A percentile tells you the value below which a given percentage of observations fall.</p>
+<pre><code class="language-">=PERCENTILE.INC(SalesData[Sales], 0.90)    → 90th percentile</code></pre><p>The 90th percentile means: 90% of all sales are below this value.</p>
+<p><strong>Common percentiles</strong>:</p>
+<ul>
+<li>25th percentile (Q1) = First quartile</li>
+<li>50th percentile (Q2) = Median</li>
+<li>75th percentile (Q3) = Third quartile</li>
+<li>90th, 95th, 99th = Used for outlier detection and SLA thresholds</li>
+</ul>
+<h3 id="532-quartiles">5.3.2 Quartiles</h3>
+<pre><code class="language-">=QUARTILE.INC(SalesData[Sales], 1)    → Q1 (25th percentile)
+=QUARTILE.INC(SalesData[Sales], 2)    → Q2 (median)
+=QUARTILE.INC(SalesData[Sales], 3)    → Q3 (75th percentile)</code></pre><h3 id="533-interquartile-range-iqr-and-outlier-detection">5.3.3 Interquartile Range (IQR) and Outlier Detection</h3>
+<p>The <strong>IQR</strong> is the range of the middle 50% of data: <code>IQR = Q3 - Q1</code>.</p>
+<p><strong>The 1.5×IQR Rule</strong>: A value is an outlier if it falls below <code>Q1 - 1.5×IQR</code> or above <code>Q3 + 1.5×IQR</code>.</p>
+<p><strong>Worked example - Oil production outliers</strong>:</p>
+<pre><code class="language-">Q1 = QUARTILE.INC(OilData[Oil_BBL], 1)        → e.g., 3,500
+Q3 = QUARTILE.INC(OilData[Oil_BBL], 3)        → e.g., 15,000
+IQR = Q3 - Q1                                  → 11,500
+Lower fence = Q1 - 1.5 * IQR                   → 3,500 - 17,250 = -13,750 (floor at 0)
+Upper fence = Q3 + 1.5 * IQR                   → 15,000 + 17,250 = 32,250</code></pre><p>Any well producing more than 32,250 barrels in a month is flagged as an outlier. These warrant investigation - are they genuinely exceptional wells, or data entry errors?</p>
+<p><strong>Formula to flag outliers</strong>:</p>
+<pre><code class="language-">=IF(OR([@Oil_BBL] < Q1 - 1.5 * IQR, [@Oil_BBL] > Q3 + 1.5 * IQR), "Outlier", "Normal")</code></pre><h3 id="534-z-scores---standardised-distance-from-the-mean">5.3.4 Z-Scores - Standardised Distance from the Mean</h3>
+<p>A z-score tells you how many standard deviations a value is from the mean:</p>
+<pre><code class="language-">z = (value - mean) / standard_deviation</code></pre><p>In Excel:</p>
+<pre><code class="language-">=([@Sales] - AVERAGE(SalesData[Sales])) / STDEV.S(SalesData[Sales])</code></pre><table>
+<thead>
+<tr>
+<th>Z-Score</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>Exactly at the mean</td>
+</tr>
+<tr>
+<td>1.0</td>
+<td>One standard deviation above the mean (~84th percentile)</td>
+</tr>
+<tr>
+<td>-1.0</td>
+<td>One standard deviation below the mean (~16th percentile)</td>
+</tr>
+<tr>
+<td>2.0</td>
+<td>Two standard deviations above (~97.7th percentile) - unusual</td>
+</tr>
+<tr>
+<td>3.0</td>
+<td>Three standard deviations above (~99.9th percentile) - very unusual</td>
+</tr>
+<tr>
+<td>&gt; 3.0 or &lt; -3.0</td>
+<td>Potential outlier</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="54-probability-fundamentals">5.4 Probability Fundamentals</h2>
+<h3 id="541-basic-probability">5.4.1 Basic Probability</h3>
+<p><strong>Probability</strong> measures how likely an event is. It ranges from 0 (impossible) to 1 (certain).</p>
+<pre><code class="language-">P(event) = Number of favourable outcomes / Total number of possible outcomes</code></pre><p><strong>Example from the sales dataset</strong>: What is the probability that a randomly selected order is from the Technology category?</p>
+<pre><code class="language-">=COUNTIF(SalesData[Category], "Technology") / COUNTA(SalesData[Category])</code></pre><p>If 350 of 1000 orders are Technology: P(Technology) = 0.35 or 35%.</p>
+<h3 id="542-conditional-probability">5.4.2 Conditional Probability</h3>
+<p><strong>Conditional probability</strong> is the probability of event A, given that event B has already occurred.</p>
+<pre><code class="language-">P(A|B) = P(A and B) / P(B)</code></pre><p><strong>Example</strong>: What is the probability an order is unprofitable, given that it has a discount &gt; 30%?</p>
+<pre><code class="language-">P(Unprofitable | Discount > 30%) = Count(Profit < 0 AND Discount > 0.30) / Count(Discount > 0.30)</code></pre><p>In Excel:</p>
+<pre><code class="language-">=COUNTIFS(SalesData[Profit], "<0", SalesData[Discount], ">0.30") / COUNTIFS(SalesData[Discount], ">0.30")</code></pre><p>If this returns 0.45, then 45% of heavily discounted orders are unprofitable. Compare to the overall unprofitable rate - if that is only 15%, the high discount is clearly associated with losses.</p>
+<h3 id="543-independent-vs-dependent-events">5.4.3 Independent vs Dependent Events</h3>
+<p><strong>Independent events</strong>: The outcome of one does not affect the other. Coin flips, separate customer orders.</p>
+<p><strong>Dependent events</strong>: The outcome of one affects the other. Drawing cards from a deck without replacement, equipment failures in a shared system.</p>
+<p><strong>In analytics</strong>: Understanding independence matters for A/B testing. If a customer sees both Test A and Test B (not independent), your test results are contaminated.</p>
+<hr>
+<h2 id="55-the-normal-distribution">5.5 The Normal Distribution</h2>
+<h3 id="551-why-it-matters">5.5.1 Why It Matters</h3>
+<p>The <strong>normal distribution</strong> (bell curve) is the most important distribution in statistics because:</p>
+<ol>
+<li>Many natural phenomena are approximately normal (heights, test scores, measurement errors)</li>
+<li>The <strong>Central Limit Theorem</strong> says that the <em>average</em> of many random samples is approximately normal, even if the underlying data is not</li>
+<li>Most statistical tests assume normality (or approximate it)</li>
+</ol>
+<h3 id="552-properties">5.5.2 Properties</h3>
+<ul>
+<li>Symmetric around the mean</li>
+<li>Mean = Median = Mode</li>
+<li>Defined by two parameters: mean (μ) and standard deviation (σ)</li>
+</ul>
+<p><strong>The 68-95-99.7 Rule</strong>:</p>
+<pre><code class="language-">                      99.7%
+                 ┌──────────────────┐
+            95%  │                  │
+         ┌───────────────────┐     │
+    68%  │                   │     │
+    ┌─────────────────┐      │     │
+    │                 │      │     │
+────┼──────┼──────┼──────┼──────┼──────┼──────┼────
+  -3σ   -2σ    -1σ     μ    +1σ   +2σ   +3σ</code></pre><ul>
+<li>68% of data falls within ±1 standard deviation of the mean</li>
+<li>95% falls within ±2 standard deviations</li>
+<li>99.7% falls within ±3 standard deviations</li>
+</ul>
+<h3 id="553-excel-normal-distribution-functions">5.5.3 Excel Normal Distribution Functions</h3>
+<pre><code class="language-">=NORM.DIST(x, mean, stdev, TRUE)    → Cumulative probability (P ≤ x)
+=NORM.DIST(x, mean, stdev, FALSE)   → Probability density at x
+=NORM.INV(probability, mean, stdev)  → x value for a given cumulative probability
+=NORM.S.DIST(z, TRUE)               → Standard normal cumulative (z-score)</code></pre><p><strong>Example</strong>: Employee salaries have mean $85,000 and std dev $35,000 (approximately normal). What percentage of employees earn less than $60,000?</p>
+<pre><code class="language-">=NORM.DIST(60000, 85000, 35000, TRUE)   → approximately 0.238 → 23.8%</code></pre><p>What salary is at the 90th percentile?</p>
+<pre><code class="language-">=NORM.INV(0.90, 85000, 35000)   → approximately $129,850</code></pre><hr>
+<h2 id="56-correlation">5.6 Correlation</h2>
+<h3 id="561-what-correlation-measures">5.6.1 What Correlation Measures</h3>
+<p><strong>Correlation</strong> measures the strength and direction of the linear relationship between two variables. The correlation coefficient (r) ranges from -1 to +1.</p>
+<table>
+<thead>
+<tr>
+<th>r Value</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+1.0</td>
+<td>Perfect positive linear relationship</td>
+</tr>
+<tr>
+<td>+0.7 to +0.9</td>
+<td>Strong positive</td>
+</tr>
+<tr>
+<td>+0.4 to +0.6</td>
+<td>Moderate positive</td>
+</tr>
+<tr>
+<td>+0.1 to +0.3</td>
+<td>Weak positive</td>
+</tr>
+<tr>
+<td>0</td>
+<td>No linear relationship</td>
+</tr>
+<tr>
+<td>-0.1 to -0.3</td>
+<td>Weak negative</td>
+</tr>
+<tr>
+<td>-0.4 to -0.6</td>
+<td>Moderate negative</td>
+</tr>
+<tr>
+<td>-0.7 to -0.9</td>
+<td>Strong negative</td>
+</tr>
+<tr>
+<td>-1.0</td>
+<td>Perfect negative linear relationship</td>
+</tr>
+</tbody></table>
+<h3 id="562-calculating-in-excel">5.6.2 Calculating in Excel</h3>
+<pre><code class="language-">=CORREL(SalesData[Sales], SalesData[Profit])</code></pre><p><strong>Example correlations to explore in the datasets</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Variables</th>
+<th>Expected Correlation</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sales vs Profit</td>
+<td>Moderate positive (~0.5-0.7)</td>
+<td>Higher sales generally mean higher profit, but discounts can create losses on high-revenue orders</td>
+</tr>
+<tr>
+<td>Sales vs Discount</td>
+<td>Weak positive</td>
+<td>Higher discounts may drive larger orders</td>
+</tr>
+<tr>
+<td>Discount vs Profit</td>
+<td>Moderate negative</td>
+<td>Higher discounts reduce margin</td>
+</tr>
+<tr>
+<td>Employee Performance vs Satisfaction</td>
+<td>Moderate positive (~0.55)</td>
+<td>Designed into our dataset</td>
+</tr>
+<tr>
+<td>Marketing Spend vs Revenue</td>
+<td>Positive</td>
+<td>More spend → more conversions (but is it causal?)</td>
+</tr>
+</tbody></table>
+<h3 id="563-correlation-≠-causation-again-with-numbers">5.6.3 Correlation ≠ Causation (Again, With Numbers)</h3>
+<p>Calculate: <code>=CORREL(SalesData[Sales], SalesData[Quantity])</code>. You will get a positive correlation. Does this mean selling more units <em>causes</em> higher revenue? No - it <em>is</em> higher revenue (Sales = Price × Quantity). The correlation is tautological.</p>
+<p>A more insidious example: Employee tenure correlates with salary. Does staying longer <em>cause</em> higher pay? Partially. But it could also be that higher-paid employees have more reason to stay (reverse causation), or that both are driven by job level (confounding variable).</p>
+<p><strong>Always ask</strong>:</p>
+<ol>
+<li>Is there a plausible mechanism? (Does X logically influence Y?)</li>
+<li>Could a third variable explain both? (Confounding)</li>
+<li>Could the direction be reversed? (Reverse causation)</li>
+</ol>
+<h3 id="564-simple-linear-regression-in-excel">5.6.4 Simple Linear Regression in Excel</h3>
+<p>Regression fits a line <code>y = mx + b</code> to your data:</p>
+<pre><code class="language-">=SLOPE(known_y's, known_x's)        → m (slope)
+=INTERCEPT(known_y's, known_x's)    → b (y-intercept)
+=RSQ(known_y's, known_x's)          → R² (coefficient of determination)</code></pre><p><strong>R² interpretation</strong>: The proportion of variance in Y explained by X.</p>
+<ul>
+<li>R² = 0.64 means 64% of the variation in Y is explained by its linear relationship with X</li>
+<li>The remaining 36% is due to other factors not in the model</li>
+</ul>
+<p><strong>Example</strong>: Does marketing spend predict revenue?</p>
+<pre><code class="language-">=SLOPE(MarketingData[Revenue], MarketingData[Spend])        → how much revenue per dollar spent
+=INTERCEPT(MarketingData[Revenue], MarketingData[Spend])     → baseline revenue with zero spend
+=RSQ(MarketingData[Revenue], MarketingData[Spend])           → how much of revenue variation does spend explain?</code></pre><hr>
+<h2 id="57-hypothesis-testing---making-claims-about-data">5.7 Hypothesis Testing - Making Claims About Data</h2>
+<h3 id="571-the-logic-of-hypothesis-testing">5.7.1 The Logic of Hypothesis Testing</h3>
+<p>Every hypothesis test follows the same logic:</p>
+<ol>
+<li><strong>State the null hypothesis (H₀)</strong>: &quot;Nothing interesting is happening. Any difference is due to random chance.&quot;</li>
+<li><strong>State the alternative hypothesis (H₁)</strong>: &quot;Something real is happening. The difference is not due to chance.&quot;</li>
+<li><strong>Calculate a test statistic</strong>: How extreme is our observed result under the null hypothesis?</li>
+<li><strong>Find the p-value</strong>: If nothing were happening, how likely is a result this extreme?</li>
+<li><strong>Compare p-value to significance level (α)</strong>: Usually α = 0.05 (5%).<ul>
+<li>If p &lt; α → Reject H₀ (the result is statistically significant)</li>
+<li>If p ≥ α → Fail to reject H₀ (insufficient evidence)</li>
+</ul>
+</li>
+</ol>
+<h3 id="572-the-p-value-explained-simply">5.7.2 The p-Value Explained Simply</h3>
+<p><strong>The p-value answers</strong>: &quot;If there were truly no difference (no effect, no relationship), what is the probability of seeing a result at least as extreme as what we observed?&quot;</p>
+<ul>
+<li>p = 0.03 → &quot;If nothing were happening, there is only a 3% chance of seeing this result by random chance. That is unlikely enough to conclude something real is happening.&quot;</li>
+<li>p = 0.42 → &quot;If nothing were happening, there is a 42% chance of seeing this result by random chance. That is common enough that we cannot conclude anything special.&quot;</li>
+</ul>
+<blockquote>
+<p><strong>Critical misconception</strong>: The p-value is NOT the probability that the null hypothesis is true. It is the probability of the data, given that the null is true. The distinction is subtle but important.</p>
+</blockquote>
+<h3 id="573-t-test-in-excel">5.7.3 T-Test in Excel</h3>
+<p>The <strong>t-test</strong> compares the means of two groups. Are they different enough that the difference is unlikely to be random chance?</p>
+<p><strong>Excel function</strong>:</p>
+<pre><code class="language-">=T.TEST(array1, array2, tails, type)</code></pre><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>array1</code></td>
+<td>First group&#39;s values</td>
+<td>e.g., Sales for &quot;Technology&quot;</td>
+</tr>
+<tr>
+<td><code>array2</code></td>
+<td>Second group&#39;s values</td>
+<td>e.g., Sales for &quot;Furniture&quot;</td>
+</tr>
+<tr>
+<td><code>tails</code></td>
+<td>1 or 2</td>
+<td>1 = one-tailed (testing if A &gt; B); 2 = two-tailed (testing if A ≠ B)</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>1, 2, or 3</td>
+<td>1 = paired; 2 = equal variance; 3 = unequal variance (use 3 if unsure)</td>
+</tr>
+</tbody></table>
+<p><strong>Example</strong> - Do Technology orders have significantly different sales amounts than Furniture orders?</p>
+<p>First, separate the data (or use array formulas):</p>
+<pre><code class="language-">=T.TEST(
+    IF(SalesData[Category]="Technology", SalesData[Sales]),
+    IF(SalesData[Category]="Furniture", SalesData[Sales]),
+    2, 3
+)</code></pre><blockquote>
+<p>Note: This requires entering as a <code>Ctrl+Shift+Enter</code> array formula in older Excel, or will work naturally in Excel 365 with dynamic arrays.</p>
+</blockquote>
+<p>If the result is p = 0.002, we conclude: &quot;There is a statistically significant difference in sales between Technology and Furniture (p = 0.002, two-tailed t-test with unequal variances). Technology orders tend to be higher in value.&quot;</p>
+<h3 id="574-type-i-and-type-ii-errors">5.7.4 Type I and Type II Errors</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>H₀ is actually TRUE</th>
+<th>H₀ is actually FALSE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>We reject H₀</strong></td>
+<td>Type I Error (false positive) - we claim an effect exists when it does not</td>
+<td>Correct decision (true positive)</td>
+</tr>
+<tr>
+<td><strong>We fail to reject H₀</strong></td>
+<td>Correct decision (true negative)</td>
+<td>Type II Error (false negative) - we miss a real effect</td>
+</tr>
+</tbody></table>
+<p><strong>Real consequences</strong>:</p>
+<ul>
+<li><strong>Type I (false positive)</strong>: A pharmaceutical company approves a drug that does not actually work → patients take ineffective medication, money is wasted</li>
+<li><strong>Type II (false negative)</strong>: A marketing team concludes that a new campaign had no effect, when it actually did → they discard a profitable strategy</li>
+</ul>
+<p>The significance level α controls Type I error rate. Setting α = 0.05 means you accept a 5% chance of false positives. Lower α (0.01) reduces false positives but increases false negatives.</p>
+<hr>
+<h2 id="common-mistakes--misconceptions">Common Mistakes &amp; Misconceptions</h2>
+<h3 id="mistake-1-using-the-mean-for-skewed-data">Mistake 1: Using the Mean for Skewed Data</h3>
+<p>If your histogram is not roughly symmetric, the mean is misleading. Report the median. Better yet, report both and explain why they differ.</p>
+<h3 id="mistake-2-confusing-standard-deviation-with-standard-error">Mistake 2: Confusing Standard Deviation with Standard Error</h3>
+<p>Standard deviation measures spread in your data. Standard error measures precision of your estimate of the mean. They are related but different - standard error = standard deviation / √n.</p>
+<h3 id="mistake-3-claiming-statistical-significance--practical-importance">Mistake 3: Claiming Statistical Significance = Practical Importance</h3>
+<p>A p-value of 0.03 means the difference is unlikely to be random. It says nothing about whether the difference is <em>large enough to matter</em>. A 0.1% improvement in conversion rate might be statistically significant with enough data, but not worth the effort to implement.</p>
+<h3 id="mistake-4-cherry-picking-subgroups">Mistake 4: Cherry-Picking Subgroups</h3>
+<p>If you test 20 subgroups at α = 0.05, you expect 1 false positive by chance. Finding one &quot;significant&quot; result in 20 tests is not a discovery - it is statistics working as designed. Always account for multiple comparisons.</p>
+<h3 id="mistake-5-interpreting-correlation-as-causation">Mistake 5: Interpreting Correlation as Causation</h3>
+<p>Already covered in Chapter 1 and Section 5.6.3, but it bears repeating. High correlation between X and Y means they move together. It does not mean X causes Y, Y causes X, or that the relationship will hold in the future.</p>
+<hr>
+<h2 id="in-simple-terms-tldr">In Simple Terms (TL;DR)</h2>
+<blockquote>
+<p><strong>ELI5 (Explain Like I&#39;m 5):</strong>
+Statistics is just summarizing lots of numbers. Mean is the average. Median is the middle number (which is safer if you have crazy outliers). A normal distribution just means most things are average and extreme things are rare.</p>
+</blockquote>
+<div class="class-activities"><h2>Practice Exercises</h2>
+
+<div class="exercise-section">### Beginner
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 5.1</div><div class="activity-body">Using `EmployeeData`, calculate the mean, median, and standard deviation of `Salary`. Is the distribution symmetric? How do you know?
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 5.2</div><div class="activity-body">Calculate the 25th, 50th, and 75th percentiles of `Sales` in `SalesData`. What is the IQR?
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 5.3</div><div class="activity-body">Using `COUNTIFS`, build a frequency distribution for the `Wait_Time_Min` column in the hospital dataset. Use bins of 30 minutes (0-30, 30-60, 60-90, etc.).
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 5.4</div><div class="activity-body">What is the probability that a randomly selected order from `SalesData` is: (a) from Europe? (b) from the Technology category? (c) unprofitable (Profit < 0)?
+
+</div></div></div><div class="exercise-section">### Intermediate
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 5.5</div><div class="activity-body">Using the IQR method, identify outliers in the `Oil_BBL` column of the oil & gas dataset. How many outlier records are there? Which wells are they from?
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 5.6</div><div class="activity-body">Calculate the correlation between `Sales` and `Profit` in `SalesData`. Create a scatter plot to visualise it. Then calculate the correlation between `Discount` and `Profit`. What story do these correlations tell?
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 5.7</div><div class="activity-body">Using the normal distribution, if employee salaries are approximately normal with mean $85,000 and std dev $35,000, what percentage of employees earn: (a) less than $50,000? (b) more than $120,000? (c) between $60,000 and $100,000?
+
+</div></div></div><div class="exercise-section">### Challenge
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 5.8</div><div class="activity-body">Perform a t-test to determine whether there is a statistically significant difference in `Satisfaction_Score` between employees who left the company (`Attrition = "Yes"`) and those who stayed (`Attrition = "No"`). Report the p-value and interpret the result.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 5.9</div><div class="activity-body">Using the hospital patient flow dataset, test whether weekend wait times are statistically significantly longer than weekday wait times. What is the p-value? What practical recommendation would you make based on this finding?
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 5.10</div><div class="activity-body">In the employee dataset, calculate the average salary by Gender. Is there a difference? Perform a t-test. If significant, explain what confounding variables might account for the difference (Hint: job title distribution). Calculate the average salary by Gender *within each Job Title* - does the gap persist, shrink, or disappear? This is Simpson's Paradox in action.
+</div></div></div></div>

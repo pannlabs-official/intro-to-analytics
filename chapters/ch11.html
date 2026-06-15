@@ -1,0 +1,259 @@
+<h1 id="chapter-11---power-bi-reports-dashboards--storytelling">Chapter 11 - Power BI Reports, Dashboards &amp; Storytelling</h1>
+<hr>
+<h2 id="chapter-overview">Chapter Overview</h2>
+<p>You have extracted and cleaned data (Power Query). You have built the Star Schema (Data Model). You have written the logic (DAX). Now, it is time to build the interface that stakeholders will actually see.</p>
+<p>Building a report in Power BI is fundamentally different from building charts in Excel. In Excel, visuals are static islands of data. In Power BI, every visual on the page interacts with every other visual by default. Click a bar in a chart, and the whole page filters to that category.</p>
+<p>This chapter covers the mechanics of the Report Canvas, advanced interactivity (drill-throughs, custom tooltips), publishing to the Power BI Service, and the design principles of data storytelling - ensuring your dashboard drives action, rather than just displaying numbers.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Chapter 9 and 10 completed.</li>
+<li>A Power BI model containing the <code>Sales</code> and <code>Products</code> tables, with the base measures (<code>Total Sales</code>, <code>Profit Margin</code>) created in Chapter 10.</li>
+</ul>
+<hr>
+<h2 id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Build and format interactive report pages using core visuals (Cards, Matrices, Bar/Line charts)</li>
+<li>Control visual interactions (filtering vs highlighting)</li>
+<li>Implement advanced navigation using Drill-Through and Bookmarks</li>
+<li>Design custom Report Tooltips that show underlying data on hover</li>
+<li>Understand Row-Level Security (RLS) to restrict data access by user</li>
+<li>Explain the difference between a Report and a Dashboard in the Power BI Service</li>
+<li>Apply storytelling frameworks to structure a presentation of analytical findings</li>
+</ol>
+<hr>
+<h2 id="111-the-report-canvas-mechanics">11.1 The Report Canvas Mechanics</h2>
+<h3 id="1111-core-visual-types">11.1.1 Core Visual Types</h3>
+<p>Not all visuals are created equal. These are the workhorses of corporate reporting:</p>
+<table>
+<thead>
+<tr>
+<th>Visual</th>
+<th>Use Case</th>
+<th>Configuration</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Card (New)</strong></td>
+<td>High-level KPIs. &quot;What is our total revenue?&quot;</td>
+<td>Add <code>[Total Sales]</code> to Fields. Format the callout value size.</td>
+</tr>
+<tr>
+<td><strong>Matrix</strong></td>
+<td>Detailed cross-tabulations. The PivotTable equivalent.</td>
+<td>Rows: <code>Category</code>, <code>Sub_Category</code>. Columns: <code>Year</code>. Values: <code>[Total Sales]</code>. Expand/Collapse headers.</td>
+</tr>
+<tr>
+<td><strong>Clustered Bar Chart</strong></td>
+<td>Ranking categorical data.</td>
+<td>Y-Axis: <code>Region</code>. X-Axis: <code>[Total Sales]</code>. Sort descending.</td>
+</tr>
+<tr>
+<td><strong>Line Chart</strong></td>
+<td>Time series trends.</td>
+<td>X-Axis: <code>Date</code> (Month/Year). Y-Axis: <code>[Total Profit]</code>.</td>
+</tr>
+<tr>
+<td><strong>Slicer</strong></td>
+<td>User-controlled filtering.</td>
+<td>Field: <code>Segment</code>. Format as Dropdown or Tile (Buttons).</td>
+</tr>
+</tbody></table>
+<h3 id="1112-formatting-best-practices">11.1.2 Formatting Best Practices</h3>
+<p>Apply the Data-Ink principles from Chapter 7, adapted for Power BI:</p>
+<ul>
+<li><strong>Remove backgrounds</strong>: Turn off the white background on visuals if you are using a light grey page canvas. It creates a cleaner, seamless look.</li>
+<li><strong>Titles</strong>: Left-align titles. Make them descriptive (&quot;Sales by Region&quot;, not &quot;Total Sales by Region&quot;).</li>
+<li><strong>Gridlines &amp; Axes</strong>: Turn off the Y-axis title if it is obvious (e.g., if the axis is just years, you do not need a label saying &quot;Year&quot;).</li>
+<li><strong>Shadows</strong>: Use very subtle drop shadows on visual borders to create depth, but do not overuse them.</li>
+</ul>
+<h3 id="1113-the-default-interactivity-cross-filtering">11.1.3 The Default Interactivity: Cross-Filtering</h3>
+<p>Place a Bar Chart (Sales by Region) and a Line Chart (Sales over Time) on the same page.
+Click the &quot;Europe&quot; bar.
+Notice what happens to the Line Chart:</p>
+<ul>
+<li>It dims the total line, and highlights the portion belonging to Europe. This is called <strong>Cross-Highlighting</strong>.</li>
+</ul>
+<p>Sometimes, highlighting is confusing (especially on line charts). You want the visual to completely filter instead.</p>
+<ol>
+<li>Click the Bar Chart.</li>
+<li>Go to the <strong>Format</strong> ribbon at the very top of the screen → <strong>Edit Interactions</strong>.</li>
+<li>Small icons appear above every <em>other</em> visual on the page.</li>
+<li>Hover over the Line Chart. Click the <strong>Filter</strong> icon (solid funnel) instead of the Highlight icon (faded chart).</li>
+<li>Click &quot;Europe&quot; on the Bar Chart again. The Line chart now completely redraws to show only European data.</li>
+</ol>
+<hr>
+<h2 id="112-advanced-navigation--interactivity">11.2 Advanced Navigation &amp; Interactivity</h2>
+<p>A good report guides the user through layers of detail. Start high-level, and let them drill down if they have questions.</p>
+<h3 id="1121-drill-through">11.2.1 Drill-Through</h3>
+<p>Drill-through allows a user to right-click a data point on a summary page and jump to a detailed page filtered exactly to that data point.</p>
+<p><strong>How to set it up</strong>:</p>
+<ol>
+<li>Create Page 1: &quot;Summary&quot;. Add a Bar Chart showing Sales by <code>Category</code>.</li>
+<li>Create Page 2: &quot;Details&quot;. Rename the page. Add a Matrix showing detailed order lines (Order ID, Date, Customer, Profit).</li>
+<li>On Page 2, look at the <strong>Visualizations</strong> pane. Below the formatting options, find the <strong>Drill-through</strong> section.</li>
+<li>Drag the <code>Category</code> field into the &quot;Add drill-through fields here&quot; box.</li>
+<li>Power BI automatically adds a back button to Page 2.</li>
+</ol>
+<p><strong>How to use it</strong>:</p>
+<ol>
+<li>Go back to Page 1.</li>
+<li>Right-click the &quot;Technology&quot; bar in the chart.</li>
+<li>Select <strong>Drill through</strong> → <strong>Details</strong>.</li>
+<li>You are transported to Page 2, and the matrix is automatically filtered to show only Technology orders.</li>
+</ol>
+<h3 id="1122-custom-report-tooltips">11.2.2 Custom Report Tooltips</h3>
+<p>Default tooltips (the black box that appears when you hover over a data point) just repeat the numbers on the axis. You can replace this with an entire mini-report page.</p>
+<ol>
+<li>Create a new page. Rename it &quot;Tooltip&quot;.</li>
+<li>Go to Format Page (click the canvas) → Page Information → <strong>Allow use as tooltip</strong> (On).</li>
+<li>Page Setup → Type: <strong>Tooltip</strong> (this makes the canvas very small, like a tooltip box).</li>
+<li>Add visuals to this tiny page (e.g., a mini line chart showing the trend of sales, and a card showing Profit Margin).</li>
+<li>Go back to your main report page. Click the Bar Chart.</li>
+<li>Format Visual → General → Tooltips → Type: Report page → Page: Tooltip.</li>
+</ol>
+<p>Now, hover over the &quot;Europe&quot; bar. A mini-dashboard pops up showing the 12-month sales trend specifically for Europe.</p>
+<h3 id="1123-bookmarks-and-buttons">11.2.3 Bookmarks and Buttons</h3>
+<p>Bookmarks capture the current state of a page (filters applied, visuals hidden/visible). You can link bookmarks to Buttons to create app-like navigation.</p>
+<p>Example: A button that toggles a chart between displaying Revenue and Profit.</p>
+<ol>
+<li>Layer a Revenue chart and a Profit chart exactly on top of each other.</li>
+<li>Open View → Selection pane (to hide/show visuals) and View → Bookmarks pane.</li>
+<li>Hide the Profit chart. Create a bookmark named &quot;Show Revenue&quot;.</li>
+<li>Hide the Revenue chart, unhide the Profit chart. Create a bookmark named &quot;Show Profit&quot;.</li>
+<li>Insert → Buttons → Blank. Add text &quot;Revenue&quot;. Action: Bookmark → &quot;Show Revenue&quot;.</li>
+<li>Do the same for a &quot;Profit&quot; button.</li>
+</ol>
+<hr>
+<h2 id="113-security-and-governance">11.3 Security and Governance</h2>
+<p>If you build an HR dashboard, managers should only see their own employees&#39; salaries. You cannot rely on them to &quot;filter nicely.&quot; You need hard security.</p>
+<h3 id="1131-row-level-security-rls">11.3.1 Row-Level Security (RLS)</h3>
+<p>RLS filters the data model based on who is logged in.</p>
+<ol>
+<li>Modeling ribbon → <strong>Manage Roles</strong>.</li>
+<li>Create a Role named &quot;European Managers&quot;.</li>
+<li>Select the <code>Sales</code> table. Enter a DAX filter expression:<pre><code class="language-dax">[Region] = "Europe"</code></pre></li>
+<li>Click Save.</li>
+</ol>
+<p>To test it in Desktop: Modeling → <strong>View as</strong>. Check &quot;European Managers&quot;. The entire dashboard instantly filters to Europe, and the user has no ability to clear the filter to see other regions.</p>
+<p>When you publish to the Power BI Service, you assign user email addresses to these roles in the Security settings.</p>
+<hr>
+<h2 id="114-the-power-bi-service-cloud">11.4 The Power BI Service (Cloud)</h2>
+<p>Once Desktop work is done, click <strong>Publish</strong> (Home ribbon). The file (<code>.pbix</code>) is uploaded to a Workspace in <code>app.powerbi.com</code>.</p>
+<h3 id="1141-reports-vs-dashboards">11.4.1 Reports vs. Dashboards</h3>
+<p>In common business language, everything is a &quot;dashboard.&quot; In Power BI terminology, they are strictly defined:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Power BI Report</th>
+<th>Power BI Dashboard</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Structure</strong></td>
+<td>Multiple pages, many visuals</td>
+<td>A single, scrolling page canvas</td>
+</tr>
+<tr>
+<td><strong>Interactivity</strong></td>
+<td>High (cross-filtering, slicers, drill-through)</td>
+<td>Low (clicking a visual jumps you to the underlying Report)</td>
+</tr>
+<tr>
+<td><strong>Data Sources</strong></td>
+<td>Visuals come from one dataset</td>
+<td>Visuals can be pinned from many different reports/datasets</td>
+</tr>
+<tr>
+<td><strong>Update Frequency</strong></td>
+<td>Refreshes when the dataset refreshes</td>
+<td>Updates dynamically</td>
+</tr>
+<tr>
+<td><strong>Use Case</strong></td>
+<td>Deep-dive analysis, filtering</td>
+<td>High-level executive monitoring across multiple business areas</td>
+</tr>
+</tbody></table>
+<p><strong>Workflow</strong>: You publish a <em>Report</em>. In the Service, you hover over a visual on that report and click the &quot;Pin&quot; icon to pin it to a <em>Dashboard</em>.</p>
+<h3 id="1142-workspaces-and-apps">11.4.2 Workspaces and Apps</h3>
+<ul>
+<li><strong>My Workspace</strong>: Your personal sandbox. Do not use this for company-wide reports.</li>
+<li><strong>Shared Workspace</strong>: A collaborative environment for developers (e.g., &quot;Finance Analytics Team&quot;).</li>
+<li><strong>Power BI App</strong>: The final packaged product. You bundle reports and dashboards from a workspace into an &quot;App&quot; and publish it to the end-users. Users get a clean, read-only navigation menu without seeing the messy backend workspace.</li>
+</ul>
+<h3 id="1143-scheduled-refresh">11.4.3 Scheduled Refresh</h3>
+<p>If your data source is an on-premise SQL database or a shared network drive, the cloud cannot reach it automatically. You must install a <strong>Data Gateway</strong> on a machine within your corporate network.
+Once configured in the Service, you can set the dataset to refresh automatically (e.g., daily at 6:00 AM).</p>
+<hr>
+<h2 id="115-data-storytelling">11.5 Data Storytelling</h2>
+<p>A dashboard is not a story; it is a tool. A story has a narrative arc: a beginning (context), a middle (conflict/insight), and an end (resolution/recommendation).</p>
+<p>When presenting your findings to stakeholders, do not just walk them through the dashboard (&quot;Here is the revenue chart, here is the region filter&quot;). Use the <strong>SCR Framework</strong>:</p>
+<h3 id="1151-situation-complication-resolution">11.5.1 Situation, Complication, Resolution</h3>
+<p><strong>1. Situation (The Context)</strong>
+Establish the baseline that everyone agrees on.
+<em>Example: &quot;As you know, our Q3 goal was $5M in revenue across all regions, relying heavily on the launch of the new Technology product line.&quot;</em></p>
+<p><strong>2. Complication (The Insight / Problem)</strong>
+Introduce the anomaly or the challenge revealed by the data.
+<em>Example: &quot;While overall revenue hit $4.8M, the Technology line dramatically underperformed in Europe, dragging down our global margins by 12% due to heavy discounting.&quot;</em> (Use the dashboard here, applying the Europe and Technology filters to show the red profit margins).</p>
+<p><strong>3. Resolution (The Recommendation)</strong>
+Tell them what the data suggests they should do.
+<em>Example: &quot;The data shows that Technology products sold at standard price in Asia moved quickly. We should pause discounting in Europe, reallocate that marketing budget to Asia for Q4, and investigate the European pricing strategy.&quot;</em></p>
+<h3 id="1152-the-5-second-rule">11.5.2 The 5-Second Rule</h3>
+<p>An executive should be able to look at your dashboard and understand whether the business is winning or losing within 5 seconds.</p>
+<ul>
+<li>If it takes 30 seconds of hunting through table matrices to find the answer, the design has failed.</li>
+<li>Use conditional formatting (red/green text), big KPI cards at the top left, and clear titles to pass the 5-second test.</li>
+</ul>
+<hr>
+<h2 id="common-mistakes--misconceptions">Common Mistakes &amp; Misconceptions</h2>
+<h3 id="mistake-1-the-everything-dashboard">Mistake 1: The &quot;Everything&quot; Dashboard</h3>
+<p>Trying to answer every possible question for every possible department on one page. The result is 30 tiny charts that are impossible to read, resulting in a slow-loading, confusing mess.
+<strong>Fix</strong>: Design for personas. Build a &quot;Sales Manager&quot; page (high-level KPIs) and a &quot;Sales Analyst&quot; page (detailed matrices). Use bookmarks or separate reports to divide the content.</p>
+<h3 id="mistake-2-poor-visual-hierarchy">Mistake 2: Poor Visual Hierarchy</h3>
+<p>Placing a detailed matrix of 500 product names in the top left corner, and the critical &quot;Total Revenue&quot; KPI card in the bottom right.
+<strong>Fix</strong>: Follow the F-pattern. Big numbers top-left. Filters top-right or far-left margin. Details at the bottom.</p>
+<h3 id="mistake-3-relying-on-default-tooltips">Mistake 3: Relying on Default Tooltips</h3>
+<p>Leaving the default tooltips on maps or scatter plots.
+<strong>Fix</strong>: Spend 5 minutes designing a Report Tooltip. It adds massive &quot;wow factor&quot; and provides deep context without taking up screen real estate.</p>
+<h3 id="mistake-4-sharing-pbix-files-via-email">Mistake 4: Sharing <code>.pbix</code> Files via Email</h3>
+<p>Sending a 50MB Power BI Desktop file to a manager. They open it, accidentally delete a visual, and cannot see the latest data tomorrow.
+<strong>Fix</strong>: Desktop is for developers. Publish to the Power BI Service and share a web link. The user gets a secure, read-only, auto-updating view.</p>
+<hr>
+<h2 id="in-simple-terms-tldr">In Simple Terms (TL;DR)</h2>
+<blockquote>
+<p><strong>ELI5 (Explain Like I&#39;m 5):</strong>
+A dashboard is a collection of charts that tell a story. Good dashboards let users click on things (like a specific year) and everything else automatically updates to show just that data.</p>
+</blockquote>
+<div class="class-activities"><h2>Practice Exercises</h2>
+
+<div class="exercise-section">### Beginner
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 11.1</div><div class="activity-body">Open your Power BI Desktop file. Create a clean, three-visual layout:
+- A Card visual showing `[Total Revenue]` (formatted as millions, e.g., $5.2M).
+- A Line chart showing `[Total Revenue]` over `Order_Date` (Months).
+- A Bar chart showing `[Total Revenue]` by `Region`.
+Test cross-filtering by clicking the bars.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 11.2</div><div class="activity-body">Change the interaction between the Bar chart and the Line chart from "Highlight" to "Filter". Observe the difference in how the Line chart reacts when you select a region.
+
+</div></div></div><div class="exercise-section">### Intermediate
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 11.3</div><div class="activity-body">Set up a Drill-Through.
+1. Create a "Summary" page with a Pie Chart (or Bar Chart) showing Sales by `Segment`.
+2. Create a "Customer Details" page with a Table showing `Customer_Name`, `Order_Date`, `Sales`, and `Profit Margin`.
+3. Configure the Details page to accept Drill-Through from `Segment`.
+4. Test it by drilling through from "Corporate" on the Summary page.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 11.4</div><div class="activity-body">Create a custom Report Tooltip. Design a small tooltip page that contains a Bar Chart of Sales by `Sub_Category`. Attach this tooltip to the main Region Bar Chart. Hover over "Europe" to see Europe's top-selling sub-categories instantly.
+
+</div></div></div><div class="exercise-section">### Challenge
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 11.5</div><div class="activity-body">Implement Row-Level Security. Create two roles: "North America Team" and "Asia Team". Apply the appropriate DAX filters to the `Region` column in the `Sales` table (or wherever your Region column lives). Use the "View As" feature to test both roles. Ensure the dashboard accurately limits the data without breaking any measures.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 11.6</div><div class="activity-body">Prepare a 3-minute data story using the SCR framework. Find one interesting insight in the `Sales` dataset (e.g., a specific category losing money in a specific region). Write down your Situation, Complication, and Resolution. Configure your dashboard to support this narrative.
+</div></div></div></div>

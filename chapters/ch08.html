@@ -1,0 +1,200 @@
+<h1 id="chapter-8---advanced-excel-dynamic-arrays-power-query--what-if">Chapter 8 - Advanced Excel: Dynamic Arrays, Power Query &amp; What-If</h1>
+<hr>
+<h2 id="chapter-overview">Chapter Overview</h2>
+<p>If Chapters 2-6 covered the essential skills every analyst needs, this chapter covers the skills that separate the top 10% of Excel users from the rest.</p>
+<p>We will cover three massive features:</p>
+<ol>
+<li><strong>Dynamic Array Functions</strong> (Excel 365 / 2021+ only): The biggest change to Excel&#39;s calculation engine in 30 years. Functions that &quot;spill&quot; arrays of data, allowing you to filter, sort, and extract unique lists with single, elegant formulas.</li>
+<li><strong>Power Query (Advanced)</strong>: Moving beyond the basic cleaning in Chapter 4, we will use Power Query to automate the &quot;folder combine&quot; - taking 12 monthly CSV files and merging them into a single analytical dataset in one click.</li>
+<li><strong>Prescriptive Analytics (What-If)</strong>: Using Goal Seek, Data Tables, and Scenario Manager to model future possibilities and find optimal solutions.</li>
+</ol>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Chapters 3 (Formulas) and 4 (Power Query basics) completed</li>
+<li><code>datasets/01_global_superstore_sales.csv</code> loaded</li>
+<li><code>datasets/monthly_sales/</code> folder available (contains 12 CSV files)</li>
+<li><strong>Software requirement</strong>: Dynamic Arrays require Microsoft 365 or Excel 2021+. If you have an older version, read the concepts but you will not be able to execute the Dynamic Array functions.</li>
+</ul>
+<hr>
+<h2 id="81-the-dynamic-array-revolution">8.1 The Dynamic Array Revolution</h2>
+<h3 id="811-what-is-spilling">8.1.1 What Is &quot;Spilling&quot;?</h3>
+<p>For 30 years, an Excel formula returned exactly one value into the cell where it was written. If you wanted 10 values, you had to copy the formula down 10 rows.</p>
+<p>In Excel 365, formulas can return an <em>array</em> (a grid) of values. You type the formula in one cell, press Enter, and the results <strong>spill</strong> into adjacent empty cells. A thin blue border appears around the spilled range when you click any cell inside it.</p>
+<p>If a spilled array hits a cell containing data, it returns a <code>#SPILL!</code> error. Clear the blocking data, and the formula instantly spills.</p>
+<h3 id="812-unique---instant-distinct-lists">8.1.2 UNIQUE - Instant Distinct Lists</h3>
+<p>Before: You had to copy a column, paste it somewhere else, and click &quot;Remove Duplicates&quot; (which did not update if the source data changed).</p>
+<p>Now:</p>
+<pre><code class="language-">=UNIQUE(SalesData[Customer_Name])</code></pre><p>Type this in one cell, and it spills a unique list of every customer. If a new customer is added to the source Table, the unique list expands automatically.</p>
+<p><strong>Two-column unique list</strong>:</p>
+<pre><code class="language-">=UNIQUE(SalesData[[Region]:[Country]])</code></pre><p>Returns every unique combination of Region and Country.</p>
+<h3 id="813-sort-and-sortby">8.1.3 SORT and SORTBY</h3>
+<p>Before: You had to use the Data → Sort ribbon buttons, which rearranged the original data.</p>
+<p>Now:</p>
+<pre><code class="language-">=SORT(UNIQUE(SalesData[Customer_Name]))</code></pre><p>Creates an alphabetical, unique list of customers. The original data remains untouched.</p>
+<p><strong>SORTBY</strong>: Sort an array based on a different array.</p>
+<pre><code class="language-">=SORTBY(SalesData[Customer_Name], SalesData[Sales], -1)</code></pre><p>Returns a list of customers sorted by their sales amounts in descending order (<code>-1</code>).</p>
+<h3 id="814-filter---the-formula-version-of-the-filter-tool">8.1.4 FILTER - The Formula Version of the Filter Tool</h3>
+<p>Before: You had to use Advanced Filter (clunky) or complex, unreadable <code>INDEX/AGGREGATE</code> array formulas.</p>
+<p>Now:</p>
+<pre><code class="language-">=FILTER(SalesData, SalesData[Region] = "Europe", "No Data")</code></pre><p>This formula spills the <em>entire SalesData table</em>, but only for European orders. If there are no European orders, it returns &quot;No Data&quot;.</p>
+<p><strong>Multiple conditions</strong>:
+Use <code>*</code> for AND logic, <code>+</code> for OR logic.</p>
+<p>Filter for Europe AND Technology:</p>
+<pre><code class="language-">=FILTER(SalesData, (SalesData[Region]="Europe") * (SalesData[Category]="Technology"))</code></pre><h3 id="815-the-spilled-range-operator-">8.1.5 The Spilled Range Operator (<code>#</code>)</h3>
+<p>How do you reference a dynamic array in another formula if you don&#39;t know how big it will be? You use the hash symbol <code>#</code>.</p>
+<p>If you typed <code>=UNIQUE(SalesData[Region])</code> in cell <code>J2</code>, it might spill down to <code>J6</code>.
+To count the unique regions, you write:</p>
+<pre><code class="language-">=COUNTA(J2#)</code></pre><p>The <code>#</code> tells Excel: &quot;Look at cell J2, and include everything it spills into.&quot; This reference is fully dynamic.</p>
+<h3 id="816-advanced-array-functions">8.1.6 Advanced Array Functions</h3>
+<p><strong>LET</strong>: Assigns names to calculation results within a formula. It makes formulas readable and dramatically improves performance by preventing Excel from calculating the same thing twice.</p>
+<pre><code class="language-">=LET(
+    EurSales, FILTER(SalesData, SalesData[Region]="Europe"),
+    TotalEur, SUM(INDEX(EurSales, 0, 14)), 
+    TotalEur
+)</code></pre><p><em>(Note: INDEX(array, 0, 14) returns the entire 14th column of the array, which is Sales).</em></p>
+<p><strong>LAMBDA</strong>: Allows you to create your own custom functions without writing VBA code. (Advanced, out of scope for this foundation course, but know it exists as the ultimate Excel tool).</p>
+<hr>
+<h2 id="82-power-query-the-folder-combine">8.2 Power Query: The Folder Combine</h2>
+<p>This is the most &quot;magical&quot; feature in Excel. Imagine you receive a daily or monthly CSV file of sales. You need to combine all 12 files for the year into one dataset. Copy-pasting them manually takes 30 minutes, introduces errors, and has to be redone if a file is updated.</p>
+<p>Power Query can combine a folder of 1,000 files in 10 seconds.</p>
+<h3 id="821-setting-up-the-folder-combine">8.2.1 Setting Up the Folder Combine</h3>
+<p>We will use the <code>datasets/monthly_sales/</code> directory, which contains 12 CSV files (<code>sales_jan.csv</code> through <code>sales_dec.csv</code>).</p>
+<ol>
+<li>Open a blank Excel workbook.</li>
+<li>Data → Get Data → From File → <strong>From Folder</strong>.</li>
+<li>Browse to the <code>datasets/monthly_sales/</code> directory. Click Open.</li>
+<li>A dialog appears listing the 12 files (showing metadata like Date Created, Extension).</li>
+<li>At the bottom, click the arrow next to Combine → select <strong>Combine &amp; Transform Data</strong>.</li>
+</ol>
+<h3 id="822-the-combine-process">8.2.2 The Combine Process</h3>
+<ol start="6">
+<li>The &quot;Combine Files&quot; dialog appears. It looks at the first file (the &quot;Sample File&quot;) to understand the structure.</li>
+<li>Ensure the delimiter is set correctly (Comma) and the data looks correct in the preview. Click OK.</li>
+</ol>
+<p>Power Query now creates a complex set of helper queries in the background. It opens the Power Query Editor, showing a single, massive table containing the data from all 12 files.</p>
+<h3 id="823-cleaning-the-combined-data">8.2.3 Cleaning the Combined Data</h3>
+<p>Notice the first column is <code>Source.Name</code>. It contains the filename (e.g., &quot;sales_jan.csv&quot;). This is incredibly useful - it acts as an audit trail telling you exactly which file a row came from.</p>
+<ol>
+<li>Let us extract the month from the filename.</li>
+<li>Select the <code>Source.Name</code> column.</li>
+<li>Transform → Extract → Text Between Delimiters.</li>
+<li>Start Delimiter: <code>_</code> (underscore). End Delimiter: <code>.csv</code>.</li>
+<li>The column now contains &quot;jan&quot;, &quot;feb&quot;, &quot;mar&quot;. Rename the column to <code>Month</code>.</li>
+<li>Apply any other standard cleaning steps (checking data types, removing blank rows).</li>
+</ol>
+<h3 id="824-loading-and-automating">8.2.4 Loading and Automating</h3>
+<ol start="7">
+<li>Home → Close &amp; Load.</li>
+<li>Excel creates a Table containing the fully combined, cleaned dataset.</li>
+</ol>
+<p><strong>The Magic Trick</strong>:
+If you receive <code>sales_2025_jan.csv</code> next year, you simply drop the file into that folder, open this Excel workbook, right-click the Table, and click <strong>Refresh</strong>. Power Query will automatically detect the new file, run it through the exact same extraction and cleaning steps, and append it to the bottom of the table. A 30-minute monthly task is reduced to 1 click.</p>
+<hr>
+<h2 id="83-prescriptive-analytics-what-if-tools">8.3 Prescriptive Analytics (What-If Tools)</h2>
+<p>Descriptive analytics tells you what happened. Predictive tells you what will happen. Prescriptive tells you <em>what you should do to achieve a specific goal</em>.</p>
+<p>Excel&#39;s &quot;What-If Analysis&quot; tools handle this.</p>
+<h3 id="831-goal-seek">8.3.1 Goal Seek</h3>
+<p>Goal Seek solves problems backward. Instead of tweaking inputs until the formula outputs the number you want, you tell Excel the answer, and it calculates the input needed to get there.</p>
+<p><strong>Scenario</strong>: You are modelling a marketing campaign.</p>
+<ul>
+<li>Cost per Click (CPC): $2.00</li>
+<li>Clicks: 5,000</li>
+<li>Total Cost: $10,000</li>
+<li>Conversion Rate: 3%</li>
+<li>Total Conversions: 150</li>
+<li>Revenue per Conversion: $100</li>
+<li>Total Revenue: $15,000</li>
+<li>Profit: $5,000</li>
+</ul>
+<p><strong>The Goal</strong>: You want $10,000 in profit. Assuming CPC, Conversion Rate, and Revenue per Conversion are fixed, how many clicks do you need to buy?</p>
+<ol>
+<li>Build the model in cells with formulas linking everything together.</li>
+<li>Data → What-If Analysis → <strong>Goal Seek</strong>.</li>
+<li><strong>Set cell</strong>: Select the Profit cell (must contain a formula).</li>
+<li><strong>To value</strong>: Type <code>10000</code>.</li>
+<li><strong>By changing cell</strong>: Select the Clicks cell (must contain a hardcoded number, not a formula).</li>
+<li>Click OK. Excel iterates through numbers until it finds the exact number of clicks required (in this case, 10,000 clicks).</li>
+</ol>
+<h3 id="832-data-tables-sensitivity-analysis">8.3.2 Data Tables (Sensitivity Analysis)</h3>
+<p>A Data Table lets you see all possible outcomes when you vary one or two inputs, creating a matrix of results.</p>
+<p><strong>Scenario</strong>: You want to see how Profit changes if the Conversion Rate varies from 1% to 5% AND the Revenue per Conversion varies from $50 to $150.</p>
+<ol>
+<li>Set up a grid. Leave the top-left cell blank.</li>
+<li>Down the left column (e.g., A2:A6), list conversion rates: 1%, 2%, 3%, 4%, 5%.</li>
+<li>Across the top row (e.g., B1:F1), list revenue amounts: 50, 75, 100, 125, 150.</li>
+<li>In the top-left cell (A1), link to the original Profit calculation cell (e.g., <code>=B8</code>).</li>
+<li>Select the entire grid (A1:F6).</li>
+<li>Data → What-If Analysis → <strong>Data Table</strong>.</li>
+<li><strong>Row input cell</strong>: Select the original Revenue per Conversion cell in your model.</li>
+<li><strong>Column input cell</strong>: Select the original Conversion Rate cell in your model.</li>
+<li>Click OK. Excel fills the entire matrix with the profit outcome for every combination.</li>
+</ol>
+<p><strong>Why this is powerful</strong>: Instead of presenting management with one &quot;base case&quot; number, you present a risk matrix. &quot;If conversions drop to 2%, we need revenue per conversion to hit $125 just to break even.&quot;</p>
+<h3 id="833-introduction-to-solver">8.3.3 Introduction to Solver</h3>
+<p>Goal Seek handles one changing variable. <strong>Solver</strong> handles multiple variables, subject to constraints. It uses linear programming algorithms to find the absolute optimal solution.</p>
+<p>Solver is an Add-in (File → Options → Add-Ins → Go → check Solver Add-in).</p>
+<p><strong>Scenario</strong>: You have an advertising budget of $50,000. You can spend it on Search Ads, Social Media, and Email.</p>
+<ul>
+<li>Search: $5 per lead, max capacity 5,000 leads</li>
+<li>Social: $8 per lead, max capacity 10,000 leads</li>
+<li>Email: $3 per lead, max capacity 2,000 leads</li>
+</ul>
+<p>You want to <em>Maximise</em> Total Leads, by changing the spend in each channel, subject to the constraints:</p>
+<ol>
+<li>Total spend &lt;= $50,000</li>
+<li>Spend in any channel cannot exceed its (max capacity * cost)</li>
+<li>Spend must be &gt;= 0</li>
+</ol>
+<p>You set this up in the Solver parameters box, click &quot;Solve&quot;, and the Simplex LP engine calculates the mathematically perfect allocation of your budget.</p>
+<p><em>(Solver is a deep topic worthy of its own course, but as an analyst, you must know it exists for optimisation problems).</em></p>
+<hr>
+<h2 id="common-mistakes--misconceptions">Common Mistakes &amp; Misconceptions</h2>
+<h3 id="mistake-1-spill-errors">Mistake 1: <code>#SPILL!</code> Errors</h3>
+<p>If a dynamic array formula returns <code>#SPILL!</code>, it means something is in the way. People often try to edit the formula to fix it.
+<strong>Fix</strong>: Find the cell containing the formula. Look at the blue dashed line indicating where it <em>wants</em> to spill. Delete the text/data sitting inside that blue border.</p>
+<h3 id="mistake-2-dynamic-arrays-inside-excel-tables">Mistake 2: Dynamic Arrays inside Excel Tables</h3>
+<p>Dynamic array formulas (<code>UNIQUE</code>, <code>FILTER</code>, <code>SORT</code>) <strong>do not work inside Tables</strong> (<code>Ctrl+T</code>). A Table expects every row to behave identically; a spilling array breaks this architecture.
+<strong>Fix</strong>: Put dynamic array formulas in plain ranges. You can reference a Table <em>from</em> a dynamic array, but the array itself cannot live inside one.</p>
+<h3 id="mistake-3-hardcoding-file-paths-in-power-query">Mistake 3: Hardcoding File Paths in Power Query</h3>
+<p>If you build a folder combine, and then email the workbook to a colleague, the Power Query refresh will fail. Why? The file path points to <code>C:\Users\YourName\Desktop\monthly_sales\</code>. Your colleague does not have that folder.
+<strong>Fix</strong>: Advanced Power Query users build dynamic file paths (reading the path from an Excel cell). For basic users: tell the recipient they must go into the Power Query Editor, click the &quot;Source&quot; step, and update the folder path to their own machine.</p>
+<h3 id="mistake-4-not-formatting-data-table-results">Mistake 4: Not Formatting Data Table Results</h3>
+<p>A Data Table fills with raw numbers. It is hard to read.
+<strong>Fix</strong>: Always apply Conditional Formatting (Color Scales) to Data Table outputs. A green-to-red gradient instantly visualises the &quot;safe zone&quot; vs the &quot;danger zone&quot; across your variables.</p>
+<hr>
+<h2 id="in-simple-terms-tldr">In Simple Terms (TL;DR)</h2>
+<blockquote>
+<p><strong>ELI5 (Explain Like I&#39;m 5):</strong>
+Dynamic arrays let one formula spill out multiple answers automatically. What-If analysis lets you guess the future (&quot;What if we raise prices by $5?&quot;).</p>
+</blockquote>
+<div class="class-activities"><h2>Practice Exercises</h2>
+
+<div class="exercise-section">### Beginner
+ (Requires Excel 365 / 2021+)
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 8.1</div><div class="activity-body">Open `SalesData`. On a new sheet, use the `UNIQUE` function to generate a list of all unique values in the `Sub_Category` column.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 8.2</div><div class="activity-body">Wrap the formula from 8.1 in a `SORT` function so the list of sub-categories is in alphabetical order.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 8.3</div><div class="activity-body">In an adjacent cell, use `COUNTA` combined with the spill operator (`#`) to count how many unique sub-categories exist.
+
+</div></div></div><div class="exercise-section">### Intermediate
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 8.4</div><div class="activity-body">Set up the folder combine. Use Power Query to combine the 12 files in `datasets/monthly_sales/`. Extract the month from the filename into a new column. Load the result to an Excel sheet. How many total rows are in the combined dataset?
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 8.5</div><div class="activity-body">Test the automation. Open the combined Excel file. In your file explorer, delete `sales_dec.csv` from the folder. Go back to Excel and Refresh the query. Does the row count drop? (Put the file back when you are done!).
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 8.6</div><div class="activity-body">Build a simple profit model. Price = $100. Cost = $60. Volume = 500. Profit = (Price - Cost) * Volume. Use Goal Seek to find out what Volume you need to reach exactly $35,000 in Profit.
+
+</div></div></div><div class="exercise-section">### Challenge
+ (Requires Excel 365 / 2021+)
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 8.7</div><div class="activity-body">Build a dynamic search bar.
+1. In cell A1, type a Country name (e.g., "Germany").
+2. In cell A3, write a `FILTER` formula that returns the `Order_ID`, `Customer_Name`, `Sales`, and `Profit` columns from `SalesData`, but only for the Country typed in A1.
+3. Wrap it in a `SORT` function to sort the results by `Sales` (descending).
+4. Now change the text in A1 to "France". The entire table of results should instantly update. You have just built a functional mini-app with one formula.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 8.8</div><div class="activity-body">Build a Two-Variable Data Table. Recreate the Marketing Campaign scenario from Section 8.3.2. Build the model, create the matrix of Conversion Rates (1% to 5%) vs Revenue per Conversion ($50 to $150), and use the Data Table tool to populate the profits. Apply a Color Scale conditional format to the results grid.
+</div></div></div></div>

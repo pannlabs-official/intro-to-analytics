@@ -1,0 +1,938 @@
+<h1 id="chapter-3---formulas-and-functions-the-logic-layer">Chapter 3 - Formulas and Functions: The Logic Layer</h1>
+<p><img src="assets/images/excel.png" alt="Excel Logic Layer"></p>
+<hr>
+<h2 id="chapter-overview">Chapter Overview</h2>
+<p>This chapter is the engine room of Excel. Formulas and functions are what transform a spreadsheet from a static table into a dynamic analytical tool. We will cover over 40 functions - not as a reference list, but as tools that solve specific problems you will encounter repeatedly as an analyst.</p>
+<p>Every function is taught with three things: <strong>what</strong> it does, <strong>why</strong> you would use it (the real-world scenario), and <strong>how</strong> it works internally (so you can debug it when it breaks). Functions are grouped by category: logical, lookup, text, date, math, and information. By the end, you will be able to chain multiple functions together to solve complex, multi-step problems.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Chapter 2 completed (you should be comfortable with cell references, Tables, and basic navigation)</li>
+<li><code>datasets/01_global_superstore_sales.csv</code> open in Excel as a Table named <code>SalesData</code></li>
+<li><code>datasets/08_product_catalog.csv</code> open in a second sheet as a Table named <code>ProductCatalog</code></li>
+</ul>
+<hr>
+<h2 id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Write formulas using Excel&#39;s order of operations and debug evaluation errors</li>
+<li>Use logical functions (<code>IF</code>, <code>IFS</code>, <code>AND</code>, <code>OR</code>, <code>NOT</code>, <code>SWITCH</code>) for conditional calculations</li>
+<li>Perform lookups using <code>VLOOKUP</code>, <code>INDEX/MATCH</code>, and <code>XLOOKUP</code></li>
+<li>Clean and parse text using string functions (<code>LEFT</code>, <code>RIGHT</code>, <code>MID</code>, <code>FIND</code>, <code>TRIM</code>, <code>SUBSTITUTE</code>, <code>TEXTJOIN</code>)</li>
+<li>Work with dates using date functions (<code>DATEDIF</code>, <code>EOMONTH</code>, <code>NETWORKDAYS</code>, <code>WEEKDAY</code>)</li>
+<li>Apply math and rounding functions (<code>SUMPRODUCT</code>, <code>ROUND</code>, <code>MOD</code>, <code>CEILING</code>)</li>
+<li>Build defensive formulas using error-handling functions (<code>IFERROR</code>, <code>IFNA</code>, <code>ISBLANK</code>)</li>
+</ol>
+<hr>
+<h2 id="31-how-formulas-work">3.1 How Formulas Work</h2>
+<h3 id="311-anatomy-of-a-formula">3.1.1 Anatomy of a Formula</h3>
+<p>Every formula in Excel starts with <code>=</code>. After that, it can contain:</p>
+<ul>
+<li><strong>Cell references</strong>: <code>A1</code>, <code>$B$2</code>, <code>SalesData[Profit]</code></li>
+<li><strong>Operators</strong>: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>^</code> (exponent), <code>&amp;</code> (concatenation), <code>=</code>, <code>&lt;&gt;</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code></li>
+<li><strong>Functions</strong>: <code>SUM()</code>, <code>IF()</code>, <code>VLOOKUP()</code></li>
+<li><strong>Constants</strong>: <code>100</code>, <code>&quot;text&quot;</code>, <code>TRUE</code></li>
+</ul>
+<h3 id="312-order-of-operations">3.1.2 Order of Operations</h3>
+<p>Excel follows the standard mathematical precedence (PEMDAS/BODMAS), extended with Excel-specific operators:</p>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Operator</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 (highest)</td>
+<td><code>:</code> (range), <code> </code> (intersection), <code>,</code> (union)</td>
+<td><code>SUM(A1:A10)</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>-</code> (negation)</td>
+<td><code>-A1</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>%</code> (percentage)</td>
+<td><code>50%</code> → 0.5</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>^</code> (exponentiation)</td>
+<td><code>2^3</code> → 8</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>*</code> and <code>/</code></td>
+<td><code>A1*B1/C1</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>+</code> and <code>-</code></td>
+<td><code>A1+B1-C1</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>&amp;</code> (text concatenation)</td>
+<td><code>A1&amp;&quot; &quot;&amp;B1</code></td>
+</tr>
+<tr>
+<td>8 (lowest)</td>
+<td><code>=</code>, <code>&lt;&gt;</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code></td>
+<td><code>A1&gt;100</code></td>
+</tr>
+</tbody></table>
+<p><strong>Use parentheses to control order</strong>:</p>
+<pre><code class="language-">=A1+B1*C1        → Multiplies B1*C1 first, then adds A1
+=(A1+B1)*C1      → Adds A1+B1 first, then multiplies by C1</code></pre><h3 id="313-how-nested-functions-evaluate">3.1.3 How Nested Functions Evaluate</h3>
+<p>When functions are nested, Excel evaluates from the <strong>innermost</strong> function outward:</p>
+<pre><code class="language-">=IF(AVERAGE(B2:B10) > 100, "High", "Low")</code></pre><p>Evaluation order:</p>
+<ol>
+<li><code>B2:B10</code> - resolve the range</li>
+<li><code>AVERAGE(B2:B10)</code> - calculate the average (say it returns 145.6)</li>
+<li><code>145.6 &gt; 100</code> - evaluate the comparison (returns TRUE)</li>
+<li><code>IF(TRUE, &quot;High&quot;, &quot;Low&quot;)</code> - return &quot;High&quot;</li>
+</ol>
+<p><strong>Debugging tip</strong>: To see the value of an intermediate step, select just that portion of the formula in the Formula Bar and press <code>F9</code>. Excel replaces it with the calculated value. Press <code>Escape</code> to undo (do NOT press Enter, or the formula is permanently replaced with the value).</p>
+<h3 id="314-error-types">3.1.4 Error Types</h3>
+<p>When a formula fails, Excel displays a specific error code. Each error has a distinct cause:</p>
+<table>
+<thead>
+<tr>
+<th>Error</th>
+<th>Meaning</th>
+<th>Common Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>#DIV/0!</code></td>
+<td>Division by zero</td>
+<td>Denominator is 0 or blank</td>
+<td>Wrap in <code>IF(C2=0, 0, B2/C2)</code> or <code>IFERROR</code></td>
+</tr>
+<tr>
+<td><code>#VALUE!</code></td>
+<td>Wrong data type</td>
+<td>Trying to do math on text, e.g., <code>=&quot;hello&quot;+1</code></td>
+<td>Check that inputs are numbers, not text</td>
+</tr>
+<tr>
+<td><code>#REF!</code></td>
+<td>Invalid reference</td>
+<td>Deleted a row or column that a formula referenced</td>
+<td>Undo the deletion, or fix the reference</td>
+</tr>
+<tr>
+<td><code>#NAME?</code></td>
+<td>Unrecognised name</td>
+<td>Misspelled function name or undefined Named Range</td>
+<td>Check spelling: <code>=SUMM(A1:A10)</code> → <code>=SUM(A1:A10)</code></td>
+</tr>
+<tr>
+<td><code>#N/A</code></td>
+<td>Value not found</td>
+<td>VLOOKUP/XLOOKUP cannot find the lookup value</td>
+<td>Check for spaces, typos, data type mismatches</td>
+</tr>
+<tr>
+<td><code>#NUM!</code></td>
+<td>Invalid number</td>
+<td>Impossible math, e.g., <code>=SQRT(-1)</code> or overflow</td>
+<td>Check input values</td>
+</tr>
+<tr>
+<td><code>#NULL!</code></td>
+<td>Null intersection</td>
+<td>Space between references instead of operator</td>
+<td><code>=SUM(A1 B1)</code> → <code>=SUM(A1,B1)</code> or <code>=SUM(A1:B1)</code></td>
+</tr>
+<tr>
+<td><code>#SPILL!</code></td>
+<td>Spill range blocked</td>
+<td>Dynamic array formula cannot output because cells below are not empty</td>
+<td>Clear the cells where the formula needs to spill</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="32-logical-functions">3.2 Logical Functions</h2>
+<p>Logical functions make decisions. They evaluate conditions and return different results based on whether those conditions are true or false.</p>
+<h3 id="321-if---the-fundamental-decision">3.2.1 IF - The Fundamental Decision</h3>
+<p><strong>Syntax</strong>: <code>=IF(condition, value_if_true, value_if_false)</code></p>
+<p><strong>Example</strong> - Classify orders as profitable or unprofitable:</p>
+<pre><code class="language-">=IF([@Profit] > 0, "Profitable", "Unprofitable")</code></pre><table>
+<thead>
+<tr>
+<th>Profit</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>312.45</td>
+<td>Profitable</td>
+</tr>
+<tr>
+<td>-45.20</td>
+<td>Unprofitable</td>
+</tr>
+<tr>
+<td>0</td>
+<td>Unprofitable</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>Note</strong>: <code>0</code> evaluates as &quot;not greater than 0&quot;, so it returns &quot;Unprofitable&quot;. If zero profit should be a separate category, use nested IFs or IFS.</p>
+</blockquote>
+<h3 id="322-nested-if---multiple-conditions">3.2.2 Nested IF - Multiple Conditions</h3>
+<p><strong>Example</strong> - Tier customers by order size:</p>
+<pre><code class="language-">=IF([@Sales] >= 5000, "Platinum",
+   IF([@Sales] >= 1000, "Gold",
+      IF([@Sales] >= 500, "Silver", "Bronze")))</code></pre><table>
+<thead>
+<tr>
+<th>Sales</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>7,250</td>
+<td>Platinum</td>
+</tr>
+<tr>
+<td>1,450</td>
+<td>Gold</td>
+</tr>
+<tr>
+<td>680</td>
+<td>Silver</td>
+</tr>
+<tr>
+<td>125</td>
+<td>Bronze</td>
+</tr>
+</tbody></table>
+<p><strong>The problem with nested IFs</strong>: They are hard to read and error-prone beyond 3-4 levels. Each nested IF adds complexity and potential for mismatched parentheses.</p>
+<h3 id="323-ifs---clean-multi-condition-logic-excel-2019">3.2.3 IFS - Clean Multi-Condition Logic (Excel 2019+)</h3>
+<p><code>IFS</code> evaluates multiple conditions in order and returns the value for the first TRUE condition. No nesting required.</p>
+<p><strong>Syntax</strong>: <code>=IFS(condition1, value1, condition2, value2, ..., TRUE, default_value)</code></p>
+<p><strong>Example</strong> - Same tier classification, much cleaner:</p>
+<pre><code class="language-">=IFS(
+    [@Sales] >= 5000, "Platinum",
+    [@Sales] >= 1000, "Gold",
+    [@Sales] >= 500, "Silver",
+    TRUE, "Bronze"
+)</code></pre><p>The <code>TRUE</code> at the end acts as the &quot;else&quot; clause - it always evaluates to TRUE, so it catches everything not caught above.</p>
+<h3 id="324-and-or-not">3.2.4 AND, OR, NOT</h3>
+<p>These combine or negate conditions:</p>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Returns TRUE when...</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>AND(cond1, cond2, ...)</code></td>
+<td>ALL conditions are TRUE</td>
+<td><code>=AND([@Sales]&gt;1000, [@Profit]&gt;0)</code> - high-value AND profitable</td>
+</tr>
+<tr>
+<td><code>OR(cond1, cond2, ...)</code></td>
+<td>ANY condition is TRUE</td>
+<td><code>=OR([@Region]=&quot;Europe&quot;, [@Region]=&quot;Asia Pacific&quot;)</code> - either region</td>
+</tr>
+<tr>
+<td><code>NOT(condition)</code></td>
+<td>The condition is FALSE</td>
+<td><code>=NOT([@Discount]=0)</code> - order has a discount</td>
+</tr>
+</tbody></table>
+<p><strong>Combined with IF</strong>:</p>
+<pre><code class="language-">=IF(AND([@Sales] > 1000, [@Profit] > 0), "Priority Order", "Standard")</code></pre><h3 id="325-switch---clean-exact-match-mapping">3.2.5 SWITCH - Clean Exact-Match Mapping</h3>
+<p>When you need to map exact values to results (not ranges), <code>SWITCH</code> is cleaner than nested IFs:</p>
+<p><strong>Syntax</strong>: <code>=SWITCH(expression, value1, result1, value2, result2, ..., default)</code></p>
+<p><strong>Example</strong> - Map ship modes to estimated days:</p>
+<pre><code class="language-">=SWITCH([@Ship_Mode],
+    "Same Day", 0,
+    "First Class", 2,
+    "Second Class", 4,
+    "Standard Class", 6,
+    "Unknown"
+)</code></pre><p><strong>Real-world use</strong>: <code>SWITCH</code> is ideal for mapping codes to labels, department IDs to names, or status codes to descriptions.</p>
+<hr>
+<h2 id="33-lookup-functions">3.3 Lookup Functions</h2>
+<p>Lookup functions find a value in one table based on a matching value from another table. They are how you connect related data - like looking up a product&#39;s cost from a catalog using the product name.</p>
+<h3 id="331-vlookup---the-classic-and-its-limitations">3.3.1 VLOOKUP - The Classic (and Its Limitations)</h3>
+<p><strong>Syntax</strong>: <code>=VLOOKUP(lookup_value, table_array, col_index_num, [range_lookup])</code></p>
+<p><strong>Example</strong> - Look up the Unit Cost of each product from the ProductCatalog table:</p>
+<pre><code class="language-">=VLOOKUP([@Product_Name], ProductCatalog, 5, FALSE)</code></pre><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>lookup_value</code></td>
+<td><code>[@Product_Name]</code></td>
+<td>The value to search for</td>
+</tr>
+<tr>
+<td><code>table_array</code></td>
+<td><code>ProductCatalog</code></td>
+<td>The table to search in</td>
+</tr>
+<tr>
+<td><code>col_index_num</code></td>
+<td><code>5</code></td>
+<td>Return the value from the 5th column (Unit_Cost)</td>
+</tr>
+<tr>
+<td><code>range_lookup</code></td>
+<td><code>FALSE</code></td>
+<td>Exact match only</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>Always use FALSE for exact match.</strong> <code>TRUE</code> (approximate match) is for sorted lookup tables used in tax brackets or grade boundaries - rarely needed and often misunderstood.</p>
+</blockquote>
+<p><strong>VLOOKUP&#39;s limitations</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Limitation</th>
+<th>Problem</th>
+<th>Workaround</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Left-to-right only</strong></td>
+<td>Lookup column must be the <em>leftmost</em> column in the table_array</td>
+<td>Use INDEX/MATCH or XLOOKUP</td>
+</tr>
+<tr>
+<td><strong>Column index is fragile</strong></td>
+<td><code>col_index_num</code> is a hard-coded number. Insert a column in the lookup table and all your VLOOKUPs break.</td>
+<td>Use MATCH to dynamically find the column</td>
+</tr>
+<tr>
+<td><strong>First match only</strong></td>
+<td>Returns only the first matching value</td>
+<td>Acceptable in most cases, but be aware</td>
+</tr>
+<tr>
+<td><strong>Case-insensitive</strong></td>
+<td><code>&quot;Germany&quot;</code> matches <code>&quot;germany&quot;</code></td>
+<td>Usually desired behaviour</td>
+</tr>
+</tbody></table>
+<h3 id="332-indexmatch---the-superior-alternative">3.3.2 INDEX/MATCH - The Superior Alternative</h3>
+<p><code>INDEX/MATCH</code> is two functions working together:</p>
+<ul>
+<li><code>MATCH(lookup_value, lookup_array, match_type)</code> - finds the <em>position</em> (row number) of a value</li>
+<li><code>INDEX(return_array, row_num)</code> - returns the value at a specific position in an array</li>
+</ul>
+<p><strong>Combined</strong>:</p>
+<pre><code class="language-">=INDEX(ProductCatalog[Unit_Cost], MATCH([@Product_Name], ProductCatalog[Product_Name], 0))</code></pre><p><strong>How it works</strong>:</p>
+<ol>
+<li><code>MATCH([@Product_Name], ProductCatalog[Product_Name], 0)</code> - find the row position of the product name in the catalog (0 = exact match)</li>
+<li><code>INDEX(ProductCatalog[Unit_Cost], ...)</code> - return the Unit_Cost value at that position</li>
+</ol>
+<p><strong>Why INDEX/MATCH is superior</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Advantage</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Lookup in any direction</strong></td>
+<td>The lookup column and return column can be anywhere - no &quot;left-to-right&quot; restriction</td>
+</tr>
+<tr>
+<td><strong>Column-insertion safe</strong></td>
+<td>Uses column names, not index numbers. Inserting columns does not break it.</td>
+</tr>
+<tr>
+<td><strong>Faster on large datasets</strong></td>
+<td>MATCH searches one column; VLOOKUP loads the entire table_array into memory</td>
+</tr>
+<tr>
+<td><strong>Two-way lookup</strong></td>
+<td>Combine with a second MATCH to look up both row and column dynamically</td>
+</tr>
+</tbody></table>
+<h3 id="333-xlookup---the-modern-replacement-excel-365--2021">3.3.3 XLOOKUP - The Modern Replacement (Excel 365 / 2021+)</h3>
+<p><code>XLOOKUP</code> was designed to replace both <code>VLOOKUP</code> and <code>HLOOKUP</code>. It eliminates all of VLOOKUP&#39;s limitations in a clean syntax.</p>
+<p><strong>Syntax</strong>: <code>=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])</code></p>
+<p><strong>Example</strong>:</p>
+<pre><code class="language-">=XLOOKUP([@Product_Name], ProductCatalog[Product_Name], ProductCatalog[Unit_Cost], "Not Found")</code></pre><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>lookup_value</code></td>
+<td><code>[@Product_Name]</code></td>
+<td>What to search for</td>
+</tr>
+<tr>
+<td><code>lookup_array</code></td>
+<td><code>ProductCatalog[Product_Name]</code></td>
+<td>Where to search</td>
+</tr>
+<tr>
+<td><code>return_array</code></td>
+<td><code>ProductCatalog[Unit_Cost]</code></td>
+<td>What to return</td>
+</tr>
+<tr>
+<td><code>if_not_found</code></td>
+<td><code>&quot;Not Found&quot;</code></td>
+<td>Default value if no match (instead of #N/A)</td>
+</tr>
+</tbody></table>
+<p><strong>XLOOKUP advantages</strong>:</p>
+<ul>
+<li>Built-in error handling (<code>if_not_found</code> parameter)</li>
+<li>Searches any direction</li>
+<li>Can return entire rows (return_array can be multiple columns)</li>
+<li>Supports exact match, wildcard match, and approximate match</li>
+<li>Can search from bottom-to-top (<code>search_mode = -1</code>)</li>
+</ul>
+<h3 id="334-xmatch---standalone-position-finder">3.3.4 XMATCH - Standalone Position Finder</h3>
+<p><code>XMATCH</code> is the modern version of <code>MATCH</code>. It finds the position of a value in a range.</p>
+<pre><code class="language-">=XMATCH([@Product_Name], ProductCatalog[Product_Name])</code></pre><p>Supports wildcards, exact/approximate match, and search direction - same flexibility as XLOOKUP but returns a position number instead of a value.</p>
+<h3 id="335-choosing-the-right-lookup-function">3.3.5 Choosing the Right Lookup Function</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Recommended Function</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Quick one-off lookup, learning</td>
+<td>VLOOKUP</td>
+<td>Simplest to understand and teach</td>
+</tr>
+<tr>
+<td>Production workbooks, any direction</td>
+<td>INDEX/MATCH</td>
+<td>Works everywhere, no version dependency</td>
+</tr>
+<tr>
+<td>Excel 365 / 2021+</td>
+<td>XLOOKUP</td>
+<td>Cleanest syntax, built-in error handling</td>
+</tr>
+<tr>
+<td>Need position, not value</td>
+<td>MATCH or XMATCH</td>
+<td>Returns row/column number</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="34-text-functions">3.4 Text Functions</h2>
+<p>Real-world data is messy. Names are inconsistent, addresses are crammed into single cells, codes need parsing. Text functions are your cleaning toolkit.</p>
+<h3 id="341-extraction-functions">3.4.1 Extraction Functions</h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Purpose</th>
+<th>Syntax</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>LEFT</code></td>
+<td>Extract N characters from the start</td>
+<td><code>=LEFT(text, n)</code></td>
+<td><code>=LEFT(&quot;ORD-0001&quot;, 3)</code> → <code>&quot;ORD&quot;</code></td>
+</tr>
+<tr>
+<td><code>RIGHT</code></td>
+<td>Extract N characters from the end</td>
+<td><code>=RIGHT(text, n)</code></td>
+<td><code>=RIGHT(&quot;ORD-0001&quot;, 4)</code> → <code>&quot;0001&quot;</code></td>
+</tr>
+<tr>
+<td><code>MID</code></td>
+<td>Extract N characters starting at position P</td>
+<td><code>=MID(text, start, n)</code></td>
+<td><code>=MID(&quot;ORD-0001&quot;, 5, 4)</code> → <code>&quot;0001&quot;</code></td>
+</tr>
+<tr>
+<td><code>LEN</code></td>
+<td>Return the length of a string</td>
+<td><code>=LEN(text)</code></td>
+<td><code>=LEN(&quot;ORD-0001&quot;)</code> → <code>8</code></td>
+</tr>
+</tbody></table>
+<p><strong>Real example</strong> - Extract the numeric part of Order_ID:</p>
+<pre><code class="language-">=MID([@Order_ID], 5, 4)</code></pre><p><code>&quot;ORD-0001&quot;</code> → <code>&quot;0001&quot;</code></p>
+<p>To convert to a number: <code>=VALUE(MID([@Order_ID], 5, 4))</code> → <code>1</code></p>
+<h3 id="342-search-functions">3.4.2 Search Functions</h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Purpose</th>
+<th>Case-Sensitive?</th>
+<th>Syntax</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>FIND</code></td>
+<td>Find the position of a substring</td>
+<td>Yes</td>
+<td><code>=FIND(&quot;@&quot;, &quot;user@email.com&quot;)</code> → <code>5</code></td>
+</tr>
+<tr>
+<td><code>SEARCH</code></td>
+<td>Find the position of a substring</td>
+<td>No</td>
+<td><code>=SEARCH(&quot;@&quot;, &quot;user@email.com&quot;)</code> → <code>5</code></td>
+</tr>
+</tbody></table>
+<p><strong>Real example</strong> - Extract the domain from an email address:</p>
+<pre><code class="language-">=MID(A2, FIND("@", A2) + 1, LEN(A2) - FIND("@", A2))</code></pre><p>For <code>&quot;analyst@company.com&quot;</code>:</p>
+<ol>
+<li><code>FIND(&quot;@&quot;, A2)</code> → 8</li>
+<li><code>8 + 1</code> → start at position 9</li>
+<li><code>LEN(A2) - FIND(&quot;@&quot;, A2)</code> → 19 - 8 = 11 characters</li>
+<li><code>MID(A2, 9, 11)</code> → <code>&quot;company.com&quot;</code></li>
+</ol>
+<h3 id="343-transformation-functions">3.4.3 Transformation Functions</h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Purpose</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>UPPER</code></td>
+<td>Convert to uppercase</td>
+<td><code>=UPPER(&quot;maria&quot;)</code> → <code>&quot;MARIA&quot;</code></td>
+</tr>
+<tr>
+<td><code>LOWER</code></td>
+<td>Convert to lowercase</td>
+<td><code>=LOWER(&quot;MARIA&quot;)</code> → <code>&quot;maria&quot;</code></td>
+</tr>
+<tr>
+<td><code>PROPER</code></td>
+<td>Capitalise first letter of each word</td>
+<td><code>=PROPER(&quot;maria schmidt&quot;)</code> → <code>&quot;Maria Schmidt&quot;</code></td>
+</tr>
+<tr>
+<td><code>TRIM</code></td>
+<td>Remove leading, trailing, and extra internal spaces</td>
+<td><code>=TRIM(&quot;  Maria   Schmidt  &quot;)</code> → <code>&quot;Maria Schmidt&quot;</code></td>
+</tr>
+<tr>
+<td><code>CLEAN</code></td>
+<td>Remove non-printable characters (ASCII 0-31)</td>
+<td><code>=CLEAN(A2)</code> - removes line breaks, tabs</td>
+</tr>
+<tr>
+<td><code>SUBSTITUTE</code></td>
+<td>Replace occurrences of a substring</td>
+<td><code>=SUBSTITUTE(&quot;2023/06/15&quot;, &quot;/&quot;, &quot;-&quot;)</code> → <code>&quot;2023-06-15&quot;</code></td>
+</tr>
+<tr>
+<td><code>REPLACE</code></td>
+<td>Replace characters at a specific position</td>
+<td><code>=REPLACE(&quot;ORD0001&quot;, 4, 0, &quot;-&quot;)</code> → <code>&quot;ORD-0001&quot;</code></td>
+</tr>
+</tbody></table>
+<h3 id="344-joining-functions">3.4.4 Joining Functions</h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Purpose</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CONCAT</code></td>
+<td>Concatenate values</td>
+<td><code>=CONCAT(A2, &quot; &quot;, B2)</code> → <code>&quot;Maria Schmidt&quot;</code></td>
+</tr>
+<tr>
+<td><code>TEXTJOIN</code></td>
+<td>Join with a delimiter, can skip blanks</td>
+<td><code>=TEXTJOIN(&quot;, &quot;, TRUE, A2:A5)</code> → <code>&quot;Maria, John, Georg, Martin&quot;</code></td>
+</tr>
+<tr>
+<td><code>&amp;</code> operator</td>
+<td>Concatenation operator</td>
+<td><code>=A2 &amp; &quot; - &quot; &amp; B2</code> → <code>&quot;Maria - Schmidt&quot;</code></td>
+</tr>
+<tr>
+<td><code>TEXT</code></td>
+<td>Format a number as text</td>
+<td><code>=TEXT(45092, &quot;yyyy-mm-dd&quot;)</code> → <code>&quot;2023-06-15&quot;</code></td>
+</tr>
+</tbody></table>
+<h3 id="345-multi-function-text-parsing-example">3.4.5 Multi-Function Text Parsing Example</h3>
+<p><strong>Problem</strong>: Customer names in the sales dataset are in &quot;First Last&quot; format. Extract the first name and last name into separate cells.</p>
+<p><strong>First name</strong> (everything before the space):</p>
+<pre><code class="language-">=LEFT([@Customer_Name], FIND(" ", [@Customer_Name]) - 1)</code></pre><p><strong>Last name</strong> (everything after the space):</p>
+<pre><code class="language-">=MID([@Customer_Name], FIND(" ", [@Customer_Name]) + 1, 100)</code></pre><p>The <code>100</code> in the MID function is a generous &quot;take everything remaining&quot; value - if the last name is shorter than 100 characters, MID simply returns what is there.</p>
+<hr>
+<h2 id="35-date--time-functions">3.5 Date &amp; Time Functions</h2>
+<p>Dates are one of the most error-prone areas in Excel, because what <em>looks</em> like a date might actually be text, and what <em>looks</em> like text might actually be a date stored as a serial number. Mastering date functions eliminates this confusion.</p>
+<h3 id="351-core-date-functions">3.5.1 Core Date Functions</h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Purpose</th>
+<th>Syntax</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TODAY()</code></td>
+<td>Current date (updates daily)</td>
+<td><code>=TODAY()</code></td>
+<td><code>2026-06-11</code></td>
+</tr>
+<tr>
+<td><code>NOW()</code></td>
+<td>Current date and time (updates on recalculation)</td>
+<td><code>=NOW()</code></td>
+<td><code>2026-06-11 12:45</code></td>
+</tr>
+<tr>
+<td><code>DATE</code></td>
+<td>Create a date from year, month, day</td>
+<td><code>=DATE(2023, 6, 15)</code></td>
+<td><code>2023-06-15</code></td>
+</tr>
+<tr>
+<td><code>YEAR</code></td>
+<td>Extract the year</td>
+<td><code>=YEAR(A2)</code></td>
+<td><code>2023</code></td>
+</tr>
+<tr>
+<td><code>MONTH</code></td>
+<td>Extract the month (1-12)</td>
+<td><code>=MONTH(A2)</code></td>
+<td><code>6</code></td>
+</tr>
+<tr>
+<td><code>DAY</code></td>
+<td>Extract the day (1-31)</td>
+<td><code>=DAY(A2)</code></td>
+<td><code>15</code></td>
+</tr>
+<tr>
+<td><code>WEEKDAY</code></td>
+<td>Day of week (1=Sunday by default)</td>
+<td><code>=WEEKDAY(A2, 2)</code></td>
+<td><code>4</code> (Thursday, with Monday=1 mode)</td>
+</tr>
+<tr>
+<td><code>WEEKNUM</code></td>
+<td>Week number of the year</td>
+<td><code>=WEEKNUM(A2)</code></td>
+<td><code>24</code></td>
+</tr>
+</tbody></table>
+<h3 id="352-date-arithmetic-functions">3.5.2 Date Arithmetic Functions</h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Purpose</th>
+<th>Syntax</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DATEDIF</code></td>
+<td>Difference between two dates</td>
+<td><code>=DATEDIF(start, end, &quot;unit&quot;)</code></td>
+<td><code>=DATEDIF(A2, TODAY(), &quot;Y&quot;)</code> → years between</td>
+</tr>
+<tr>
+<td><code>EOMONTH</code></td>
+<td>Last day of a month N months away</td>
+<td><code>=EOMONTH(A2, 0)</code></td>
+<td>End of the same month; <code>EOMONTH(A2, 1)</code> = end of next month</td>
+</tr>
+<tr>
+<td><code>NETWORKDAYS</code></td>
+<td>Working days between two dates (excludes weekends)</td>
+<td><code>=NETWORKDAYS(start, end)</code></td>
+<td>Business days between order and ship</td>
+</tr>
+<tr>
+<td><code>WORKDAY</code></td>
+<td>Date N working days from a start date</td>
+<td><code>=WORKDAY(A2, 10)</code></td>
+<td>10 business days after the order date</td>
+</tr>
+<tr>
+<td><code>EDATE</code></td>
+<td>Date exactly N months from a start date</td>
+<td><code>=EDATE(A2, 3)</code></td>
+<td>3 months after the order date</td>
+</tr>
+</tbody></table>
+<p><strong><code>DATEDIF</code> units</strong>: <code>&quot;Y&quot;</code> = years, <code>&quot;M&quot;</code> = months, <code>&quot;D&quot;</code> = days, <code>&quot;YM&quot;</code> = months ignoring years, <code>&quot;MD&quot;</code> = days ignoring months and years.</p>
+<blockquote>
+<p><strong>Hidden function</strong>: <code>DATEDIF</code> is not in Excel&#39;s autocomplete or function wizard. It is a legacy function from Lotus 1-2-3 that Microsoft never officially documented but has kept working. It is the only reliable way to calculate age in complete years.</p>
+</blockquote>
+<h3 id="353-practical-date-examples">3.5.3 Practical Date Examples</h3>
+<p><strong>Shipping duration in business days</strong>:</p>
+<pre><code class="language-">=NETWORKDAYS([@Order_Date], [@Ship_Date])</code></pre><p><strong>Extract fiscal quarter</strong> (assuming fiscal year starts in January):</p>
+<pre><code class="language-">=ROUNDUP(MONTH([@Order_Date])/3, 0)</code></pre><p>Or more readably: <code>=&quot;Q&quot; &amp; ROUNDUP(MONTH([@Order_Date])/3, 0)</code></p>
+<p>Returns: <code>Q1</code>, <code>Q2</code>, <code>Q3</code>, <code>Q4</code></p>
+<p><strong>Year-month label for grouping</strong>:</p>
+<pre><code class="language-">=TEXT([@Order_Date], "YYYY-MM")</code></pre><p>Returns: <code>&quot;2023-06&quot;</code> - useful for PivotTable-free monthly grouping.</p>
+<p><strong>Employee tenure in years</strong> (using the employee dataset):</p>
+<pre><code class="language-">=DATEDIF([@Hire_Date], TODAY(), "Y")</code></pre><hr>
+<h2 id="36-math--rounding-functions">3.6 Math &amp; Rounding Functions</h2>
+<h3 id="361-core-math-functions">3.6.1 Core Math Functions</h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Purpose</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SUM</code></td>
+<td>Add all values</td>
+<td><code>=SUM(SalesData[Sales])</code></td>
+</tr>
+<tr>
+<td><code>SUMIF</code></td>
+<td>Sum values matching a condition</td>
+<td><code>=SUMIF(SalesData[Region], &quot;Europe&quot;, SalesData[Sales])</code></td>
+</tr>
+<tr>
+<td><code>SUMIFS</code></td>
+<td>Sum values matching multiple conditions</td>
+<td><code>=SUMIFS(SalesData[Sales], SalesData[Region], &quot;Europe&quot;, SalesData[Category], &quot;Technology&quot;)</code></td>
+</tr>
+<tr>
+<td><code>SUMPRODUCT</code></td>
+<td>Multiply arrays element-by-element, then sum</td>
+<td><code>=SUMPRODUCT(SalesData[Sales], SalesData[Discount])</code></td>
+</tr>
+<tr>
+<td><code>ABS</code></td>
+<td>Absolute value</td>
+<td><code>=ABS(-45.2)</code> → <code>45.2</code></td>
+</tr>
+<tr>
+<td><code>MOD</code></td>
+<td>Remainder after division</td>
+<td><code>=MOD(10, 3)</code> → <code>1</code></td>
+</tr>
+<tr>
+<td><code>INT</code></td>
+<td>Round down to nearest integer</td>
+<td><code>=INT(3.9)</code> → <code>3</code></td>
+</tr>
+</tbody></table>
+<h3 id="362-sumproduct---the-analysts-swiss-army-knife">3.6.2 SUMPRODUCT - The Analyst&#39;s Swiss Army Knife</h3>
+<p><code>SUMPRODUCT</code> is more powerful than it appears. It multiplies corresponding elements of arrays and sums the results - but it can also be used for conditional counting and aggregation without needing SUMIF.</p>
+<p><strong>Basic use</strong> - Weighted total:</p>
+<pre><code class="language-">=SUMPRODUCT(SalesData[Quantity], SalesData[Sales])</code></pre><p>Multiplies each quantity by its sale amount, then sums all products.</p>
+<p><strong>Conditional use</strong> - Count orders where Sales &gt; 1000 AND Region = &quot;Europe&quot;:</p>
+<pre><code class="language-">=SUMPRODUCT((SalesData[Sales] > 1000) * (SalesData[Region] = "Europe"))</code></pre><p>Each condition returns an array of 1s and 0s. Multiplying them together gives 1 only where <em>both</em> conditions are TRUE. Summing gives the count.</p>
+<p><strong>Weighted average</strong> - Average sales weighted by quantity:</p>
+<pre><code class="language-">=SUMPRODUCT(SalesData[Sales], SalesData[Quantity]) / SUM(SalesData[Quantity])</code></pre><h3 id="363-rounding-functions">3.6.3 Rounding Functions</h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Behaviour</th>
+<th>Example: Input <code>3.456</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ROUND(x, n)</code></td>
+<td>Standard rounding (half up)</td>
+<td><code>ROUND(3.456, 2)</code> → <code>3.46</code></td>
+</tr>
+<tr>
+<td><code>ROUNDUP(x, n)</code></td>
+<td>Always round away from zero</td>
+<td><code>ROUNDUP(3.451, 2)</code> → <code>3.46</code></td>
+</tr>
+<tr>
+<td><code>ROUNDDOWN(x, n)</code></td>
+<td>Always round toward zero</td>
+<td><code>ROUNDDOWN(3.459, 2)</code> → <code>3.45</code></td>
+</tr>
+<tr>
+<td><code>CEILING(x, sig)</code></td>
+<td>Round up to nearest multiple</td>
+<td><code>CEILING(3.2, 0.5)</code> → <code>3.5</code></td>
+</tr>
+<tr>
+<td><code>FLOOR(x, sig)</code></td>
+<td>Round down to nearest multiple</td>
+<td><code>FLOOR(3.7, 0.5)</code> → <code>3.5</code></td>
+</tr>
+<tr>
+<td><code>MROUND(x, multiple)</code></td>
+<td>Round to nearest multiple</td>
+<td><code>MROUND(17, 5)</code> → <code>15</code></td>
+</tr>
+</tbody></table>
+<p><strong>When to use each</strong>:</p>
+<ul>
+<li><code>ROUND</code>: General purpose - financial reports, display values</li>
+<li><code>ROUNDUP</code>: Pricing (always round up to the nearest cent)</li>
+<li><code>ROUNDDOWN</code>/<code>INT</code>: Tax calculations in some jurisdictions (truncate, do not round)</li>
+<li><code>CEILING</code>/<code>FLOOR</code>: Binning data into groups (round ages to nearest 5 years: <code>=FLOOR([@Age], 5)</code>)</li>
+</ul>
+<hr>
+<h2 id="37-information--error-handling-functions">3.7 Information &amp; Error-Handling Functions</h2>
+<p>These functions make your formulas robust - they check conditions before performing operations and gracefully handle errors.</p>
+<h3 id="371-checking-functions">3.7.1 Checking Functions</h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Returns TRUE when...</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ISNUMBER(x)</code></td>
+<td>x is a number</td>
+<td>Check if a date column contains real dates (dates are numbers)</td>
+</tr>
+<tr>
+<td><code>ISTEXT(x)</code></td>
+<td>x is text</td>
+<td>Identify text values in a numeric column</td>
+</tr>
+<tr>
+<td><code>ISBLANK(x)</code></td>
+<td>x is an empty cell</td>
+<td>Check for missing data</td>
+</tr>
+<tr>
+<td><code>ISERROR(x)</code></td>
+<td>x is any error</td>
+<td>General error check</td>
+</tr>
+<tr>
+<td><code>ISNA(x)</code></td>
+<td>x is specifically #N/A</td>
+<td>Check if a lookup failed</td>
+</tr>
+</tbody></table>
+<h3 id="372-error-handling-functions">3.7.2 Error-Handling Functions</h3>
+<p><strong>IFERROR</strong> - Replace any error with a default value:</p>
+<pre><code class="language-">=IFERROR([@Sales] / [@Quantity], 0)</code></pre><p>If the division causes <code>#DIV/0!</code> (because Quantity is 0), return 0 instead.</p>
+<p><strong>IFNA</strong> - Replace only #N/A errors:</p>
+<pre><code class="language-">=IFNA(VLOOKUP([@Product_Name], ProductCatalog, 5, FALSE), "Not in Catalog")</code></pre><p>If the VLOOKUP fails to find the product, return &quot;Not in Catalog&quot; - but still show other errors (<code>#REF!</code>, <code>#VALUE!</code>) because those indicate real formula problems you need to fix.</p>
+<blockquote>
+<p><strong>Best practice</strong>: Prefer <code>IFNA</code> over <code>IFERROR</code> for lookups. <code>IFERROR</code> suppresses <em>all</em> errors, which can mask genuine bugs. <code>IFNA</code> only catches the &quot;not found&quot; case, letting real errors surface.</p>
+</blockquote>
+<h3 id="373-defensive-formula-pattern">3.7.3 Defensive Formula Pattern</h3>
+<p>A robust formula anticipates problems:</p>
+<pre><code class="language-">=IF(ISBLANK([@Sales]), "",
+    IF([@Quantity] = 0, "N/A",
+        ROUND([@Sales] / [@Quantity], 2)
+    )
+)</code></pre><p>This formula:</p>
+<ol>
+<li>Returns empty string if Sales is blank (no data)</li>
+<li>Returns &quot;N/A&quot; if Quantity is 0 (cannot divide)</li>
+<li>Otherwise calculates and rounds the unit price</li>
+</ol>
+<hr>
+<h2 id="38-putting-it-all-together---multi-function-problems">3.8 Putting It All Together - Multi-Function Problems</h2>
+<h3 id="381-example-calculate-shipping-efficiency-score">3.8.1 Example: Calculate Shipping Efficiency Score</h3>
+<p>Create a metric that combines shipping speed, order value, and profitability:</p>
+<pre><code class="language-">=IFS(
+    AND(NETWORKDAYS([@Order_Date], [@Ship_Date]) <= 1, [@Profit] > 0), "Excellent",
+    AND(NETWORKDAYS([@Order_Date], [@Ship_Date]) <= 3, [@Profit] > 0), "Good",
+    [@Profit] > 0, "Acceptable",
+    TRUE, "Needs Review"
+)</code></pre><h3 id="382-example-dynamic-product-markup-analysis">3.8.2 Example: Dynamic Product Markup Analysis</h3>
+<p>Combine lookup, math, and logical functions:</p>
+<pre><code class="language-">=IFERROR(
+    ROUND(
+        ([@Sales] / [@Quantity]) / XLOOKUP([@Product_Name], ProductCatalog[Product_Name], ProductCatalog[Unit_Cost]) - 1,
+        2
+    ),
+    "Lookup Failed"
+)</code></pre><p>This calculates: <code>(Unit_Revenue / Unit_Cost) - 1</code> = markup percentage, rounded to 2 decimals, with error handling.</p>
+<hr>
+<h2 id="common-mistakes--misconceptions">Common Mistakes &amp; Misconceptions</h2>
+<h3 id="mistake-1-hardcoding-values-instead-of-using-cell-references">Mistake 1: Hardcoding Values Instead of Using Cell References</h3>
+<pre><code class="language-">❌ =IF(B2 > 1000, "High", "Low")     ← What if the threshold changes?
+✅ =IF(B2 > $G$1, "High", "Low")     ← Threshold in G1, easy to update</code></pre><h3 id="mistake-2-using-vlookup-column-index-numbers">Mistake 2: Using VLOOKUP Column Index Numbers</h3>
+<pre><code class="language-">❌ =VLOOKUP(A2, Products, 5, FALSE)   ← What is column 5? Breaks if columns change.
+✅ =INDEX(Products[Unit_Cost], MATCH(A2, Products[Product_Name], 0))   ← Self-documenting</code></pre><h3 id="mistake-3-iferror-hiding-real-bugs">Mistake 3: IFERROR Hiding Real Bugs</h3>
+<pre><code class="language-">❌ =IFERROR(complex_formula, 0)       ← Masks all errors. You'll never know if it breaks.
+✅ =IFNA(VLOOKUP(...), "Not Found")   ← Only handles the expected #N/A error</code></pre><h3 id="mistake-4-forgetting-absolute-references-in-copied-formulas">Mistake 4: Forgetting Absolute References in Copied Formulas</h3>
+<p>When you copy a formula that should reference a fixed cell (like a total or a lookup table), use <code>$</code> or structured references. Press <code>F4</code> to toggle.</p>
+<h3 id="mistake-5-date-functions-on-text-that-looks-like-dates">Mistake 5: Date Functions on Text That Looks Like Dates</h3>
+<p><code>=YEAR(&quot;2023-06-15&quot;)</code> may work, but <code>=YEAR(&quot;15/06/2023&quot;)</code> may return an error depending on your locale. Always verify with <code>ISNUMBER()</code>: <code>=ISNUMBER(A2)</code> - if FALSE, the &quot;date&quot; is actually text.</p>
+<hr>
+<h2 id="in-simple-terms-tldr">In Simple Terms (TL;DR)</h2>
+<blockquote>
+<p><strong>ELI5 (Explain Like I&#39;m 5):</strong>
+Functions are built-in math shortcuts. IF() lets Excel make decisions (like &quot;If sales &gt; 100, say Good&quot;). VLOOKUP and XLOOKUP are like a phonebook - they search for a name and bring back the matching number.</p>
+</blockquote>
+<div class="class-activities"><h2>Practice Exercises</h2>
+
+<div class="exercise-section">### Beginner
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 3.1</div><div class="activity-body">In the SalesData table, create a new column `Order_Year` that extracts the year from `Order_Date`. Then create `Order_Quarter` that returns "Q1", "Q2", "Q3", or "Q4".
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 3.2</div><div class="activity-body">Create a column `Ship_Days` that calculates the number of business days between `Order_Date` and `Ship_Date`.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 3.3</div><div class="activity-body">Create a column `Profit_Status` that returns "Profit" if Profit > 0, "Break Even" if Profit = 0, and "Loss" if Profit < 0.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 3.4</div><div class="activity-body">Use `SUMIF` to calculate: (a) Total Sales for "Technology" category, (b) Total Sales for "Europe" region, (c) Total Profit for "Consumer" segment.
+
+</div></div></div><div class="exercise-section">### Intermediate
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 3.5</div><div class="activity-body">Using `INDEX/MATCH`, look up the `List_Price` from the `ProductCatalog` table for each order in `SalesData`. Then calculate the discount amount as `List_Price * Quantity - Sales`.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 3.6</div><div class="activity-body">Parse the `Customer_Name` column into two new columns: `First_Name` and `Last_Name`. Handle names that might have multiple spaces correctly (use `FIND` to locate the first space).
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 3.7</div><div class="activity-body">Create a `Days_Since_Order` column that calculates how many days ago each order was placed (from today). Then create a `Recency_Tier` column: "Recent" (< 180 days), "Moderate" (180-365 days), "Old" (365-730 days), "Archived" (> 730 days).
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 3.8</div><div class="activity-body">Using `SUMIFS`, calculate:
+- Total Sales for Technology in North America in 2024
+- Total Profit for orders with Discount > 0.20
+- Count of orders where Profit < 0 (use `COUNTIFS`)
+
+</div></div></div><div class="exercise-section">### Challenge
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 3.9</div><div class="activity-body">Create a formula that extracts the numeric part of `Order_ID` (e.g., `"ORD-0001"` → `1`), converts it to a number, and classifies it into order batches: Batch 1 (orders 1-250), Batch 2 (251-500), Batch 3 (501-750), Batch 4 (751-1000).
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 3.10</div><div class="activity-body">Build a "Smart Lookup" formula in a new sheet. In cell A1, the user types a product name. In B1, the formula returns the Unit Cost from ProductCatalog. In C1, it returns the List Price. In D1, it calculates the standard markup percentage. In E1, it returns "Found" or "Not in Catalog". All formulas should handle errors gracefully - if A1 is blank, all cells should show "" (empty), not errors.
+</div></div></div></div>

@@ -1,0 +1,265 @@
+<h1 id="chapter-9---introduction-to-power-bi">Chapter 9 - Introduction to Power BI</h1>
+<p><img src="assets/images/schema.png" alt="Star Schema Architecture"></p>
+<hr>
+<h2 id="chapter-overview">Chapter Overview</h2>
+<p>If Excel is the analyst&#39;s workbench, Power BI is the factory. Excel is unbeatably flexible for exploring data, prototyping calculations, and ad-hoc analysis. But when a process needs to be repeated daily, scale to 50 million rows, and be securely shared with 500 people, Excel breaks down.</p>
+<p>Power BI solves the scale, automation, and distribution problems. It is not just a &quot;better charting tool.&quot; It is a completely different architecture built on three pillars: <strong>Power Query</strong> (for data extraction and cleaning), the <strong>Data Model</strong> (for establishing relationships), and the <strong>Report Canvas</strong> (for interactive visuals).</p>
+<p>In this chapter, we transition from spreadsheet thinking to database thinking. You will learn the Power BI interface, how to connect to data sources, and the fundamental concept that makes Power BI so powerful: the Star Schema data model.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Microsoft Power BI Desktop installed (Windows only). It is a free download from the Microsoft Store.</li>
+<li>Chapter 6 (PivotTables/Data Model) and Chapter 8 (Power Query) concepts understood.</li>
+<li><code>datasets/01_global_superstore_sales.csv</code> and <code>datasets/08_product_catalog.csv</code> available.</li>
+</ul>
+<hr>
+<h2 id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Navigate the three primary views of Power BI Desktop: Report, Data, and Model</li>
+<li>Connect Power BI to CSV and Excel files using Get Data</li>
+<li>Explain the difference between Fact tables and Dimension tables</li>
+<li>Design a basic Star Schema data model</li>
+<li>Create relationships between tables (1-to-Many) and understand filter direction</li>
+<li>Build your first interactive visual on the report canvas</li>
+<li>Publish a report to the Power BI Service (conceptual overview)</li>
+</ol>
+<hr>
+<h2 id="91-the-power-bi-ecosystem">9.1 The Power BI Ecosystem</h2>
+<p>Power BI is not a single program; it is an ecosystem consisting of three main parts.</p>
+<h3 id="911-power-bi-desktop-the-authoring-tool">9.1.1 Power BI Desktop (The Authoring Tool)</h3>
+<p>This is the free Windows application where analysts do the work. It is where you connect to data, build the data model, write DAX formulas, and design the reports.</p>
+<p><strong>Rule of thumb</strong>: If you are <em>creating</em> a dashboard, you use Power BI Desktop.</p>
+<h3 id="912-the-power-bi-service-the-distribution-tool">9.1.2 The Power BI Service (The Distribution Tool)</h3>
+<p>This is the cloud-based web application (<code>app.powerbi.com</code>). Once you finish building a report in Desktop, you &quot;Publish&quot; it to the Service.</p>
+<p><strong>Rule of thumb</strong>: If you are a manager or executive <em>consuming</em> a dashboard (viewing it, clicking filters), you use the Power BI Service via a web browser or mobile app.</p>
+<h3 id="913-the-architecture">9.1.3 The Architecture</h3>
+<ol>
+<li><strong>Extract &amp; Clean</strong>: Power Query (built into Desktop) pulls data from SQL databases, APIs, CSVs, etc.</li>
+<li><strong>Model</strong>: The VertiPaq engine compresses the data and manages relationships.</li>
+<li><strong>Calculate</strong>: DAX formulas compute metrics on the fly.</li>
+<li><strong>Visualise</strong>: The Report Canvas displays the interactive charts.</li>
+<li><strong>Publish</strong>: The file is uploaded to the Service for sharing.</li>
+<li><strong>Automate</strong>: A gateway connects the cloud Service back to your on-premise databases to refresh the data automatically every morning.</li>
+</ol>
+<hr>
+<h2 id="92-getting-data-into-power-bi">9.2 Getting Data into Power BI</h2>
+<p>When you open a blank Power BI Desktop file, it is useless until you connect it to data.</p>
+<h3 id="921-the-get-data-experience">9.2.1 The &quot;Get Data&quot; Experience</h3>
+<ol>
+<li>Open Power BI Desktop. Close the yellow welcome screen.</li>
+<li>On the Home ribbon, click <strong>Get Data</strong>.</li>
+<li>You will see hundreds of connectors: Excel, SQL Server, Web, Salesforce, Google Analytics, Snowflake.</li>
+<li>For our course, click <strong>Text/CSV</strong>.</li>
+<li>Navigate to <code>datasets/01_global_superstore_sales.csv</code> and open it.</li>
+</ol>
+<h3 id="922-load-vs-transform">9.2.2 Load vs. Transform</h3>
+<p>You are presented with a preview window. You have two choices:</p>
+<ul>
+<li><strong>Load</strong>: Dumps the data directly into the model as-is.</li>
+<li><strong>Transform Data</strong>: Opens the Power Query Editor.</li>
+</ul>
+<p><strong>Always click Transform Data.</strong> Even if the data looks clean, it is best practice to verify data types and rename the query before loading.</p>
+<h3 id="923-power-query-in-power-bi">9.2.3 Power Query in Power BI</h3>
+<p>If you did Chapter 8, this interface is identical to Excel&#39;s Power Query. It is the exact same engine.</p>
+<ol>
+<li>In the Queries pane (left), rename the query from <code>01_global_superstore_sales</code> to <code>Sales</code>.</li>
+<li>Check the data types. Text columns should have <code>ABC</code> in the header, numbers <code>123</code>, dates a calendar icon.</li>
+<li>Get the second file: Home → New Source → Text/CSV → select <code>08_product_catalog.csv</code>.</li>
+<li>Rename this query to <code>Products</code>.</li>
+<li>Click <strong>Close &amp; Apply</strong> (top left).</li>
+</ol>
+<p>Power BI now loads the data into its internal VertiPaq engine. This may take a few seconds.</p>
+<hr>
+<h2 id="93-the-three-views-of-power-bi-desktop">9.3 The Three Views of Power BI Desktop</h2>
+<p>Look at the far-left edge of the screen. You will see three small icons. These are the three views where you will spend all your time.</p>
+<h3 id="931-report-view-top-icon">9.3.1 Report View (Top Icon)</h3>
+<p>The blank white canvas. This is where you drag and drop visuals (charts, maps, slicers). It is the final presentation layer.</p>
+<h3 id="932-data-view-middle-icon">9.3.2 Data View (Middle Icon)</h3>
+<p>Looks like an Excel spreadsheet. This is where you can see the actual rows and columns of data that have been loaded into the model.</p>
+<p><strong>Differences from Excel</strong>:</p>
+<ul>
+<li>You cannot type into a cell here. The data is read-only.</li>
+<li>If you want to change a value, you must do it in Power Query (Transform Data).</li>
+<li>You can create new columns using DAX (Chapter 10), but they apply to the entire column at once.</li>
+</ul>
+<h3 id="933-model-view-bottom-icon">9.3.3 Model View (Bottom Icon)</h3>
+<p>The most important view. It shows your tables as boxes, and the lines connecting them represent relationships. If your Model view is wrong, every chart on your Report view will be wrong.</p>
+<hr>
+<h2 id="94-data-modelling-the-star-schema">9.4 Data Modelling: The Star Schema</h2>
+<p>This is the biggest mindset shift from Excel.</p>
+<p>In Excel, analysts strive for one massive, wide table (often created using dozens of VLOOKUPs) containing every possible column. This is called a &quot;flat file.&quot;</p>
+<p>In Power BI, a flat file is inefficient, slow, and hard to filter. Power BI is designed for a relational structure called the <strong>Star Schema</strong>.</p>
+<h3 id="941-fact-tables">9.4.1 Fact Tables</h3>
+<p>The centre of the star. Fact tables record <strong>events</strong> or <strong>transactions</strong>.</p>
+<ul>
+<li>Examples: Sales, Website Clicks, Patient Admissions, Machine Faults.</li>
+<li>Characteristics: Very long (millions of rows), mostly numbers (IDs, quantities, amounts), grows continuously.</li>
+<li>In our model: The <code>Sales</code> table is our Fact table. Every row is an order event.</li>
+</ul>
+<h3 id="942-dimension-tables">9.4.2 Dimension Tables</h3>
+<p>The points of the star. Dimension tables contain <strong>context</strong> or <strong>entities</strong>.</p>
+<ul>
+<li>Examples: Customers, Products, Employees, Locations, Dates.</li>
+<li>Characteristics: Short and wide (thousands of rows, many descriptive columns), mostly text, grows slowly.</li>
+<li>In our model: The <code>Products</code> table is a Dimension table. Every row is a unique product.</li>
+</ul>
+<h3 id="943-why-the-star-schema-is-better">9.4.3 Why the Star Schema is Better</h3>
+<div class="mermaid">erDiagram
+    SALES_FACT ||--o{ PRODUCTS_DIM : contains
+    SALES_FACT ||--o{ DATES_DIM : occurs_on
+    SALES_FACT ||--o{ CUSTOMERS_DIM : purchased_by
+    
+    SALES_FACT {
+        int Order_ID
+        int Product_ID
+        date Order_Date
+        int Customer_ID
+        float Sales_Amount
+    }
+    PRODUCTS_DIM {
+        int Product_ID
+        string Category
+        string Sub_Category
+    }
+    DATES_DIM {
+        date Date
+        int Year
+        string Month
+    }
+    CUSTOMERS_DIM {
+        int Customer_ID
+        string Name
+        string Segment
+    }</div><p>Instead of storing the <code>Category</code> and <code>Unit_Cost</code> on all 10 million rows of the Sales table, you store a <code>Product_ID</code>. The details live in the smaller <code>Products</code> table.</p>
+<p><strong>Benefits</strong>:</p>
+<ol>
+<li><strong>Speed</strong>: Filtering a 10,000-row Products table is much faster than filtering a text column in a 10-million-row Sales table.</li>
+<li><strong>Size</strong>: Compression is vastly improved, keeping file sizes small.</li>
+<li><strong>Accuracy</strong>: If a product changes categories, you update one row in the Products table, not 50,000 rows in the Sales table.</li>
+</ol>
+<hr>
+<h2 id="95-building-relationships">9.5 Building Relationships</h2>
+<p>To make the Star Schema work, we must connect the Dimension tables to the Fact table.</p>
+<h3 id="951-creating-a-relationship">9.5.1 Creating a Relationship</h3>
+<ol>
+<li>Go to the <strong>Model View</strong> (bottom icon on the left).</li>
+<li>You should see two boxes: <code>Sales</code> and <code>Products</code>.</li>
+<li>To connect them, click and drag the <code>Product_Name</code> field from the <code>Products</code> table and drop it onto the <code>Product_Name</code> field in the <code>Sales</code> table.</li>
+<li>A line appears connecting them.</li>
+</ol>
+<p><em>(Note: In a professional database, you would use numeric <code>Product_ID</code> keys, not text names. For this course, we use names for readability).</em></p>
+<h3 id="952-understanding-the-relationship-line">9.5.2 Understanding the Relationship Line</h3>
+<p>Double-click the line connecting the tables. You will see the Edit Relationship dialog.</p>
+<p><strong>Cardinality</strong>: It should say <strong>1 to Many (1:*)</strong>.</p>
+<ul>
+<li><strong>1 side</strong>: The <code>Products</code> table. Every product name appears exactly <em>once</em> in this table.</li>
+<li><strong>Many (*) side</strong>: The <code>Sales</code> table. A product can be sold <em>many</em> times.</li>
+<li><strong>Rule</strong>: Dimension tables must have unique values for the key column. If <code>Products</code> had duplicate names, the relationship would fail.</li>
+</ul>
+<p><strong>Cross filter direction</strong>: It should say <strong>Single</strong>.</p>
+<ul>
+<li>Notice the arrow on the relationship line. It points from <code>Products</code> to <code>Sales</code>.</li>
+<li>This means: <strong>Filters flow downhill from Dimensions to Facts.</strong></li>
+<li>If you filter a chart by &quot;Technology&quot; (from the Products table), that filter flows down the line and filters the Sales table to only show Technology sales.</li>
+</ul>
+<blockquote>
+<p><strong>Crucial Concept</strong>: A relationship in Power BI is a filter-passing mechanism, not just a data join. It is how slicers and charts interact.</p>
+</blockquote>
+<hr>
+<h2 id="96-building-your-first-report">9.6 Building Your First Report</h2>
+<p>Let us prove that the relationship works by building a visual on the Report canvas.</p>
+<h3 id="961-the-interface">9.6.1 The Interface</h3>
+<ol>
+<li>Go to the <strong>Report View</strong> (top icon).</li>
+<li>On the right, you have three main panes (depending on your Power BI version, they may be flyouts):<ul>
+<li><strong>Data</strong>: Lists your tables and fields.</li>
+<li><strong>Visualizations</strong>: Contains chart types and the formatting paintbrush.</li>
+<li><strong>Filters</strong>: For applying page-level or report-level filters.</li>
+</ul>
+</li>
+</ol>
+<h3 id="962-creating-a-visual">9.6.2 Creating a Visual</h3>
+<p>Let us show Total Sales by Product Category.</p>
+<ol>
+<li><strong>Step 1: The Dimension (The &quot;By&quot; field)</strong><ul>
+<li>In the Data pane, expand the <code>Products</code> table.</li>
+<li>Check the box next to <code>Category</code>.</li>
+<li>Power BI creates a blank table on the canvas listing the categories.</li>
+</ul>
+</li>
+<li><strong>Step 2: The Fact (The Metric)</strong><ul>
+<li>Expand the <code>Sales</code> table.</li>
+<li>Check the box next to <code>Sales</code>.</li>
+<li>The visual updates to show the sum of sales for each category.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Why this is magical</strong>: The <code>Category</code> text lives in the <code>Products</code> table. The <code>Sales</code> numbers live in the <code>Sales</code> table. They are physically separate. But because of the relationship line we drew, Power BI instantly cross-tabulated them. No VLOOKUP required.</p>
+<h3 id="963-formatting-the-visual">9.6.3 Formatting the Visual</h3>
+<ol>
+<li>Ensure the table visual is selected (has a grey border with resize handles).</li>
+<li>In the Visualizations pane, click the <strong>Clustered Bar Chart</strong> icon. The table transforms into a chart.</li>
+<li>Click the <strong>Format your visual</strong> icon (looks like a paintbrush) in the Visualizations pane.</li>
+<li>Here you apply the Data-Ink rules from Chapter 7:<ul>
+<li>Turn off the X-axis (we don&#39;t need the axis numbers).</li>
+<li>Turn on Data labels.</li>
+<li>Under Columns, change the colour to a professional blue or grey.</li>
+<li>Under General → Title, change the text to &quot;Sales by Category&quot;.</li>
+</ul>
+</li>
+</ol>
+<h3 id="964-adding-interactivity-slicers">9.6.4 Adding Interactivity (Slicers)</h3>
+<ol>
+<li>Click on the blank white canvas (so no visual is selected).</li>
+<li>In the Visualizations pane, click the <strong>Slicer</strong> icon (looks like a funnel with a table).</li>
+<li>From the <code>Sales</code> table, drag <code>Region</code> into the &quot;Field&quot; well of the slicer.</li>
+<li>Now click &quot;Europe&quot; in the slicer.</li>
+<li>Watch the Bar Chart. It instantly recalculates to show only European sales.</li>
+</ol>
+<p>This interactivity is the primary reason organizations move from static PowerPoint/Excel reports to Power BI.</p>
+<hr>
+<h2 id="common-mistakes--misconceptions">Common Mistakes &amp; Misconceptions</h2>
+<h3 id="mistake-1-not-transforming-data-before-loading">Mistake 1: Not Transforming Data Before Loading</h3>
+<p>Clicking &quot;Load&quot; instead of &quot;Transform Data&quot; when importing a CSV. If date formats are wrong, or numbers import as text, your data model is broken before you even start. Always open Power Query to verify data types.</p>
+<h3 id="mistake-2-building-many-to-many-relationships">Mistake 2: Building Many-to-Many Relationships</h3>
+<p>Dragging a column from Table A to Table B when <em>both</em> tables contain duplicates of that value. This creates a Many-to-Many relationship, which produces unpredictable, often completely wrong filtering results. Always ensure the Dimension side has strictly unique values.</p>
+<h3 id="mistake-3-flattening-the-data">Mistake 3: Flattening the Data</h3>
+<p>Importing a Dimension table and using Power Query to merge (join) it into the Fact table to create one massive, wide table. &quot;I&#39;m used to VLOOKUP, so I want everything in one place.&quot; This destroys Power BI&#39;s performance and breaks cross-filtering. Trust the Star Schema.</p>
+<h3 id="mistake-4-bi-directional-filtering">Mistake 4: Bi-directional Filtering</h3>
+<p>Changing the Cross filter direction from &quot;Single&quot; to &quot;Both&quot; because a filter isn&#39;t working the way you want. This allows filters to flow &quot;uphill&quot; from Fact to Dimension, which can cause massive performance issues and ambiguous filtering paths in complex models. Leave it on Single unless you know exactly what you are doing.</p>
+<hr>
+<h2 id="in-simple-terms-tldr">In Simple Terms (TL;DR)</h2>
+<blockquote>
+<p><strong>ELI5 (Explain Like I&#39;m 5):</strong>
+Power BI is like Excel on steroids. Instead of one giant messy sheet, we use a &quot;Star Schema&quot; - one central table for events (Sales) surrounded by smaller tables for details (Products, Customers). It&#39;s much faster.</p>
+</blockquote>
+<div class="class-activities"><h2>Practice Exercises</h2>
+
+<div class="exercise-section">### Beginner
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 9.1</div><div class="activity-body">Open Power BI Desktop. Connect to `datasets/03_employee_data.csv`. Open Transform Data, verify the data types (especially Salary as a whole number and Hire_Date as a date), and Load it into the model.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 9.2</div><div class="activity-body">Go to the Data view and explore the employee data. Can you sort the Salary column descending just to see the highest earners?
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 9.3</div><div class="activity-body">Go to the Report view. Create a Clustered Column chart showing `Salary` (Values) by `Department` (X-axis). Note: Power BI defaults to `Sum of Salary`. Is Sum the best metric here, or Average? Change it by clicking the down arrow next to Salary in the Visualizations pane and selecting Average.
+
+</div></div></div><div class="exercise-section">### Intermediate
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 9.4</div><div class="activity-body">Build a Star Schema. Start a new Power BI file. Load `01_global_superstore_sales.csv` and `08_product_catalog.csv`. Go to the Model view. Delete the automatic relationship if Power BI created one incorrectly. Manually create a relationship linking `Product_Name` in both tables. Verify it is a 1-to-Many relationship pointing from Products to Sales.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 9.5</div><div class="activity-body">Build an interactive dashboard layout. Add a text box at the top for a title: "Executive Sales Summary". Below it, create three visuals:
+1. A Line chart showing Sales by Order_Date (Power BI will automatically create a date hierarchy; use Year and Month).
+2. A Bar chart showing Sales by Category (from the Products table).
+3. A Slicer for Segment.
+Test the slicer to ensure both charts update.
+
+</div></div></div><div class="exercise-section">### Challenge
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 9.6</div><div class="activity-body">Data Model problem solving. You have Sales data (Fact) and you want to analyze it by Marketing Campaign. You have a `Campaign_ID` in the Sales table, but the descriptive names of the campaigns are in the `05_marketing_campaigns.csv` file.
+1. Load both files into a new Power BI Desktop model.
+2. In the Model view, create the relationship between them. Which table is the 1 side? Which is the Many side? What column should you link them on?
+3. Create a pie chart (yes, a pie chart, assuming there are only a few campaigns) showing total Sales by Campaign Name. Does the relationship work?
+</div></div></div></div>

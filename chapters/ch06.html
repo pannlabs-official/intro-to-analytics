@@ -1,0 +1,346 @@
+<h1 id="chapter-6---pivottables-the-analysts-power-tool">Chapter 6 - PivotTables: The Analyst&#39;s Power Tool</h1>
+<hr>
+<h2 id="chapter-overview">Chapter Overview</h2>
+<p>If Tables (<code>Ctrl+T</code>) are the foundation of Excel data structures, <strong>PivotTables</strong> are the engine of rapid analysis. They allow you to summarise tens of thousands of rows of data into meaningful aggregates (sums, averages, counts) in seconds, without writing a single formula.</p>
+<p>But many users treat PivotTables as magic boxes - they drag fields around until the output looks right, without understanding how the engine works. This leads to broken reports when data changes, and prevents them from using advanced features like calculated fields, data models, and complex groupings.</p>
+<p>In this chapter, you will learn the mental model behind PivotTables. You will understand exactly what happens when you place a field in a row vs a column vs a value area. You will learn to control the calculations, design interactive slicers, and finally, we will introduce the Data Model - the bridge between Excel and Power BI.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Chapters 2 and 3 completed (you need to understand Tables and aggregation logic)</li>
+<li><code>datasets/01_global_superstore_sales.csv</code> loaded as a Table named <code>SalesData</code></li>
+</ul>
+<hr>
+<h2 id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Explain the &quot;Pivot&quot; concept and the four areas of a PivotTable</li>
+<li>Create and configure a PivotTable from a structured Table</li>
+<li>Change value field settings (Sum, Average, Count, % of Total, Running Total)</li>
+<li>Group data by dates (months, quarters, years) and numeric bins</li>
+<li>Create and manage Calculated Fields for custom metrics</li>
+<li>Build interactive dashboards using Slicers and Timelines</li>
+<li>Understand and use the Excel Data Model to connect multiple tables without VLOOKUP</li>
+</ol>
+<hr>
+<h2 id="61-the-mental-model-how-a-pivottable-works">6.1 The Mental Model: How a PivotTable Works</h2>
+<h3 id="611-what-does-pivot-mean">6.1.1 What Does &quot;Pivot&quot; Mean?</h3>
+<p>To &quot;pivot&quot; data means to change its orientation - usually from a &quot;tall&quot; transactional format (many rows, few columns) to a &quot;wide&quot; summary format (fewer rows, more columns), aggregating the values in the process.</p>
+<p><strong>Transactional Data (Input)</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Region</th>
+<th>Category</th>
+<th>Sales</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Jan 1</td>
+<td>North</td>
+<td>Furniture</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Jan 1</td>
+<td>North</td>
+<td>Technology</td>
+<td>200</td>
+</tr>
+<tr>
+<td>Jan 2</td>
+<td>South</td>
+<td>Furniture</td>
+<td>150</td>
+</tr>
+<tr>
+<td>Jan 2</td>
+<td>North</td>
+<td>Furniture</td>
+<td>300</td>
+</tr>
+</tbody></table>
+<p><strong>PivotTable (Output)</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Region</th>
+<th>Furniture</th>
+<th>Technology</th>
+<th>Grand Total</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>North</td>
+<td>400</td>
+<td>200</td>
+<td>600</td>
+</tr>
+<tr>
+<td>South</td>
+<td>150</td>
+<td>0</td>
+<td>150</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>550</strong></td>
+<td><strong>200</strong></td>
+<td><strong>750</strong></td>
+</tr>
+</tbody></table>
+<p>The PivotTable grouped the data by <code>Region</code> (Rows) and <code>Category</code> (Columns), and summed the <code>Sales</code> (Values).</p>
+<h3 id="612-the-four-areas">6.1.2 The Four Areas</h3>
+<p>Every PivotTable is controlled by dragging fields (columns from your source data) into four areas:</p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Purpose</th>
+<th>What Happens When You Add a Field Here</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Rows</strong></td>
+<td>The primary grouping</td>
+<td>Creates a unique list of values down the left side. Each unique value gets one row.</td>
+</tr>
+<tr>
+<td><strong>Columns</strong></td>
+<td>The secondary grouping</td>
+<td>Creates a unique list of values across the top. Each unique value gets one column.</td>
+</tr>
+<tr>
+<td><strong>Values</strong></td>
+<td>The calculation</td>
+<td>Performs math on the intersection of Rows and Columns. Defaults to <code>SUM</code> for numbers, <code>COUNT</code> for text.</td>
+</tr>
+<tr>
+<td><strong>Filters</strong></td>
+<td>The global filter</td>
+<td>Filters the entire PivotTable before the data is passed to Rows/Columns/Values.</td>
+</tr>
+</tbody></table>
+<h3 id="613-the-underlying-engine">6.1.3 The Underlying Engine</h3>
+<p>When you drag <code>Region</code> to Rows, <code>Category</code> to Columns, and <code>Sales</code> to Values, the engine is essentially writing hundreds of <code>SUMIFS</code> formulas instantly:</p>
+<p>&quot;Sum the Sales column where Region = &#39;North&#39; AND Category = &#39;Furniture&#39;.&quot;
+&quot;Sum the Sales column where Region = &#39;South&#39; AND Category = &#39;Furniture&#39;.&quot;</p>
+<p>The PivotTable is simply a fast, visual way to generate cross-tabulated aggregates.</p>
+<hr>
+<h2 id="62-creating-your-first-pivottable">6.2 Creating Your First PivotTable</h2>
+<h3 id="621-the-golden-rule-source-data-must-be-a-table">6.2.1 The Golden Rule: Source Data Must Be a Table</h3>
+<p>Never create a PivotTable from a plain range (like <code>A1:R1000</code>). If you add row 1001, the PivotTable will ignore it, even if you refresh.</p>
+<p>Always convert your data to a Table (<code>Ctrl+T</code>) first. If your source is <code>SalesData</code>, the PivotTable reads from the Table object. When <code>SalesData</code> grows to 2,000 rows, the PivotTable automatically includes them upon refresh.</p>
+<h3 id="622-step-by-step-creation">6.2.2 Step-by-Step Creation</h3>
+<ol>
+<li>Click any cell inside the <code>SalesData</code> table.</li>
+<li>Insert → PivotTable → From Table/Range.</li>
+<li>The dialog shows <code>SalesData</code> as the Table/Range.</li>
+<li>Choose &quot;New Worksheet&quot; and click OK.</li>
+<li>A blank PivotTable appears on the left, and the PivotTable Fields pane appears on the right.</li>
+</ol>
+<h3 id="623-building-the-view">6.2.3 Building the View</h3>
+<p>Let us answer: &quot;What are the total sales and profit by region?&quot;</p>
+<ol>
+<li>Drag <code>Region</code> to the <strong>Rows</strong> area. (You now see a unique list of regions).</li>
+<li>Drag <code>Sales</code> to the <strong>Values</strong> area. (It defaults to <code>Sum of Sales</code>).</li>
+<li>Drag <code>Profit</code> to the <strong>Values</strong> area. (It defaults to <code>Sum of Profit</code>).</li>
+</ol>
+<p>You have answered the question in 5 seconds.</p>
+<h3 id="624-formatting-the-output">6.2.4 Formatting the Output</h3>
+<p>PivotTables default to ugly number formatting (no commas, no currency symbols). <strong>Never format the cells directly.</strong> Always format the <em>Field</em>.</p>
+<ol>
+<li>In the Values area (bottom right), click the dropdown arrow next to <code>Sum of Sales</code>.</li>
+<li>Select <strong>Value Field Settings</strong>.</li>
+<li>Click <strong>Number Format</strong> (bottom left corner of the dialog).</li>
+<li>Choose Currency → $ → 2 decimal places → OK → OK.</li>
+<li>Repeat for <code>Sum of Profit</code>.</li>
+</ol>
+<p>Why do it this way? If you format the cells (e.g., column B), and then pivot the table so sales are now in column C, the formatting breaks. Formatting the <em>Field</em> ensures the formatting stays attached to the data, regardless of where it moves.</p>
+<hr>
+<h2 id="63-advanced-value-field-settings">6.3 Advanced Value Field Settings</h2>
+<p>The Values area does much more than simple summing.</p>
+<h3 id="631-changing-the-calculation-summarize-values-by">6.3.1 Changing the Calculation (<code>Summarize Values By</code>)</h3>
+<ol>
+<li>Right-click any number in the <code>Sum of Sales</code> column.</li>
+<li>Select <strong>Summarize Values By</strong>.</li>
+<li>Options: Sum, Count, Average, Max, Min, Product.</li>
+</ol>
+<p><strong>Example</strong>: Drag <code>Profit</code> to Values a second time. Change the new field to <strong>Average</strong>. Now you have Total Profit and Average Profit per order, side by side.</p>
+<h3 id="632-displaying-as-percentages-show-values-as">6.3.2 Displaying as Percentages (<code>Show Values As</code>)</h3>
+<p>This is one of the most powerful analytical features in Excel.</p>
+<ol>
+<li>Drag <code>Sales</code> to the Values area again.</li>
+<li>Right-click the new numbers → <strong>Show Values As</strong> → <strong>% of Grand Total</strong>.</li>
+<li>The column now shows each region&#39;s contribution to total revenue.</li>
+</ol>
+<p>Other highly useful options:</p>
+<ul>
+<li><strong>% of Column Total / Row Total</strong>: Useful when you have both Rows and Columns defined.</li>
+<li><strong>% of Parent Row Total</strong>: Useful when you have multiple fields in the Rows area (e.g., Region &gt; Country). Shows the country&#39;s % contribution to its specific region, not the global total.</li>
+<li><strong>Difference From / % Difference From</strong>: Calculates variance against a base item (e.g., comparing all months to January).</li>
+<li><strong>Running Total In</strong>: Calculates a cumulative sum (e.g., Year-to-Date revenue).</li>
+</ul>
+<hr>
+<h2 id="64-grouping-data">6.4 Grouping Data</h2>
+<p>PivotTables can automatically group dates and numbers into larger buckets. This eliminates the need to create &quot;Month&quot; or &quot;Quarter&quot; helper columns in your source data.</p>
+<h3 id="641-grouping-dates">6.4.1 Grouping Dates</h3>
+<ol>
+<li>Remove all fields from the Rows area.</li>
+<li>Drag <code>Order_Date</code> to the Rows area.</li>
+<li>Excel (2016+) automatically groups dates into Years, Quarters, and Months.</li>
+<li>If it doesn&#39;t, or if you want to change it: Right-click any date in the row headers → <strong>Group</strong>.</li>
+<li>Select the levels you want (e.g., Months and Years). Make sure to select Years, otherwise January 2023 and January 2024 will be combined into a single &quot;January&quot; bucket.</li>
+</ol>
+<h3 id="642-grouping-numbers-binning">6.4.2 Grouping Numbers (Binning)</h3>
+<p>You can build histograms and frequency distributions directly in a PivotTable.</p>
+<ol>
+<li>Clear the PivotTable.</li>
+<li>Drag <code>Profit</code> to the Rows area (you will see a huge list of individual profit amounts).</li>
+<li>Right-click any number in the row headers → <strong>Group</strong>.</li>
+<li>Set Start at: <code>-500</code>, End at: <code>1500</code>, By: <code>250</code>.</li>
+<li>Drag <code>Order_ID</code> to the Values area (it will default to Count).</li>
+</ol>
+<p>You have just built a frequency distribution of profit margins.</p>
+<hr>
+<h2 id="65-calculated-fields-and-items">6.5 Calculated Fields and Items</h2>
+<p>Sometimes the metric you need does not exist in the source data. You can create it inside the PivotTable.</p>
+<h3 id="651-calculated-fields">6.5.1 Calculated Fields</h3>
+<p>A Calculated Field performs math on the <em>aggregated sums</em> of other fields.</p>
+<p><strong>Example</strong>: You want Profit Margin (<code>Total Profit / Total Sales</code>).</p>
+<p>If you calculate <code>Profit / Sales</code> row-by-row in the source data and then average it in the PivotTable, the math is wrong (average of averages). You need the sum of profit divided by the sum of sales.</p>
+<ol>
+<li>Click inside the PivotTable.</li>
+<li>PivotTable Analyze tab → Fields, Items, &amp; Sets → <strong>Calculated Field</strong>.</li>
+<li>Name: <code>Profit Margin</code></li>
+<li>Formula: <code>= Profit / Sales</code> (Double-click the fields from the list to insert them).</li>
+<li>Click OK.</li>
+<li>The new field appears in your Values area. Format it as a Percentage.</li>
+</ol>
+<blockquote>
+<p><strong>Warning</strong>: Calculated Fields always use the <code>SUM</code> of the underlying fields, even if the fields are displayed as Averages or Counts in the PivotTable. This limitation is why Power BI&#39;s DAX language (Chapter 10) is vastly superior.</p>
+</blockquote>
+<h3 id="652-why-calculated-items-are-dangerous">6.5.2 Why &quot;Calculated Items&quot; are Dangerous</h3>
+<p>A Calculated Field adds a new metric (a new column in the Values area). A Calculated Item adds a new row to an existing field (e.g., grouping &quot;Germany&quot; and &quot;France&quot; into an artificial &quot;EU Core&quot; row).</p>
+<p><strong>Avoid Calculated Items.</strong> They cause massive issues:</p>
+<ul>
+<li>They break filtering logic</li>
+<li>They duplicate totals (the Grand Total will include Germany, France, AND the new &quot;EU Core&quot; calculation)</li>
+<li>They severely degrade performance</li>
+</ul>
+<p>If you need a new grouping, build a lookup table in your source data and bring it in via the Data Model (Section 6.7).</p>
+<hr>
+<h2 id="66-slicers-timelines-and-dashboards">6.6 Slicers, Timelines, and Dashboards</h2>
+<p>Filters are hidden in dropdown menus. Slicers are visual, interactive buttons that make PivotTables usable by non-technical stakeholders.</p>
+<h3 id="661-adding-a-slicer">6.6.1 Adding a Slicer</h3>
+<ol>
+<li>Click inside the PivotTable.</li>
+<li>PivotTable Analyze → <strong>Insert Slicer</strong>.</li>
+<li>Check <code>Region</code> and <code>Segment</code> → OK.</li>
+<li>Two visual control panels appear. Click &quot;Europe&quot; in the Region slicer - the PivotTable updates instantly.</li>
+<li>Hold <code>Ctrl</code> to select multiple items. Click the funnel icon with a red X to clear the filter.</li>
+</ol>
+<h3 id="662-adding-a-timeline">6.6.2 Adding a Timeline</h3>
+<p>Timelines are specialised slicers for dates.</p>
+<ol>
+<li>PivotTable Analyze → <strong>Insert Timeline</strong>.</li>
+<li>Check <code>Order_Date</code> → OK.</li>
+<li>You get a slider control. You can change the view to Years, Quarters, Months, or Days, and drag to select specific time periods.</li>
+</ol>
+<h3 id="663-connecting-slicers-to-multiple-pivottables-dashboards">6.6.3 Connecting Slicers to Multiple PivotTables (Dashboards)</h3>
+<p>This is how you build an Excel dashboard.</p>
+<ol>
+<li>Create PivotTable 1 (Sales by Category).</li>
+<li>Copy PivotTable 1 and paste it nearby to create PivotTable 2.</li>
+<li>Change PivotTable 2 to show Sales by Region.</li>
+<li>Click inside PivotTable 1 and insert a Slicer for <code>Segment</code>.</li>
+<li>Right-click the Slicer → <strong>Report Connections</strong> (or Slicer tab → Report Connections).</li>
+<li>Check the box for PivotTable 2 as well. Click OK.</li>
+</ol>
+<p>Now, when you click a segment in the slicer, <em>both</em> PivotTables update simultaneously. This is the foundation of interactive reporting.</p>
+<hr>
+<h2 id="67-the-data-model-power-pivot-introduction">6.7 The Data Model (Power Pivot Introduction)</h2>
+<p>This is the most important conceptual leap in modern Excel.</p>
+<h3 id="671-the-old-way-vlookup-hell">6.7.1 The Old Way: VLOOKUP Hell</h3>
+<p>If you have a <code>Sales</code> table with <code>Product_ID</code>, and a <code>Products</code> table with <code>Category</code>, how do you analyze Sales by Category?</p>
+<p>The old way: Add a column to the Sales table: <code>=VLOOKUP([@Product_ID], Products, 2, FALSE)</code>.</p>
+<p><strong>The problems</strong>:</p>
+<ul>
+<li>If Sales has 1,000,000 rows, 1,000,000 VLOOKUPs will crash Excel.</li>
+<li>It inflates file size massively.</li>
+<li>It creates a single, rigid, wide table.</li>
+</ul>
+<h3 id="672-the-new-way-the-data-model">6.7.2 The New Way: The Data Model</h3>
+<p>The Data Model allows you to connect multiple tables via relationships, exactly like a relational database. You can then build a PivotTable that pulls fields from <em>different tables</em> seamlessly, without writing a single lookup formula.</p>
+<p><strong>How to use it</strong>:</p>
+<ol>
+<li>Open a workbook with <code>SalesData</code> and <code>ProductCatalog</code> tables.</li>
+<li>Click inside <code>SalesData</code>. Insert → PivotTable.</li>
+<li><strong>CRITICAL STEP</strong>: Check the box <strong>&quot;Add this data to the Data Model&quot;</strong>. Click OK.</li>
+<li>In the PivotTable Fields pane, you will see a new tab: <strong>All</strong>. Click it.</li>
+<li>You now see both <code>SalesData</code> and <code>ProductCatalog</code> available.</li>
+<li>Drag <code>Category</code> from <code>ProductCatalog</code> to Rows. Drag <code>Sales</code> from <code>SalesData</code> to Values.</li>
+<li>Excel will warn: <em>&quot;Relationships between tables may be needed.&quot;</em> Click <strong>Auto-Detect</strong> or <strong>Create</strong>.</li>
+<li>To create manually: Table: <code>SalesData</code>, Column: <code>Product_Name</code>. Related Table: <code>ProductCatalog</code>, Related Column: <code>Product_Name</code>. Click OK.</li>
+</ol>
+<p>The PivotTable now aggregates Sales by Category perfectly, using the relationship between the two tables.</p>
+<h3 id="673-why-the-data-model-changes-everything">6.7.3 Why the Data Model Changes Everything</h3>
+<ul>
+<li><strong>Compression</strong>: The underlying engine (VertiPaq) compresses data up to 10x. A 50MB CSV becomes a 5MB Excel file.</li>
+<li><strong>Capacity</strong>: Excel sheets are limited to 1,048,576 rows. The Data Model can hold 100+ million rows.</li>
+<li><strong>Distinct Count</strong>: Only Data Model PivotTables can perform a &quot;Distinct Count&quot; calculation (e.g., &quot;How many <em>unique</em> customers bought this product?&quot;). Standard PivotTables can only do a regular Count.</li>
+<li><strong>DAX</strong>: The Data Model uses the DAX formula language for advanced calculations (covered in Chapter 10).</li>
+</ul>
+<p>This engine is identical to the engine inside Power BI. Learning the Excel Data Model is step one of learning Power BI.</p>
+<hr>
+<h2 id="common-mistakes--misconceptions">Common Mistakes &amp; Misconceptions</h2>
+<h3 id="mistake-1-not-refreshing">Mistake 1: Not Refreshing</h3>
+<p>PivotTables are not live. If the source data changes, the PivotTable does not update automatically. You must right-click → <strong>Refresh</strong> (or Data → Refresh All). Forgetting this leads to reporting stale numbers.</p>
+<h3 id="mistake-2-pivottable-formatting-lost-on-refresh">Mistake 2: PivotTable Formatting Lost on Refresh</h3>
+<p>If your column widths keep resetting when you refresh:
+Right-click the PivotTable → PivotTable Options → uncheck &quot;Autofit column widths on update&quot; → check &quot;Preserve cell formatting on update&quot;.</p>
+<h3 id="mistake-3-blank-source-rows-creating-blank-items">Mistake 3: Blank Source Rows Creating &quot;(blank)&quot; Items</h3>
+<p>If you selected columns <code>A:R</code> instead of a Table, row 1002 downwards are blank. The PivotTable groups them into an ugly <code>(blank)</code> category. Fix: Always use structured Tables (<code>Ctrl+T</code>) as the source.</p>
+<h3 id="mistake-4-ghost-items-in-filters">Mistake 4: Ghost Items in Filters</h3>
+<p>You delete &quot;Old Product&quot; from your source data, but it still appears in the PivotTable slicers and filter dropdowns.
+Fix: Right-click PivotTable → PivotTable Options → Data tab → set &quot;Number of items to retain per field&quot; to <strong>None</strong> → Refresh.</p>
+<h3 id="mistake-5-average-of-averages">Mistake 5: Average of Averages</h3>
+<p>If you average profit margins in a PivotTable by setting <code>Summarize Values By: Average</code>, you are calculating an unweighted average of row-level margins. This is mathematically incorrect. Always use a Calculated Field for ratios (<code>=Sum of Profit / Sum of Sales</code>).</p>
+<hr>
+<h2 id="in-simple-terms-tldr">In Simple Terms (TL;DR)</h2>
+<blockquote>
+<p><strong>ELI5 (Explain Like I&#39;m 5):</strong>
+PivotTables are a magical tool that groups thousands of rows into a clean summary table in two seconds. You just drag and drop what you want to see, and Excel does the math.</p>
+</blockquote>
+<div class="class-activities"><h2>Practice Exercises</h2>
+
+<div class="exercise-section">### Beginner
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 6.1</div><div class="activity-body">Create a PivotTable from `SalesData`. Show total Sales and total Profit by `Region` (Rows) and `Category` (Columns). Format the values as Currency.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 6.2</div><div class="activity-body">Modify the PivotTable from 6.1: Show the values as `% of Row Total`. This answers: "Within each Region, what percentage of revenue comes from Technology vs Furniture?"
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 6.3</div><div class="activity-body">Create a new PivotTable showing total Sales by `Order_Date` (Rows). Group the dates by Year and Quarter.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 6.4</div><div class="activity-body">Create a new PivotTable showing total Sales by `Customer_Name`. Sort the table to show the top 10 customers by revenue. (Hint: Right-click a customer name → Filter → Top 10).
+
+</div></div></div><div class="exercise-section">### Intermediate
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 6.5</div><div class="activity-body">Add a Calculated Field named `Average Order Value` calculated as `= Sales / Quantity`. Add it to a PivotTable showing performance by `Segment`.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 6.6</div><div class="activity-body">Build a frequency distribution of order discounts. Put `Discount` in the Rows area. Group it with Start: 0, End: 0.8, By: 0.1. Put `Order_ID` in the Values area (Count). Where are most discounts concentrated?
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 6.7</div><div class="activity-body">Create a basic dashboard. Build three PivotTables: Sales by Region, Sales by Category, and Sales over Time (Months). Add Slicers for `Segment` and `Ship_Mode`. Connect the Slicers to all three PivotTables using Report Connections. Test the interactivity.
+
+</div></div></div><div class="exercise-section">### Challenge
+
+
+<div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 6.8</div><div class="activity-body">The Distinct Count problem. Open `datasets/05_marketing_campaigns.csv`. You want to know how many *unique* customers were acquired per Campaign.
+1. Create a standard PivotTable. Try to count unique customers. You will find you can only use `Count`, which counts total interactions, not unique people.
+2. Delete it. Create a new PivotTable, checking "Add this data to the Data Model".
+3. Now place Campaign in Rows, Customer_ID in Values. Go to Value Field Settings. Scroll to the bottom of the calculation list and select **Distinct Count**. Compare the results.
+
+</div></div><div class="activity-card"><div class="activity-header"><span class="activity-icon">⚡</span> Exercise 6.9</div><div class="activity-body">Build a Data Model. Load `datasets/01_global_superstore_sales.csv` and `datasets/08_product_catalog.csv` into a workbook as Tables. Create a PivotTable added to the Data Model. Build a relationship between them based on `Product_Name`. Create a PivotTable that shows Total Sales (from SalesData) broken down by `Product_Category` and `Sub_Category` (from the Catalog table).
+</div></div></div></div>
